@@ -23,6 +23,9 @@ Here's an example of how you can use it:
 ></table-data>
 ```
 
+Here's an example of how you can use it:
+![Advanced Screenshot](./README/images/table.png)
+
 ## Installing
 You can install the package via npm:
 
@@ -69,5 +72,21 @@ You can import the files separately and rewrite part of the design because they 
 @import "vue3-table-data/src/styles/_buttons.css";
 ```
 
+## Features
+- `Sort column`: The sort functionality allows sorting for each column. You can see in the example below
+
+![Alt Text](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW1tcTdhZm1rdTI2NTZ3MnhkZjkyanVncDJiOGdlMWl4bnl5MGxhNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uj5vHhqakJavxQc8A4/giphy.gif)
+
+- `Search`: The search functionality allows searching in each column. You can see in the example below
+
+![Alt Text](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnpzYW55M2M0M3Z3bGd0ZjZsOGE5ZWRrOGdscjJvMm14dGs2Y2N4NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ODjebMuRUM4Rf1ZT7s/giphy.gif)
+
+- `Column filters and orders`: You can choose which columns you want to see and the order in which you want to see them
+
+![Alt Text](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYW02Z2F5anpudWEzczQyMDN5ejdzbjVlNGNkMzBxb3J5bmVvMWk5YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uDAjZvH6eUZiIuHPht/giphy.gif)
+
+- `Table style`: You can change the size of the cells and the style of the numbers. Numbers can be colored green when they are positive and colored red when they are negative
+
+![Alt Text](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzh4eXl2MzZsejU0dWJraGY0MnV5cHhucDVlZW0zam41Y2hqMHhjMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yZjKNX4YEDSiYpIhUD/giphy.gif)
 ## Authors
 - **[MRazvan2205](https://github.com/MRazvan2205)**
