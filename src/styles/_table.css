@@ -1,0 +1,244 @@
+.table-container {
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+        background: white;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #DFDFE2;
+        border-radius: 9999px;
+    }
+
+    & table {
+        width: 100%;
+
+        .numeric-column {
+            text-align: right;
+            font-family: 'B612 Mono';
+            font-weight: 500;
+        }
+
+        .table-header {
+            width: 100%;
+            text-align: left;
+            position: sticky;
+            top: 0;
+
+            .table-header-row {
+                background: #F2F3FD;
+
+                & th {
+                    padding: 0.625rem 1rem;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    color: #111113;
+
+                    &:first-child {
+                        border-top-left-radius: 0.375rem;
+                        border-bottom-left-radius: 0.375rem;
+                    }
+
+                    &:last-child {
+                        border-top-right-radius: 0.375rem;
+                        border-bottom-right-radius: 0.375rem;
+                    }
+
+                    .header-row-item {
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+
+                        &.numeric {
+                            justify-content: end;
+                        }
+
+                        .header-row-item-icon {
+                            margin-left: 0.375rem;
+                            height: 0.75rem;
+                            flex-shrink: 0;
+
+                            &.selected {
+                                color: #5664E1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .delimiter {
+                height: 0.125rem;
+                background: white;
+            }
+
+            .table-total {
+                background: #F2F3FD;
+
+                & th {
+                    color: #414CB4;
+                    font-size: 0.75rem;
+                    padding: 0.25rem 1rem;
+
+                    &:first-child {
+                        text-align: left;
+                        font-weight: 600;
+                        border-top-left-radius: 0.375rem;
+                        border-bottom-left-radius: 0.375rem;
+                    }
+
+                    &:not(:first-child) {
+                        text-align: right;
+                        font-family: 'B612 Mono';
+                        font-weight: 500;
+                    }
+
+                    &:last-child {
+                        border-top-right-radius: 0.375rem;
+                        border-bottom-right-radius: 0.375rem;
+                    }
+                }
+            }
+
+            .column-search-container {
+                background: white;
+
+                & th {
+                    padding-top: 0.125rem;
+                    padding-bottom: 0.25rem;
+
+                    .column-search {
+                        width: 100%;
+                        background: white;
+                        border-radius: 0.375rem;
+                        padding: 0.125rem 0.75rem;
+                        font-weight: 500;
+                        font-size: 0.875rem;
+                        color: #303136;
+                        border-width: 1px;
+                        border-color: #DFDFE2;
+
+                        &::placeholder {
+                            font-size: 0.875rem;
+                            font-weight: 500;
+                            color: #95969D;
+                        }
+
+                        &:focus {
+                            border-color: #5664E1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .table-body {
+            width: 100%;
+
+            & tr {
+                & td {
+                    font-weight: 500;
+                    white-space: nowrap;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    font-size: 0.75rem;
+
+                    &:not(:last-child){
+                        border-right-width: 1px;
+                        border-right-color: #BDBDC2;
+                    }
+
+                    &.cell-small {
+                        padding-top: 0.5rem;
+                        padding-bottom: 0.5rem;
+                    }
+
+                    &.cell-medium {
+                        padding-top: 0.625rem;
+                        padding-bottom: 0.625rem;
+                    }
+
+                    &.cell-large {
+                        padding-top: 0.75rem;
+                        padding-bottom: 0.75rem;
+                    }
+
+                    &.text-gray {
+                        color: #303136;
+                    }
+
+                    &.text-green {
+                        color: #1F873C;
+                    }
+
+                    &.text-red {
+                        color: #C73838;
+                    }
+                }
+
+                &:nth-child(even){
+                    background: #F4F4F5;
+                }
+            }
+        }
+    }
+}
+
+.table-controls {
+    display: flex;
+    align-items: center;
+
+    .search-button {
+        padding: 0.5rem;
+        cursor: pointer;
+        border-radius: 0.375rem;
+
+        &.active {
+            border-width: 1px;
+            border-color: white;
+            background: #F4F4F5;
+        }
+
+        &.inactive {
+            background: white;
+            border-width: 1px;
+            border-color: #DFDFE2;
+        }
+
+        .search-icon {
+            color: #303136;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+
+    .divider {
+        height: 1.5rem;
+        width: 1px;
+        background: #DFDFE2;
+        margin-left: 0.75rem;
+    }
+
+    .settings-container {
+        margin-left: 0.75rem;
+        display: flex;
+        align-items: center;
+
+        .setting:not(:first-child) {
+            margin-left: 0.5rem;
+        }
+
+        .setting {
+            padding: 0.5rem;
+            cursor: pointer;
+
+            .setting-icon {
+                width: 1.25rem;
+                height: 1.25rem;
+                color: #303136;
+            }
+        }
+    }
+}

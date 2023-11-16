@@ -1,15 +1,30 @@
 {
-    "name": "vue3-table",
-    "private": true,
-    "version": "1.0.0",
+    "name": "vue3-table-data",
+    "description": "An easy to use, clean and powerful data table for VueJS3 with essential features like sorting, column searching, infinity scroll and much more.",
+    "version": "1.0.9",
     "type": "module",
+    "keywords": [
+        "vue",
+        "vuejs",
+        "table",
+        "datatable",
+        "vue3"
+    ],
+    "author": {
+        "name": "Mrazvan2205",
+        "email": "Mrazvan2205@gmail.com"
+    },
+    "license": "MIT",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview"
     },
     "dependencies": {
-        "vue": "^3.3.4"
+        "vue": "^3.3.4",
+        "mitt": "^2.1.0",
+        "vuedraggable": "^4.1.0",
+        "vue-observe-visibility": "^1.0.0"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^4.2.3",

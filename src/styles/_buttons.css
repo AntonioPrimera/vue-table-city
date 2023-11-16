@@ -1,0 +1,29 @@
+.button {
+    padding: 0.5rem 0.75rem;
+    color: white;
+    font-size: 0.875rem;
+    text-align: center;
+    min-width: max-content;
+    font-weight: 600;
+    cursor: pointer;
+
+    &.button-confirm {
+        background: #414CB4;
+
+        &:hover {
+            background: #7882E7;
+        }
+    }
+
+    &.button-cancel {
+        background: white;
+        border-width: 1px;
+        border-color: #DFDFE2;
+        fill: currentColor;
+        color: #303136;
+
+        &:hover{
+            border-color: #52545B;
+        }
+    }
+}
