@@ -9,6 +9,10 @@ import Icon from "./base/Icon.vue";
 import {useManagesLoadedData} from "../composables/useManagesLoadedData.js";
 import {useEventBus} from "../composables/useEventBus.js";
 
+//--- --- Helpers -----------------------------------------------------------------------------------------------------
+import translateHelpers from "../helpers/translateHelpers.js";
+import helpers from "../helpers/helpers.js";
+
 //=====================================================================================================================
 //--- --- Setup -------------------------------------------------------------------------------------------------------
 //=====================================================================================================================
@@ -30,7 +34,7 @@ let ascendingSort = ref(false);
 
 const rowSizes = reactive([
     {id: 'small',  class: 'cell-small',   selected: true},
-    {id: 'medium', class: 'cell-medium', selected: false},
+    {id: 'medium', class: 'cell-medium',  selected: false},
     {id: 'large',  class: 'cell-large',   selected: false}
 ]);
 
@@ -59,8 +63,8 @@ const filteredRows = computed(() => {
 
     return managesLoadedData.getAllData().filter(row => {
         return Object.keys(searchTerms.value).every(key => {
-            let searchTerm = cleanTerm(searchTerms.value[key]);
-            let columnValue = cleanTerm(row[key] ?? '');
+            let searchTerm = helpers.cleanTerm(searchTerms.value[key]);
+            let columnValue = helpers.cleanTerm(row[key] ?? '');
 
             return columnValue.toLowerCase().includes(searchTerm.toLowerCase());
         });
@@ -120,20 +124,14 @@ function sort(a, b, ascending) {
     if (!ascending) [a, b] = [b, a]
 
     //numeric sort
-    if (isNumericValue(a) && isNumericValue(b)) return b - a;
+    if (helpers.isNumericValue(a) && helpers.isNumericValue(b)) return b - a;
 
     //date sort
-    if (isDate(a) && isDate(b))
-        return (parseDate(a).getTime() > parseDate(b).getTime()) ? 1 : -1;
+    if (helpers.isDate(a) && helpers.isDate(b))
+        return (helpers.parseDate(a).getTime() > helpers.parseDate(b).getTime()) ? 1 : -1;
 
     //string sort
     return a.localeCompare(b);
-}
-
-function formatNumericValue(value) {
-    if (!isNumericValue(value)) return value;
-
-    return formatNumber(value, {fractionDigits: 2});
 }
 
 function handleTableStyleEvent(data) {
@@ -159,62 +157,13 @@ function getColumnSum(column) {
 
     let columnValues = props.data.rows.map(row => row[column.key]);
 
-    return formatNumber(columnValues.reduce((a, b) => a + b, 0), {fractionDigits: 2});
+    return helpers.formatNumber(columnValues.reduce((a, b) => a + b, 0), {fractionDigits: 2});
 }
 
 function isNumericColumn(column) {
     let columnValues = props.data.rows.map(row => row[column.key]);
 
-    return columnValues.every(isNumericValue);
-}
-
-function isNumericValue (value) {
-    return value !== null && typeof value === 'number';
-}
-
-function isDate(value) {
-    if (!value) return false;
-
-    // If it is a string date, it must have 10 characters (dd.mm.YYYY)
-    if (typeof value === 'string' && value.length !== 10) return false;
-
-    let date = parseDate(value);
-
-    return date instanceof Date;
-}
-
-function parseDate(date, format = 'd.m.Y') {
-    if (format === 'd.m.Y') {
-        let year = date.substr(6);
-        let month = date.substr(3, 2);
-        let day = date.substr(0, 2);
-
-        return new Date(year, month - 1, day, 0, 0, 0, 0);
-    }
-
-    return undefined;
-}
-
-function formatNumber(value, options = {}) {
-    if (value === null || isNaN(value)) return value;
-
-    let standardOptions = {
-        minimumFractionDigits: (typeof options.minimumFractionDigits === "number" ? options.minimumFractionDigits : null )
-            || (typeof options.fractionDigits === "number" ? options.fractionDigits : 2),
-        maximumFractionDigits: (typeof options.maximumFractionDigits === "number" ? options.maximumFractionDigits : null )
-            || (typeof options.fractionDigits === "number" ? options.fractionDigits : 2),
-    }
-
-    return (value * 1).toLocaleString(document.documentElement.lang, standardOptions);
-}
-
-function cleanTerm(term) {
-  if (!(term && typeof term === 'string')) return '';
-
-  // Remove diacritics
-  term = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-  return term.replace(/[^0-9a-z]/gi, '').toLowerCase();
+    return columnValues.every(helpers.isNumericValue);
 }
 
 function setHeader() {
@@ -300,7 +249,7 @@ onMounted(() => setTableHeight());
                         <input v-if="column.searchable"
                                @input="updateSearchTerm($event.target.value, column.key)"
                                class="column-search"
-                               :placeholder="'Caută...'"
+                               :placeholder="translateHelpers.getTranslate('search')"
                         />
                     </th>
                 </tr>
@@ -310,7 +259,7 @@ onMounted(() => setTableHeight());
             <tbody class="table-body">
                 <tr v-for="row in filteredRows" @click="handleRowClick(row)">
                     <td v-for="column in visibleColumns" :class="cellStyle(column.isNumeric, row[column.key])">
-                        {{ column.isNumeric ? formatNumericValue(row[column.key]) : row[column.key] }}
+                        {{ column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key] }}
                     </td>
                 </tr>
 

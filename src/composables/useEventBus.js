@@ -1,6 +1,6 @@
 export function useEventBus(){
     //--- --- Attributes ----------------------------------------------------------------------------------------------
-    let eventBus = window.__tableEventBus;
+    let eventBus = window.__vue3TableDataConfig.mitt;
 
     //--- --- Methods -------------------------------------------------------------------------------------------------
 

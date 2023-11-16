@@ -6,6 +6,9 @@ import {ref} from "vue";
 import Modal from "./base/Modal.vue";
 import Icon from "./base/Icon.vue";
 
+//--- --- Helpers -----------------------------------------------------------------------------------------------------
+import translateHelpers from "../helpers/translateHelpers.js";
+
 //=====================================================================================================================
 //--- --- Setup -------------------------------------------------------------------------------------------------------
 //=====================================================================================================================
@@ -27,14 +30,25 @@ let rowSize = ref(props.rowSizeValue);
 let digitsColor = ref(props.digitsColorValue);
 
 const rowSizes = {
-    small:  {'icon': 'small-row', 'label': 'Mică'},
-    medium: {'icon': 'medium-row', 'label': 'Media'},
-    large:  {'icon': 'large-row', 'label': 'Mare'},
+    small:  {
+      'icon': 'small-row',
+      'label': translateHelpers.getTranslate('style_settings_modal.sections.row_size.options.small'),
+    },
+
+    medium: {
+      'icon': 'medium-row',
+      'label': translateHelpers.getTranslate('style_settings_modal.sections.row_size.options.medium'),
+    },
+
+    large:  {
+      'icon': 'large-row',
+      'label': translateHelpers.getTranslate('style_settings_modal.sections.row_size.options.large'),
+    },
 }
 
 const digitsColors = {
-    black: 'Cifre negre',
-    color: 'Cifre pozitive colorate în verde, cele negative in rosu',
+    black: translateHelpers.getTranslate('style_settings_modal.sections.numbers_color.options.black'),
+    color: translateHelpers.getTranslate('style_settings_modal.sections.numbers_color.options.color'),
 };
 
 let showRowSizeSection = ref(false);
@@ -50,17 +64,21 @@ function save() {
 <template>
     <modal>
         <div class="settings-modal">
-            <div class="settings-modal-title">Aspect tabel</div>
+            <div class="settings-modal-title"
+                 v-text="translateHelpers.getTranslate('style_settings_modal.title')"
+            ></div>
 
-            <div class="settings-modal-description">
-                Modifică aspectul tabelului din următoarele setări:
-            </div>
+            <div class="settings-modal-description"
+                 v-text="translateHelpers.getTranslate('style_settings_modal.description')"
+            ></div>
 
             <div class="style-settings-options">
                 <!-- --- Row size -------------------------------------------------------------------------------->
                 <div class="style-settings-option">
                     <div class="option-container" @click="showRowSizeSection = !showRowSizeSection">
-                        <div class="option-title">Dimensiune rânduri</div>
+                        <div class="option-title"
+                             v-text="translateHelpers.getTranslate('style_settings_modal.sections.row_size.title')"
+                        ></div>
 
                         <icon v-if="!showRowSizeSection" icon="plus" class="icon-size"></icon>
                         <icon v-else icon="minus" class="icon-size"></icon>
@@ -88,7 +106,9 @@ function save() {
                 <!-- --- Digits color -------------------------------------------------------------------------------->
                 <div class="style-settings-option">
                     <div class="option-container" @click="showDigitsColorSection = !showDigitsColorSection">
-                        <div class="option-title">Aspect cifre</div>
+                        <div class="option-title"
+                             v-text="translateHelpers.getTranslate('style_settings_modal.sections.numbers_color.title')"
+                        ></div>
 
                         <icon v-if="!showDigitsColorSection" icon="plus" class="icon-size"></icon>
                         <icon v-else icon="minus" class="icon-size"></icon>
@@ -110,9 +130,15 @@ function save() {
             </div>
 
             <div class="actions-container">
-                <div class="button button-cancel" @click="emits('close')">Anulează</div>
+                <div class="button button-cancel"
+                     @click="emits('close')"
+                     v-text="translateHelpers.getTranslate('style_settings_modal.actions.cancel')"
+                ></div>
 
-                <div class="button button-confirm" @click="save">Salvează</div>
+                <div class="button button-confirm"
+                     @click="save"
+                     v-text="translateHelpers.getTranslate('style_settings_modal.actions.save')"
+                ></div>
             </div>
         </div>
     </modal>

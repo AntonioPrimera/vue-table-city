@@ -72,6 +72,13 @@ You can import the files separately and rewrite part of the design because they 
 @import "vue3-table-data/src/styles/_buttons.css";
 ```
 
+## Translate
+You can translate the table texts into your language. We have a file with all the texts in English, but you can translate them into your language. 
+You have to respect the structure of the file and the keys(you can find them in the translate.json file)
+```
+__vue3TableDataConfig.translation.setTranslate(translate);
+```
+
 ## Features
 - `Sort column`: The sort functionality allows sorting for each column. You can see in the example below
 

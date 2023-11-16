@@ -1,0 +1,44 @@
+{
+    "search": "Search...",
+
+    "column_settings_modal": {
+        "title": "Column order and visibility",
+        "description": "Changes the order and visibility of columns in the following settings:",
+
+        "actions": {
+            "save": "Save",
+            "cancel": "Cancel"
+        }
+    },
+
+    "style_settings_modal": {
+        "title": "Table style",
+        "description": "Changes the appearance of the table from the following settings:",
+
+        "sections": {
+            "row_size": {
+                "title": "Row size",
+
+                "options": {
+                    "small": "Small",
+                    "medium": "Medium",
+                    "large": "Large"
+                }
+            },
+
+            "numbers_color": {
+                "title": "Numbers color",
+
+                "options": {
+                    "black": "Black digits",
+                    "color": "Positive numbers colored in green, negative numbers in red"
+                }
+            }
+        },
+
+        "actions": {
+          "save": "Save",
+          "cancel": "Cancel"
+        }
+    }
+}
