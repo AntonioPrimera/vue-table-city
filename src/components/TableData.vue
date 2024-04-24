@@ -259,7 +259,11 @@ onMounted(() => setTableHeight());
             <tbody class="table-body">
                 <tr v-for="row in filteredRows" @click="handleRowClick(row)">
                     <td v-for="column in visibleColumns" :class="cellStyle(column.isNumeric, row[column.key])">
-                        {{ column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key] }}
+                        <slot
+                            :name="`cell(${column.key})`"
+                            :value="column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key]"
+                            :item="row[column.key]"
+                        >{{ column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key] }}</slot>
                     </td>
                 </tr>
 
