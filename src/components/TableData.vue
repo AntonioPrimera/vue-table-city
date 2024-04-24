@@ -261,8 +261,10 @@ onMounted(() => setTableHeight());
                     <td v-for="column in visibleColumns" :class="cellStyle(column.isNumeric, row[column.key])">
                         <slot
                             :name="`cell(${column.key})`"
-                            :value="column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key]"
-                            :item="row[column.key]"
+                            :value="row[column.key]"
+                            :column="column"
+                            :row="row"
+                            :helpers="helpers"
                         >{{ column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key] }}</slot>
                     </td>
                 </tr>
