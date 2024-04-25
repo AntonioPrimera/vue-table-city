@@ -12,7 +12,7 @@ Here's an example of how you can use it:
         {"key": "details", "label": "Details", "searchable": true},
         {"key": "status", "label": "User status", "searchable": true},
     ],
-    
+
     "rows": [
         {"date": "10.11.2023", "details": "Some details", "status": "Active"},
         {"date": "27.12.2023", "details": "Details", "status": "Inactive"},
@@ -73,7 +73,7 @@ You can import the files separately and rewrite part of the design because they 
 ```
 
 ## Translate
-You can translate the table texts into your language. We have a file with all the texts in English, but you can translate them into your language. 
+You can translate the table texts into your language. We have a file with all the texts in English, but you can translate them into your language.
 You have to respect the structure of the file and the keys(you can find them in the translate.json file)
 ```
 __vue3TableDataConfig.translation.setTranslate(translate);
@@ -95,5 +95,30 @@ __vue3TableDataConfig.translation.setTranslate(translate);
 - `Table style`: You can change the size of the cells and the style of the numbers. Numbers can be colored green when they are positive and colored red when they are negative
 
 ![Alt Text](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzh4eXl2MzZsejU0dWJraGY0MnV5cHhucDVlZW0zam41Y2hqMHhjMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yZjKNX4YEDSiYpIhUD/giphy.gif)
+
+## Dynamic slots
+You can customize a cell using dynamic slots like this:
+```
+<table-data :data="{
+    "header": [
+        {"key": "date", "label": "Date", "searchable": false},
+        {"key": "details", "label": "Details", "searchable": true},
+        {"key": "status", "label": "User status", "searchable": true},
+    ],
+
+    "rows": [
+        {"date": "10.11.2023", "details": "Some details", "status": "Active"},
+        {"date": "27.12.2023", "details": "Details", "status": "Inactive"},
+        {"date": "20.10.2023", "details": "Some details", "status": "Deleted"},
+        {"date": "22.05.1997", "details": "New details", "status": "Active"},
+    ],
+}"
+>
+    <template #cell.date="{ value }">
+        <p>the date it's {{ value }}</p>
+    </template>
+</table-data>
+```
+You can have access to `value`, `column`, `row` and `helpers` that contains some helpers funcions like `formatNumericValue` and much more!
 ## Authors
 - **[MRazvan2205](https://github.com/MRazvan2205)**
