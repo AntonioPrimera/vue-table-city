@@ -260,7 +260,7 @@ onMounted(() => setTableHeight());
                 <tr v-for="row in filteredRows" @click="handleRowClick(row)">
                     <td v-for="column in visibleColumns" :class="cellStyle(column.isNumeric, row[column.key])">
                         <slot
-                            :name="`header.${column.key}`"
+                            :name="`cell.${column.key}`"
                             :value="row[column.key]"
                             :column="column"
                             :row="row"

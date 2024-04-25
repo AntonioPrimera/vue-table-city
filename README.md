@@ -114,7 +114,7 @@ You can customize a cell using dynamic slots like this:
     ],
 }"
 >
-    <template #header.date="{ value }">
+    <template #cell.date="{ value }">
         <p>the date it's {{ value }}</p>
     </template>
 </table-data>
