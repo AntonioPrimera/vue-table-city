@@ -105,7 +105,6 @@ You can customize a cell using dynamic slots like this:
         {"key": "details", "label": "Details", "searchable": true},
         {"key": "status", "label": "User status", "searchable": true},
     ],
-
     "rows": [
         {"date": "10.11.2023", "details": "Some details", "status": "Active"},
         {"date": "27.12.2023", "details": "Details", "status": "Inactive"},

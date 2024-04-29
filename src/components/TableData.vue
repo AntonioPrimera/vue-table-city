@@ -64,7 +64,7 @@ const filteredRows = computed(() => {
     return managesLoadedData.getAllData().filter(row => {
         return Object.keys(searchTerms.value).every(key => {
             let searchTerm = helpers.cleanTerm(searchTerms.value[key]);
-            let columnValue = helpers.cleanTerm(row[key] ?? '');
+            let columnValue = helpers.cleanTerm(helpers.getDataFromKey(row, key) ?? '');
 
             return columnValue.toLowerCase().includes(searchTerm.toLowerCase());
         });
@@ -260,12 +260,13 @@ onMounted(() => setTableHeight());
                 <tr v-for="row in filteredRows" @click="handleRowClick(row)">
                     <td v-for="column in visibleColumns" :class="cellStyle(column.isNumeric, row[column.key])">
                         <slot
+
                             :name="`cell.${column.key}`"
-                            :value="row[column.key]"
+                            :value="helpers.getDataFromKey(row, column.key)"
                             :column="column"
                             :row="row"
                             :helpers="helpers"
-                        >{{ column.isNumeric ? helpers.formatNumericValue(row[column.key]) : row[column.key] }}</slot>
+                        >{{ column.isNumeric ? helpers.formatNumericValue(helpers.getDataFromKey(row, column.key)) : helpers.getDataFromKey(row, column.key) }}</slot>
                     </td>
                 </tr>
 
