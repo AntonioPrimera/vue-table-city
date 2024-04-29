@@ -52,5 +52,14 @@ export default {
         term = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         return term.replace(/[^0-9a-z]/gi, '').toLowerCase();
+    },
+
+    getDataFromKey(row, key) {
+        if (!key.includes('.')) return row[key];
+
+        return key.split('.')
+            .reduce((currentObject, _key) => {
+                return currentObject ? currentObject[_key] : undefined;
+            }, row)
     }
 };

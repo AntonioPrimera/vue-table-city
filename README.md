@@ -12,7 +12,7 @@ Here's an example of how you can use it:
         {"key": "details", "label": "Details", "searchable": true},
         {"key": "status", "label": "User status", "searchable": true},
     ],
-    
+
     "rows": [
         {"date": "10.11.2023", "details": "Some details", "status": "Active"},
         {"date": "27.12.2023", "details": "Details", "status": "Inactive"},
@@ -73,7 +73,7 @@ You can import the files separately and rewrite part of the design because they 
 ```
 
 ## Translate
-You can translate the table texts into your language. We have a file with all the texts in English, but you can translate them into your language. 
+You can translate the table texts into your language. We have a file with all the texts in English, but you can translate them into your language.
 You have to respect the structure of the file and the keys(you can find them in the translate.json file)
 ```
 __vue3TableDataConfig.translation.setTranslate(translate);
@@ -105,7 +105,6 @@ You can customize a cell using dynamic slots like this:
         {"key": "details", "label": "Details", "searchable": true},
         {"key": "status", "label": "User status", "searchable": true},
     ],
-    
     "rows": [
         {"date": "10.11.2023", "details": "Some details", "status": "Active"},
         {"date": "27.12.2023", "details": "Details", "status": "Inactive"},
@@ -114,7 +113,7 @@ You can customize a cell using dynamic slots like this:
     ],
 }"
 >
-    <template #cell(date)="{ value }">
+    <template #cell.date="{ value }">
         <p>the date it's {{ value }}</p>
     </template>
 </table-data>
