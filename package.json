@@ -7,7 +7,8 @@
         "url": "https://github.com/AntonioPrimera/vue-table-city"
     },
     "type": "module",
-    "module": "dist/vue3-table-data.umd.cjs",
+    "main": "dist/vue3-table-data.umd.js",
+    "module": "dist/vue3-table-data.es.js",
     "keywords": [
         "vue",
         "vuejs",
@@ -23,13 +24,14 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "build-watch": "vite build --watch",
         "preview": "vite preview"
     },
     "dependencies": {
-        "vue": "^3.3.4",
         "mitt": "^2.1.0",
-        "vuedraggable": "^4.1.0",
-        "vue-observe-visibility": "^1.0.0"
+        "vue": "^3.3.4",
+        "vue-observe-visibility": "^1.0.0",
+        "vuedraggable": "^4.1.0"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^4.2.3",

@@ -54,12 +54,9 @@ export default {
         return term.replace(/[^0-9a-z]/gi, '').toLowerCase();
     },
 
-    getDataFromKey(row, key) {
-        if (!key.includes('.')) return row[key];
-
-        return key.split('.')
-            .reduce((currentObject, _key) => {
-                return currentObject ? currentObject[_key] : undefined;
-            }, row)
-    }
+    getValue(obj, path) {
+        return path.includes('.')
+            ? path.split('.').reduce((acc, part) => acc && acc[part], obj)
+            : obj[path];
+    },
 };

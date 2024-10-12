@@ -12,6 +12,7 @@ import {useEventBus} from "../composables/useEventBus.js";
 //--- --- Helpers -----------------------------------------------------------------------------------------------------
 import translateHelpers from "../helpers/translateHelpers.js";
 import helpers from "../helpers/helpers.js";
+import {Column} from "../ViewModels/Column.js";
 
 //=====================================================================================================================
 //--- --- Setup -------------------------------------------------------------------------------------------------------
@@ -19,10 +20,18 @@ import helpers from "../helpers/helpers.js";
 const emits = defineEmits(['row-click']);
 
 const props = defineProps({
-    data: {
-        type: Object,
+    // An array of rows with the raw data
+    rows: {
+        type: Array,
         required: true,
-    }
+    },
+
+    //an array of column header objects with properties: key, label, searchable
+    header: {
+        type: Array,
+        required: true,
+        validator: value => value.every(column => column instanceof Column)
+    },
 });
 
 let tableContainer = ref(null);
@@ -64,7 +73,7 @@ const filteredRows = computed(() => {
     return managesLoadedData.getAllData().filter(row => {
         return Object.keys(searchTerms.value).every(key => {
             let searchTerm = helpers.cleanTerm(searchTerms.value[key]);
-            let columnValue = helpers.cleanTerm(helpers.getDataFromKey(row, key) ?? '');
+            let columnValue = helpers.cleanTerm(helpers.getValue(row, key) ?? '');
 
             return columnValue.toLowerCase().includes(searchTerm.toLowerCase());
         });
@@ -155,32 +164,42 @@ function getColumnSum(column) {
     //if the column is not numeric, return an empty string
     if (!column.isNumeric) return '';
 
-    let columnValues = props.data.rows.map(row => row[column.key]);
+    let columnValues = props.rows.map(row => row[column.key]);
 
     return helpers.formatNumber(columnValues.reduce((a, b) => a + b, 0), {fractionDigits: 2});
 }
 
 function isNumericColumn(column) {
-    let columnValues = props.data.rows.map(row => row[column.key]);
-
+    let columnValues = props.rows.map(row => row[column.key]);
     return columnValues.every(helpers.isNumericValue);
 }
 
-function setHeader() {
+function initializeTable() {
+    //set the header and emit the table columns event to the table controls component
+    header.value = props.header;
+    eventBus.triggerEvent('sync-table-columns-event', header.value);
+
+    //run through every column, mutate the rows if necessary and determine if the column is numeric
+    const rows = props.rows;
+    header.value.forEach(column => column.processRows(rows));
+    managesLoadedData.setData(rows);
+}
+
+//function setHeader() {
     //prepare header
-    header.value = props.data.header.map(column => {
-        return {
-            key:        column['key'],
-            label:      column['label'],
-            searchable: column['searchable'],
-            visible:    true,
-            isNumeric:  isNumericColumn(column)
-        }
-    })
+    //header.value = props.header.map(column => {
+    //    return {
+    //        key:        column['key'],
+    //        label:      column['label'],
+    //        searchable: column['searchable'],
+    //        visible:    true,
+    //        isNumeric:  isNumericColumn(column)
+    //    }
+    //})
 
     //emit the table columns event to the table controls component
-    eventBus.triggerEvent('sync-table-columns-event', header.value);
-}
+//    eventBus.triggerEvent('sync-table-columns-event', header.value);
+//}
 
 function updateSearchTerm(term, columnKey) {
     searchTerms.value[columnKey] = term;
@@ -207,7 +226,7 @@ eventBus.addEventHandler('update-table-columns-event', handleTableColumnsEvent);
 eventBus.addEventHandler('toggle-search-event', handleToggleSearchEvent);
 
 setHeader();
-managesLoadedData.setData(props.data.rows);
+managesLoadedData.setData(props.rows);
 
 //--- --- Mounted -----------------------------------------------------------------------------------------------------
 onMounted(() => setTableHeight());
@@ -262,11 +281,11 @@ onMounted(() => setTableHeight());
                         <slot
 
                             :name="`cell.${column.key}`"
-                            :value="helpers.getDataFromKey(row, column.key)"
+                            :value="helpers.getValue(row, column.key)"
                             :column="column"
                             :row="row"
                             :helpers="helpers"
-                        >{{ column.isNumeric ? helpers.formatNumericValue(helpers.getDataFromKey(row, column.key)) : helpers.getDataFromKey(row, column.key) }}</slot>
+                        >{{ column.isNumeric ? helpers.formatNumericValue(helpers.getValue(row, column.key)) : helpers.getValue(row, column.key) }}</slot>
                     </td>
                 </tr>
 
