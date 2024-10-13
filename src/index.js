@@ -1,5 +1,5 @@
 //--- --- Components --------------------------------------------------------------------------------------------------
-import Table from "./components/Table.vue";
+import SmartTable from "./components/SmartTable.vue";
 import TableControls from "./components/TableControls.vue";
 import {Column} from "./ViewModels/Column.js";
 
@@ -20,9 +20,8 @@ window.__vue3TableDataConfig = {
 
     translation: {
         file: translate,
-
         setTranslate: (translate) => translateHelpers.setTranslateFile(translate),
     },
 };
 
-export { Table, TableControls, Column };
+export { SmartTable, TableControls, Column };

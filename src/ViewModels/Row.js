@@ -18,6 +18,12 @@ export class Row {
 	renderedData;
 	
 	/**
+	 * Clean data, which is used for searching (the term is cleaned and lowercased)
+	 * This is lazy loaded - only set when a search on a column is performed
+	 */
+	cleanData;
+	
+	/**
 	 * The key is the unique identifier of the row.
 	 * The data is the raw data of the row (only what can be visible in the table).
 	 * The rendered data is the data that is visible in the table (after being mutated and rendered).
@@ -27,6 +33,7 @@ export class Row {
 		this.key = key;
 		this.data = data;
 		this.renderedData = renderedData;
+		this.cleanData = {};
 	}
 	
 	/**
@@ -84,5 +91,12 @@ export class Row {
 	
 	rendered(key) {
 		return this.renderedData[key] || this.data[key];
+	}
+	
+	cleanValue(key) {
+		if (!this.cleanData[key])
+			this.cleanData[key] = helpers.cleanTerm(this.data[key]);
+		
+		return this.cleanData[key];
 	}
 }

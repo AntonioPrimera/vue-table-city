@@ -12,13 +12,32 @@
 
 import helpers from '../helpers/helpers.js';
 import {format, parse} from "date-fns";
+import {Rows} from "./Rows.js";
 
 export class Column {
+	//--- Properties --------------------------------------------------------------------------------------------------
+	name;
+	key;
+	label;
+	
+	isNumeric;
+	isSearchable;
+	isSortable;
+	isFilterable;
+	isVisible;
+	isRowKey;
+	
 	#filter;
 	#mutator;
 	#renderer;
 	
+	// The search term is used to filter the data in the column
+	#searchTerm;
+	
+	//--- Constructor & Factories -------------------------------------------------------------------------------------
+	
 	constructor(
+		name,
 		key,
 		label,
 		
@@ -36,6 +55,7 @@ export class Column {
 		// The render function can be used to render the transformed data in the column
 		renderer = null
 	) {
+		this.name = name;
 		this.key = key;
 		this.label = label;
 		this.numeric(isNumeric)
@@ -51,6 +71,7 @@ export class Column {
 	
 	//static factory
 	static create(
+		name,
 		key,
 		label,
 		
@@ -65,7 +86,7 @@ export class Column {
 		mutator = null,
 		renderer = null
 	) {
-		return new Column(key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
+		return new Column(name, key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
 	}
 	
 	//--- Getters and setters -----------------------------------------------------------------------------------------
@@ -74,7 +95,7 @@ export class Column {
 		return this.#renderer !== null;
 	}
 	
-	//--- Public api --------------------------------------------------------------------------------------------------
+	//--- Fluent api --------------------------------------------------------------------------------------------------
 	
 	numeric(value = true) {
 		this.isNumeric = value;
@@ -146,8 +167,6 @@ export class Column {
 		return this;
 	}
 	
-	//--- Processing data ---------------------------------------------------------------------------------------------
-	
 	filter(value) {
 		return this.#filter ? this.#filter(value) : true;
 	}
@@ -159,6 +178,8 @@ export class Column {
 	render(value) {
 		return this.#renderer ? this.#renderer(value) : value;
 	}
+	
+	//--- Fluent predefined column types ------------------------------------------------------------------------------
 	
 	/**
 	 * Provide a custom date format for the column and optionally a raw format, used to parse the date
@@ -205,47 +226,38 @@ export class Column {
 		return this;
 	}
 	
-	//--- Lifecycle ---------------------------------------------------------------------------------------------------
-	
-	/**
-	 * Process the rows in the column (mutate the data if needed and determine if the column is numeric)
-	 * This method must be called during the initialization of the table
-	 */
-	processRows(rows) {
-		let processedRows = [];
+	number(fractionDigits = 2, decimalSeparator = ',', thousandsSeparator = ' ') {
+		//mark the column as numeric
+		this.numeric();
 		
-		for (let row of rows) {
-			//get the raw value from the row
-			let value = helpers.getValue(row, this.key);
-			
-			//mutate the value if a mutation function is provided
-			if (this.mutate)
-				value = this.mutate(value);
-			
-			//if a filter function is provided, check if it passes the filter
-			if (this.filter && !this.filter(value))
-				continue;
-			
-			processedRows.push(value);
-		}
+		//format the number as a string
+		this.withRenderer(value => helpers.formatNumber(value, fractionDigits, decimalSeparator, thousandsSeparator));
 		
-		//determine if the column is numeric
-		this.isNumeric = this.#determineIsNumeric(processedRows);
-		
-		//return the processed rows
-		return processedRows;
+		return this;
 	}
 	
-	//--- Private helpers ---------------------------------------------------------------------------------------------
+	//--- Public helpers ----------------------------------------------------------------------------------------------
 	
-	// Determine whether this column is numeric (search through all the data in the column)
-	#determineIsNumeric(rows) {
-		if (this.isNumeric !== null)
-			return this.isNumeric;
-		
-		return rows.every(row => {
-			let value = helpers.getValue(row, this.key);
-			return value !== null && typeof value === 'number';
-		});
+	/**
+	 * @param {Rows} rows
+	 * @returns {number|null}
+	 */
+	sum(rows) {
+		return this.isNumeric ? rows.rows.reduce((sum, row) => sum + row.get(this.key), 0) : null;
+	}
+	
+	//--- Searching and filtering -------------------------------------------------------------------------------------
+	
+	get searchTerm() {
+		return this.#searchTerm;
+	}
+	
+	set searchTerm(value) {
+		if(this.isSearchable)
+			this.#searchTerm = helpers.cleanTerm(value);
+	}
+	
+	clearSearch() {
+		this.#searchTerm = null;
 	}
 }

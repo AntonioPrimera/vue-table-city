@@ -34,7 +34,7 @@ export default {
         return undefined;
     },
     
-    formatNumber(value, decimals, decimalSeparator = ',', thousandsSeparator = '.', prefix = '', suffix = '') {
+    formatNumber(value, decimals = 2, decimalSeparator = ',', thousandsSeparator = '.', prefix = '', suffix = '') {
         if (value === null || isNaN(value)) return value;
         
         let negative = value < 0 ? '-' : '';
@@ -65,7 +65,7 @@ export default {
 
         // Remove diacritics
         term = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
+        
         return term.replace(/[^0-9a-z]/gi, '').toLowerCase();
     },
 
