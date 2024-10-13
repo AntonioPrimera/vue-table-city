@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 
 //--- --- Plugins -----------------------------------------------------------------------------------------------------
 import vue from '@vitejs/plugin-vue'
+import postCssNested from 'postcss-nested';
 
 //--- --- Node --------------------------------------------------------------------------------------------------------
 import { resolve } from "node:path";
@@ -27,7 +28,6 @@ export default defineConfig({
         rollupOptions: {
             external: ["vue"],
             output: {
-                //assetFileNames: 'styles/[name].[ext]',  // Ensures CSS files are placed in dist/styles
                 globals: {
                     vue: "Vue",
                 },

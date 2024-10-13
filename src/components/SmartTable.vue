@@ -62,6 +62,7 @@ const hasNumericColumns = computed(() => {
 
 //--- --- Methods -----------------------------------------------------------------------------------------------------
 
+//todo: move this to the TableData class
 function sortBy(key) {
     ascendingSort.value = (sortKey.value === key)
         ? !ascendingSort.value //  toggle the sorting direction if already sorting by this column
@@ -74,9 +75,11 @@ function sortBy(key) {
         sort(a[sortKey.value], b[sortKey.value], ascendingSort.value)
     );
 
+    //todo: remove managesLoadedData
     managesLoadedData.setData(sortedRows);
 }
 
+//todo: move this to the TableData class
 function sort(a, b, ascending) {
     if (a === null || a === undefined) a = '';
     if (b === null || b === undefined) b = '';
@@ -150,21 +153,22 @@ eventBus.triggerEvent('sync-table-columns-event', tableData.value.columns);
 //--- --- Mounted -----------------------------------------------------------------------------------------------------
 onMounted(() => setTableHeight());
 
+//console.log(tableData.value.loadedRows);
 </script>
 
 <template>
     <div ref="tableContainer" class="table-container">
         <table>
             <!-- --- Header ------------------------------------------------------------------------------------------>
-            <thead class="table-columns">
+            <thead class="table-header">
                 <!-- --- Columns ------------------------------------------------------------------------------------->
-                <tr class="table-columns-row">
-                    <th v-for="column in visibleColumns" @click="sortBy(column.key)">
-                        <div class="columns-row-item" :class="column.isNumeric ? 'numeric' : ''">
+                <tr class="table-header-row">
+                    <th v-for="column in visibleColumns" @click="sortBy(column)">
+                        <div class="header-row-item" :class="column.isNumeric ? 'numeric' : ''">
                             <span v-text="column.label"></span>
 
                             <icon icon="sort"
-                                  class="columns-row-item-icon"
+                                  class="header-row-item-icon"
                                   :class="`${sortKey === column.key ? 'selected' : ''}`"
                             ></icon>
                         </div>
@@ -195,7 +199,7 @@ onMounted(() => setTableHeight());
 
             <!-- --- Body -------------------------------------------------------------------------------------------->
             <tbody class="table-body">
-                <tr v-for="row in tableData.filteredRows" @click="handleRowClick(row)">
+                <tr v-for="row in tableData.loadedRows" @click="handleRowClick(row)">
                     <TableCell v-for="column in visibleColumns" :column="column" :row="row" :styling="tableStyling" :key="column.key"/>
 <!--                    <td v-for="column in visibleColumns" :class="cellStyle(column, row[column.key])">-->
 <!--                        <slot-->

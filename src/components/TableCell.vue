@@ -20,9 +20,7 @@ const props = defineProps({
     },
 });
 
-const cellStyle = computed(() => (column, value) => {
-    props.styling.cellStyling(column, value);
-});
+const cellStyle = computed(() => (column, value) => props.styling.cellStyling(column, value));
 </script>
 
 <template>

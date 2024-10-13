@@ -36,7 +36,7 @@ export class TableStyling {
 		return this.rowSizeClasses[this.rowSize]
 			+ ' '
 			+ (column.isNumeric && this.colorDigits
-				? (Math.sign(value) < 0 ? 'text-red' : 'text-green')
+				? (Math.sign(value) < 0 ? 'numeric-column text-red' : 'numeric-column text-green')
 				: 'text-gray');
 	}
 }

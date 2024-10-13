@@ -3615,7 +3615,6 @@ var __privateSet = (obj, member, value, setter) => {
       let rowKey = null;
       let mutatedRowData = {};
       let renderedData = {};
-      console.log(columns);
       for (let column of columns) {
         let value = column.mutate(helpers.getValue(rawRow, column.key));
         if (!column.filter(value))
@@ -3760,7 +3759,7 @@ var __privateSet = (obj, member, value, setter) => {
     }
     //static factory
     static create(key, label, isNumeric = null, isSearchable = false, isSortable = false, isFilterable = false, isVisible = true, isRowKey = false, filter = null, mutator = null, renderer = null) {
-      return new _Column(name, key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
+      return new _Column(key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
     }
     //--- Getters and setters -----------------------------------------------------------------------------------------
     get hasRenderer() {
@@ -3829,33 +3828,42 @@ var __privateSet = (obj, member, value, setter) => {
     mutate(value) {
       return __privateGet(this, _mutator) ? __privateGet(this, _mutator).call(this, value) : value;
     }
-    render(value) {
-      return __privateGet(this, _renderer) ? __privateGet(this, _renderer).call(this, value) : value;
+    /**
+     * Renders the value of the column, using the renderer function
+     * It should receive the value and the array of mutated row data (not a row instance!)
+     * @param value
+     * @param {Array} mutatedRowData
+     * @returns {*}
+     */
+    render(value, mutatedRowData) {
+      return __privateGet(this, _renderer) ? __privateGet(this, _renderer).call(this, value, mutatedRowData) : value;
     }
     //--- Fluent predefined column types ------------------------------------------------------------------------------
     /**
      * Provide a custom date format for the column and optionally a raw format, used to parse the date
      * If the date is already in ISO 8601 format, the raw format can be omitted
+     * @param {string} renderFormat
+     * @param {string|null} rawFormat
      */
     date(renderFormat = "dd.MM.yyyy", rawFormat = null) {
-      this.withRenderer((isoStringDate) => format(new Date(isoStringDate), renderFormat));
+      this.withRenderer((isoStringDate) => isoStringDate ? format(new Date(isoStringDate), renderFormat) : "");
       if (rawFormat)
-        this.withMutator((value) => parse(value, rawFormat, /* @__PURE__ */ new Date()).toISOString());
+        this.withMutator((value) => value ? parse(value, rawFormat, /* @__PURE__ */ new Date()).toISOString() : null);
       return this;
     }
     dateTime(renderFormat = "dd.MM.yyyy HH:mm:ss", rawFormat = null) {
-      return this.date(rawFormat, renderFormat);
+      return this.date(renderFormat, rawFormat);
     }
     money(currencyColumnKey = null, fractionDigits = 2, decimalSeparator = ",", thousandsSeparator = " ", prefixCurrency = false) {
       this.numeric();
       this.withRenderer(
-        (value, row) => helpers.formatNumber(
+        (value, rowData) => helpers.formatNumber(
           value,
           fractionDigits,
           decimalSeparator,
           thousandsSeparator,
-          currencyColumnKey ? prefixCurrency ? `${row.get(currencyColumnKey) || "-?-"} ` : "" : "",
-          currencyColumnKey ? prefixCurrency ? "" : ` ${row.get(currencyColumnKey) || "-?-"}` : ""
+          currencyColumnKey ? prefixCurrency ? `${rowData[currencyColumnKey] || "-?-"} ` : "" : "",
+          currencyColumnKey ? prefixCurrency ? "" : ` ${rowData[currencyColumnKey] || "-?-"}` : ""
         )
       );
       return this;
@@ -3937,6 +3945,7 @@ var __privateSet = (obj, member, value, setter) => {
     }
     //--- Column operations -------------------------------------------------------------------------------------------
     get visibleColumns() {
+      console.log(this.columns);
       return this.columns.filter((column) => column.isVisible);
     }
     updateSearchTerm(column, searchTerm) {
@@ -3989,7 +3998,7 @@ var __privateSet = (obj, member, value, setter) => {
      * @returns {string}
      */
     cellStyling(column, value) {
-      return this.rowSizeClasses[this.rowSize] + " " + (column.isNumeric && this.colorDigits ? Math.sign(value) < 0 ? "text-red" : "text-green" : "text-gray");
+      return this.rowSizeClasses[this.rowSize] + " " + (column.isNumeric && this.colorDigits ? Math.sign(value) < 0 ? "numeric-column text-red" : "numeric-column text-green" : "text-gray");
     }
   }
   const _hoisted_1$5 = ["innerHTML"];
@@ -4011,9 +4020,7 @@ var __privateSet = (obj, member, value, setter) => {
     },
     setup(__props) {
       const props2 = __props;
-      const cellStyle = vue.computed(() => (column, value) => {
-        props2.styling.cellStyling(column, value);
-      });
+      const cellStyle = vue.computed(() => (column, value) => props2.styling.cellStyling(column, value));
       return (_ctx, _cache) => {
         return vue.openBlock(), vue.createElementBlock("td", {
           class: vue.normalizeClass(cellStyle.value(__props.column, __props.row.get(__props.column.key))),
@@ -4022,8 +4029,8 @@ var __privateSet = (obj, member, value, setter) => {
       };
     }
   };
-  const _hoisted_1$4 = { class: "table-columns" };
-  const _hoisted_2$4 = { class: "table-columns-row" };
+  const _hoisted_1$4 = { class: "table-header" };
+  const _hoisted_2$4 = { class: "table-header-row" };
   const _hoisted_3$3 = ["onClick"];
   const _hoisted_4$3 = ["textContent"];
   const _hoisted_5$3 = { key: 0 };
@@ -4128,17 +4135,17 @@ var __privateSet = (obj, member, value, setter) => {
               vue.createElementVNode("tr", _hoisted_2$4, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column) => {
                   return vue.openBlock(), vue.createElementBlock("th", {
-                    onClick: ($event) => sortBy(column.key)
+                    onClick: ($event) => sortBy(column)
                   }, [
                     vue.createElementVNode("div", {
-                      class: vue.normalizeClass(["columns-row-item", column.isNumeric ? "numeric" : ""])
+                      class: vue.normalizeClass(["header-row-item", column.isNumeric ? "numeric" : ""])
                     }, [
                       vue.createElementVNode("span", {
                         textContent: vue.toDisplayString(column.label)
                       }, null, 8, _hoisted_4$3),
                       vue.createVNode(_sfc_main$7, {
                         icon: "sort",
-                        class: vue.normalizeClass(["columns-row-item-icon", `${vue.unref(sortKey) === column.key ? "selected" : ""}`])
+                        class: vue.normalizeClass(["header-row-item-icon", `${vue.unref(sortKey) === column.key ? "selected" : ""}`])
                       }, null, 8, ["class"])
                     ], 2)
                   ], 8, _hoisted_3$3);
@@ -4168,7 +4175,7 @@ var __privateSet = (obj, member, value, setter) => {
               ])) : vue.createCommentVNode("", true)
             ]),
             vue.createElementVNode("tbody", _hoisted_10$1, [
-              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(vue.unref(tableData).filteredRows, (row) => {
+              (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(vue.unref(tableData).loadedRows, (row) => {
                 return vue.openBlock(), vue.createElementBlock("tr", {
                   onClick: ($event) => handleRowClick(row)
                 }, [
@@ -4628,13 +4635,13 @@ var __privateSet = (obj, member, value, setter) => {
     return null;
   }
   var R_SPACE = /\s+/g;
-  function toggleClass(el, name2, state) {
-    if (el && name2) {
+  function toggleClass(el, name, state) {
+    if (el && name) {
       if (el.classList) {
-        el.classList[state ? "add" : "remove"](name2);
+        el.classList[state ? "add" : "remove"](name);
       } else {
-        var className = (" " + el.className + " ").replace(R_SPACE, " ").replace(" " + name2 + " ", " ");
-        el.className = (className + (state ? " " + name2 : "")).replace(R_SPACE, " ");
+        var className = (" " + el.className + " ").replace(R_SPACE, " ").replace(" " + name + " ", " ");
+        el.className = (className + (state ? " " + name : "")).replace(R_SPACE, " ");
       }
     }
   }
@@ -5064,41 +5071,41 @@ var __privateSet = (obj, member, value, setter) => {
         }
       }
     },
-    getEventProperties: function getEventProperties(name2, sortable) {
+    getEventProperties: function getEventProperties(name, sortable) {
       var eventProperties = {};
       plugins.forEach(function(plugin) {
         if (typeof plugin.eventProperties !== "function")
           return;
-        _extends(eventProperties, plugin.eventProperties.call(sortable[plugin.pluginName], name2));
+        _extends(eventProperties, plugin.eventProperties.call(sortable[plugin.pluginName], name));
       });
       return eventProperties;
     },
-    modifyOption: function modifyOption(sortable, name2, value) {
+    modifyOption: function modifyOption(sortable, name, value) {
       var modifiedValue;
       plugins.forEach(function(plugin) {
         if (!sortable[plugin.pluginName])
           return;
-        if (plugin.optionListeners && typeof plugin.optionListeners[name2] === "function") {
-          modifiedValue = plugin.optionListeners[name2].call(sortable[plugin.pluginName], value);
+        if (plugin.optionListeners && typeof plugin.optionListeners[name] === "function") {
+          modifiedValue = plugin.optionListeners[name].call(sortable[plugin.pluginName], value);
         }
       });
       return modifiedValue;
     }
   };
   function dispatchEvent(_ref) {
-    var sortable = _ref.sortable, rootEl2 = _ref.rootEl, name2 = _ref.name, targetEl = _ref.targetEl, cloneEl2 = _ref.cloneEl, toEl = _ref.toEl, fromEl = _ref.fromEl, oldIndex2 = _ref.oldIndex, newIndex2 = _ref.newIndex, oldDraggableIndex2 = _ref.oldDraggableIndex, newDraggableIndex2 = _ref.newDraggableIndex, originalEvent = _ref.originalEvent, putSortable2 = _ref.putSortable, extraEventProperties = _ref.extraEventProperties;
+    var sortable = _ref.sortable, rootEl2 = _ref.rootEl, name = _ref.name, targetEl = _ref.targetEl, cloneEl2 = _ref.cloneEl, toEl = _ref.toEl, fromEl = _ref.fromEl, oldIndex2 = _ref.oldIndex, newIndex2 = _ref.newIndex, oldDraggableIndex2 = _ref.oldDraggableIndex, newDraggableIndex2 = _ref.newDraggableIndex, originalEvent = _ref.originalEvent, putSortable2 = _ref.putSortable, extraEventProperties = _ref.extraEventProperties;
     sortable = sortable || rootEl2 && rootEl2[expando];
     if (!sortable)
       return;
-    var evt, options = sortable.options, onName = "on" + name2.charAt(0).toUpperCase() + name2.substr(1);
+    var evt, options = sortable.options, onName = "on" + name.charAt(0).toUpperCase() + name.substr(1);
     if (window.CustomEvent && !IE11OrLess && !Edge) {
-      evt = new CustomEvent(name2, {
+      evt = new CustomEvent(name, {
         bubbles: true,
         cancelable: true
       });
     } else {
       evt = document.createEvent("Event");
-      evt.initEvent(name2, true, true);
+      evt.initEvent(name, true, true);
     }
     evt.to = toEl || rootEl2;
     evt.from = fromEl || rootEl2;
@@ -5110,7 +5117,7 @@ var __privateSet = (obj, member, value, setter) => {
     evt.newDraggableIndex = newDraggableIndex2;
     evt.originalEvent = originalEvent;
     evt.pullMode = putSortable2 ? putSortable2.lastPutMode : void 0;
-    var allEventProperties = _objectSpread2(_objectSpread2({}, extraEventProperties), PluginManager.getEventProperties(name2, sortable));
+    var allEventProperties = _objectSpread2(_objectSpread2({}, extraEventProperties), PluginManager.getEventProperties(name, sortable));
     for (var option in allEventProperties) {
       evt[option] = allEventProperties[option];
     }
@@ -5149,10 +5156,10 @@ var __privateSet = (obj, member, value, setter) => {
       cloneNowShown: function cloneNowShown() {
         cloneHidden = false;
       },
-      dispatchSortableEvent: function dispatchSortableEvent(name2) {
+      dispatchSortableEvent: function dispatchSortableEvent(name) {
         _dispatchEvent({
           sortable,
-          name: name2,
+          name,
           originalEvent
         });
       }
@@ -5334,8 +5341,8 @@ var __privateSet = (obj, member, value, setter) => {
       emptyInsertThreshold: 5
     };
     PluginManager.initializePlugins(this, el, defaults2);
-    for (var name2 in defaults2) {
-      !(name2 in options) && (options[name2] = defaults2[name2]);
+    for (var name in defaults2) {
+      !(name in options) && (options[name] = defaults2[name]);
     }
     _prepareGroup(options);
     for (var fn in this) {
@@ -5753,8 +5760,8 @@ var __privateSet = (obj, member, value, setter) => {
       var el = this.el, target = evt.target, dragRect, targetRect, revert, options = this.options, group = options.group, activeSortable = Sortable.active, isOwner = activeGroup === group, canSort = options.sort, fromSortable = putSortable || activeSortable, vertical, _this = this, completedFired = false;
       if (_silent)
         return;
-      function dragOverEvent(name2, extra) {
-        pluginEvent(name2, _this, _objectSpread2({
+      function dragOverEvent(name, extra) {
+        pluginEvent(name, _this, _objectSpread2({
           evt,
           isOwner,
           axis: vertical ? "vertical" : "horizontal",
@@ -6171,18 +6178,18 @@ var __privateSet = (obj, member, value, setter) => {
      * @param   {*}      [value]
      * @returns {*}
      */
-    option: function option(name2, value) {
+    option: function option(name, value) {
       var options = this.options;
       if (value === void 0) {
-        return options[name2];
+        return options[name];
       } else {
-        var modifiedValue = PluginManager.modifyOption(this, name2, value);
+        var modifiedValue = PluginManager.modifyOption(this, name, value);
         if (typeof modifiedValue !== "undefined") {
-          options[name2] = modifiedValue;
+          options[name] = modifiedValue;
         } else {
-          options[name2] = value;
+          options[name] = value;
         }
-        if (name2 === "group") {
+        if (name === "group") {
           _prepareGroup(options);
         }
       }
@@ -6778,11 +6785,11 @@ var __privateSet = (obj, member, value, setter) => {
     "video",
     "wbr"
   ];
-  function isHtmlTag(name2) {
-    return tags.includes(name2);
+  function isHtmlTag(name) {
+    return tags.includes(name);
   }
-  function isTransition(name2) {
-    return ["transition-group", "TransitionGroup"].includes(name2);
+  function isTransition(name) {
+    return ["transition-group", "TransitionGroup"].includes(name);
   }
   function isHtmlAttribute(value) {
     return ["id", "class", "role", "style"].includes(value) || value.startsWith("data-") || value.startsWith("aria-") || value.startsWith("on");
@@ -6883,7 +6890,7 @@ var __privateSet = (obj, member, value, setter) => {
   function computeNodes({ $slots, realList, getKey }) {
     const normalizedList = realList || [];
     const [header, footer] = ["header", "footer"].map(
-      (name2) => getSlot($slots, name2)
+      (name) => getSlot($slots, name)
     );
     const { item } = $slots;
     if (!item) {
@@ -7344,6 +7351,7 @@ var __privateSet = (obj, member, value, setter) => {
       };
     }
   };
+  const vue3TableData = "";
   const search = "Search...";
   const column_settings_modal = {
     title: "Column order and visibility",

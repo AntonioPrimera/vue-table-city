@@ -45,7 +45,6 @@ export class Row {
 		let mutatedRowData = {};	//this will contain the mutated data
 		let renderedData = {};		//this will contain the rendered data
 		
-		console.log(columns);
 		//run through all columns (this will only keep the properties for which a column is defined)
 		for (let column of columns) {
 			//mutate the data

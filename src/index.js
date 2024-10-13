@@ -2,6 +2,7 @@
 import SmartTable from "./components/SmartTable.vue";
 import TableControls from "./components/TableControls.vue";
 import {Column} from "./ViewModels/Column.js";
+import './styles/vue3-table-data.pcss';
 
 //--- --- Translate ---------------------------------------------------------------------------------------------------
 import translate from "./translate/translate.json";

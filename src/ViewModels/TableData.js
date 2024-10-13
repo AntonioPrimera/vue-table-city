@@ -62,6 +62,7 @@ export class TableData {
 	//--- Column operations -------------------------------------------------------------------------------------------
 	
 	get visibleColumns() {
+		console.log(this.columns);
 		return this.columns.filter(column => column.isVisible);
 	}
 	

@@ -82,7 +82,7 @@ export class Column {
 		mutator = null,
 		renderer = null
 	) {
-		return new Column(name, key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
+		return new Column(key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
 	}
 	
 	//--- Getters and setters -----------------------------------------------------------------------------------------
@@ -171,8 +171,15 @@ export class Column {
 		return this.#mutator ? this.#mutator(value) : value;
 	}
 	
-	render(value) {
-		return this.#renderer ? this.#renderer(value) : value;
+	/**
+	 * Renders the value of the column, using the renderer function
+	 * It should receive the value and the array of mutated row data (not a row instance!)
+	 * @param value
+	 * @param {Array} mutatedRowData
+	 * @returns {*}
+	 */
+	render(value, mutatedRowData) {
+		return this.#renderer ? this.#renderer(value, mutatedRowData) : value;
 	}
 	
 	//--- Fluent predefined column types ------------------------------------------------------------------------------
@@ -180,20 +187,22 @@ export class Column {
 	/**
 	 * Provide a custom date format for the column and optionally a raw format, used to parse the date
 	 * If the date is already in ISO 8601 format, the raw format can be omitted
+	 * @param {string} renderFormat
+	 * @param {string|null} rawFormat
 	 */
 	date(renderFormat = 'dd.MM.yyyy', rawFormat = null) {
 		//transform the date to a custom format
-		this.withRenderer(isoStringDate => format(new Date(isoStringDate), renderFormat));
+		this.withRenderer(isoStringDate => isoStringDate ? format(new Date(isoStringDate), renderFormat) : '');
 		
 		//transform the date to an ISO 8601 string (which is sortable as a string and parsable by the Date object)
 		if(rawFormat)
-			this.withMutator(value => parse(value, rawFormat, new Date()).toISOString());
+			this.withMutator(value => value ? parse(value, rawFormat, new Date()).toISOString() : null);
 		
 		return this;
 	}
 	
 	dateTime(renderFormat = 'dd.MM.yyyy HH:mm:ss', rawFormat = null) {
-		return this.date(rawFormat, renderFormat);
+		return this.date(renderFormat, rawFormat);
 	}
 	
 	money(
@@ -208,14 +217,14 @@ export class Column {
 		
 		//format the number as a currency string
 		this.withRenderer(
-			(value, row) =>
+			(value, rowData) =>
 				helpers.formatNumber(
 					value,
 					fractionDigits,
 					decimalSeparator,
 					thousandsSeparator,
-					currencyColumnKey ? (prefixCurrency ? `${row.get(currencyColumnKey) || '-?-'} ` : '') : '',
-					currencyColumnKey ? (prefixCurrency ? '' : ` ${row.get(currencyColumnKey) || '-?-'}`) : ''
+					currencyColumnKey ? (prefixCurrency ? `${rowData[currencyColumnKey] || '-?-'} ` : '') : '',
+					currencyColumnKey ? (prefixCurrency ? '' : ` ${rowData[currencyColumnKey] || '-?-'}`) : ''
 				)
 		);
 		
