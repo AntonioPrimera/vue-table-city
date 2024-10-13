@@ -16,7 +16,6 @@ import {Rows} from "./Rows.js";
 
 export class Column {
 	//--- Properties --------------------------------------------------------------------------------------------------
-	name;
 	key;
 	label;
 	
@@ -37,7 +36,6 @@ export class Column {
 	//--- Constructor & Factories -------------------------------------------------------------------------------------
 	
 	constructor(
-		name,
 		key,
 		label,
 		
@@ -55,7 +53,6 @@ export class Column {
 		// The render function can be used to render the transformed data in the column
 		renderer = null
 	) {
-		this.name = name;
 		this.key = key;
 		this.label = label;
 		this.numeric(isNumeric)
@@ -71,7 +68,6 @@ export class Column {
 	
 	//static factory
 	static create(
-		name,
 		key,
 		label,
 		
@@ -201,8 +197,8 @@ export class Column {
 	}
 	
 	money(
-		fractionDigits = 2,
 		currencyColumnKey = null,
+		fractionDigits = 2,
 		decimalSeparator = ',',
 		thousandsSeparator = ' ',
 		prefixCurrency = false
