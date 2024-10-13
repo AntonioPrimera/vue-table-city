@@ -28,13 +28,14 @@
         "preview": "vite preview"
     },
     "dependencies": {
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^4.2.3",
+        "vite": "^4.4.5",
+        "date-fns": "^4.1.0",
         "mitt": "^2.1.0",
         "vue": "^3.3.4",
         "vue-observe-visibility": "^1.0.0",
         "vuedraggable": "^4.1.0"
-    },
-    "devDependencies": {
-        "@vitejs/plugin-vue": "^4.2.3",
-        "vite": "^4.4.5"
     }
 }

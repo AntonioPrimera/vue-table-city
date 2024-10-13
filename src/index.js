@@ -1,6 +1,7 @@
 //--- --- Components --------------------------------------------------------------------------------------------------
-import TableData from "./components/TableData.vue";
+import Table from "./components/Table.vue";
 import TableControls from "./components/TableControls.vue";
+import {Column} from "./ViewModels/Column.js";
 
 //--- --- Translate ---------------------------------------------------------------------------------------------------
 import translate from "./translate/translate.json";
@@ -24,4 +25,4 @@ window.__vue3TableDataConfig = {
     },
 };
 
-export { TableData, TableControls };
+export { Table, TableControls, Column };

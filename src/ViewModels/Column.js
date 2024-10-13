@@ -4,14 +4,20 @@
  * 	- the column header label
  * 	- the column can be marked as numeric (if null, it will run a check on the data)
  * 	- the column can be visible, searchable, sortable and filterable (all boolean)
+ * 	- the column can be marked as a row key (if true, it will be used as a unique identifier for the row)
  * 	- it can contain a filter function that will be used to filter the raw data in the column
- * 	- it can contain a data transformation function that will be used to transform the raw data in the column
- * 	- it can contain a render function that will be used to render the transformed data in the column
+ * 	- it can contain a mutator function that will be used to transform the raw data in the column
+ * 	- it can contain a renderer function that will be used to render the transformed data in the column
  */
 
 import helpers from '../helpers/helpers.js';
+import {format, parse} from "date-fns";
 
 export class Column {
+	#filter;
+	#mutator;
+	#renderer;
+	
 	constructor(
 		key,
 		label,
@@ -21,35 +27,190 @@ export class Column {
 		isSortable = true,
 		isFilterable = false,
 		isVisible = true,
-		
-		filter = null,
-		mutate = null,
-		render = null
-	) {
-		// The key is the path to the data in the row object (dot notation)
-		this.key = key;
-		
-		// The label is the text that will be displayed in the header of the column
-		this.label = label;
-		
-		// The searchable, sortable and filterable attributes define if the column is searchable, sortable and filterable
-		this.isNumeric = isNumeric;
-		this.isVisible = isVisible;
-		this.isSearchable = isSearchable;
-		this.isSortable = isSortable;
-		this.isFilterable = isFilterable;
+		isRowKey = false,
 		
 		// The filter can be a function that will be used to filter the raw data in the column
-		this.filter = typeof filter === 'function' ? filter : null;
-		
-		// The transform function can be used to transform the raw data in the column
-		this.mutate = typeof mutate === 'function' ? mutate : null;
-		
-		// The render function can be used to render the data in the column
-		this.render = typeof render === 'function' ? render : null;
+		filter = null,
+		// The mutator function can be used to transform the raw data in the column
+		mutator = null,
+		// The render function can be used to render the transformed data in the column
+		renderer = null
+	) {
+		this.key = key;
+		this.label = label;
+		this.numeric(isNumeric)
+			.visible(isVisible)
+			.searchable(isSearchable)
+			.sortable(isSortable)
+			.filterable(isFilterable)
+			.rowKey(isRowKey)
+			.withMutator(mutator)
+			.withFilter(filter)
+			.withRenderer(renderer);
 	}
 	
-	// Process the rows in the column (mutate the data if needed and determine if the column is numeric)
+	//static factory
+	static create(
+		key,
+		label,
+		
+		isNumeric = null,
+		isSearchable = false,
+		isSortable = false,
+		isFilterable = false,
+		isVisible = true,
+		isRowKey = false,
+		
+		filter = null,
+		mutator = null,
+		renderer = null
+	) {
+		return new Column(key, label, isNumeric, isSearchable, isSortable, isFilterable, isVisible, filter, mutator, renderer);
+	}
+	
+	//--- Getters and setters -----------------------------------------------------------------------------------------
+	
+	get hasRenderer() {
+		return this.#renderer !== null;
+	}
+	
+	//--- Public api --------------------------------------------------------------------------------------------------
+	
+	numeric(value = true) {
+		this.isNumeric = value;
+		return this;
+	}
+	
+	notNumeric() {
+		this.isNumeric = false;
+		return this;
+	}
+	
+	visible(value = true) {
+		this.isVisible = value;
+		return this;
+	}
+	
+	notVisible() {
+		this.isVisible = false;
+		return this;
+	}
+	
+	searchable(value = true) {
+		this.isSearchable = value;
+		return this;
+	}
+	
+	notSearchable() {
+		this.isSearchable = false;
+		return this;
+	}
+	
+	sortable(value = true) {
+		this.isSortable = value;
+		return this;
+	}
+	
+	notSortable() {
+		this.isSortable = false;
+		return this
+	}
+	
+	filterable(value = true) {
+		this.isFilterable = value;
+		return this;
+	}
+	
+	notFilterable() {
+		this.isFilterable = false;
+		return this;
+	}
+	
+	rowKey(value = true) {
+		this.isRowKey = value;
+		return this;
+	}
+	
+	withFilter(value) {
+		this.#filter = typeof value === 'function' ? value : null;
+		return this;
+	}
+	
+	withMutator(value) {
+		this.#mutator = typeof value === 'function' ? value : null;
+		return this;
+	}
+	
+	withRenderer(value) {
+		this.#renderer = typeof value === 'function' ? value : null;
+		return this;
+	}
+	
+	//--- Processing data ---------------------------------------------------------------------------------------------
+	
+	filter(value) {
+		return this.#filter ? this.#filter(value) : true;
+	}
+	
+	mutate(value) {
+		return this.#mutator ? this.#mutator(value) : value;
+	}
+	
+	render(value) {
+		return this.#renderer ? this.#renderer(value) : value;
+	}
+	
+	/**
+	 * Provide a custom date format for the column and optionally a raw format, used to parse the date
+	 * If the date is already in ISO 8601 format, the raw format can be omitted
+	 */
+	date(renderFormat = 'dd.MM.yyyy', rawFormat = null) {
+		//transform the date to a custom format
+		this.withRenderer(isoStringDate => format(new Date(isoStringDate), renderFormat));
+		
+		//transform the date to an ISO 8601 string (which is sortable as a string and parsable by the Date object)
+		if(rawFormat)
+			this.withMutator(value => parse(value, rawFormat, new Date()).toISOString());
+		
+		return this;
+	}
+	
+	dateTime(renderFormat = 'dd.MM.yyyy HH:mm:ss', rawFormat = null) {
+		return this.date(rawFormat, renderFormat);
+	}
+	
+	money(
+		fractionDigits = 2,
+		currencyColumnKey = null,
+		decimalSeparator = ',',
+		thousandsSeparator = ' ',
+		prefixCurrency = false
+	) {
+		//mark the column as numeric
+		this.numeric();
+		
+		//format the number as a currency string
+		this.withRenderer(
+			(value, row) =>
+				helpers.formatNumber(
+					value,
+					fractionDigits,
+					decimalSeparator,
+					thousandsSeparator,
+					currencyColumnKey ? (prefixCurrency ? `${row.get(currencyColumnKey) || '-?-'} ` : '') : '',
+					currencyColumnKey ? (prefixCurrency ? '' : ` ${row.get(currencyColumnKey) || '-?-'}`) : ''
+				)
+		);
+		
+		return this;
+	}
+	
+	//--- Lifecycle ---------------------------------------------------------------------------------------------------
+	
+	/**
+	 * Process the rows in the column (mutate the data if needed and determine if the column is numeric)
+	 * This method must be called during the initialization of the table
+	 */
 	processRows(rows) {
 		let processedRows = [];
 		

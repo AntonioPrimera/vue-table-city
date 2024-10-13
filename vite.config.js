@@ -12,6 +12,9 @@ export default defineConfig({
     plugins: [vue()],
 
     build: {
+        //minify: {
+        //    minifyIdentifiers: false,
+        //},
         lib: {
             //entry: resolve(__dirname, "src/index.js"),
             entry: './src/index.js',

@@ -41,20 +41,20 @@ yarn add vue3-table-data
 Next, you must register the component. The most common use case is to do that globally(in your app.js or similar file)
 ```
 import Vue from 'vue';
-import { TableData, TableControls } from 'vue3-table-data';
+import { Table, TableControls } from 'vue3-table-data';
 
-Vue.component('v-table', TableData);
+Vue.component('v-table', Table);
 Vue.component('v-table-controls', TableControls);
 ```
 
 Import into your component
 ```
-import { TableData } from 'vue3-table-data';
+import { Table } from 'vue3-table-data';
 import { TableControls } from 'vue3-table-data';
 
 // add to component
 components: {
-    TableData,
+    Table,
     TableControls
 }
 ```

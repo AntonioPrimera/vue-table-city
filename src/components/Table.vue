@@ -13,6 +13,7 @@ import {useEventBus} from "../composables/useEventBus.js";
 import translateHelpers from "../helpers/translateHelpers.js";
 import helpers from "../helpers/helpers.js";
 import {Column} from "../ViewModels/Column.js";
+import {Rows} from "../ViewModels/Rows.js";
 
 //=====================================================================================================================
 //--- --- Setup -------------------------------------------------------------------------------------------------------
@@ -22,7 +23,7 @@ const emits = defineEmits(['row-click']);
 const props = defineProps({
     // An array of rows with the raw data
     rows: {
-        type: Array,
+        type: Rows,
         required: true,
     },
 
@@ -37,6 +38,7 @@ const props = defineProps({
 let tableContainer = ref(null);
 
 let header = ref(null);
+let rows = ref(null);
 
 let sortKey = ref(null);
 let ascendingSort = ref(false);
@@ -166,7 +168,7 @@ function getColumnSum(column) {
 
     let columnValues = props.rows.map(row => row[column.key]);
 
-    return helpers.formatNumber(columnValues.reduce((a, b) => a + b, 0), {fractionDigits: 2});
+    return helpers.formatNumber(columnValues.reduce((a, b) => a + b, 0), 2);
 }
 
 function isNumericColumn(column) {
@@ -180,8 +182,8 @@ function initializeTable() {
     eventBus.triggerEvent('sync-table-columns-event', header.value);
 
     //run through every column, mutate the rows if necessary and determine if the column is numeric
-    const rows = props.rows;
-    header.value.forEach(column => column.processRows(rows));
+    rows.value = props.rows;
+    header.value.forEach(column => column.processRows(rows.value));
     managesLoadedData.setData(rows);
 }
 
