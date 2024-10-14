@@ -23,9 +23,9 @@ var __privateSet = (obj, member, value, setter) => {
   return value;
 };
 var _filter, _mutator, _renderer, _searchTerm;
-import { openBlock, createElementBlock, createElementVNode, createCommentVNode, ref, h, computed, normalizeClass, createBlock, resolveDynamicComponent, Fragment, createTextVNode, toDisplayString, onMounted, onUnmounted, renderSlot, renderList, createVNode, unref, withModifiers, withCtx, isRef, withDirectives, vModelCheckbox, resolveComponent, TransitionGroup, defineComponent, nextTick } from "vue";
-const _hoisted_1$5 = { key: 0 };
-const _hoisted_2$5 = {
+import { openBlock, createElementBlock, createElementVNode, createCommentVNode, h, normalizeClass, toDisplayString, createBlock, computed, resolveDynamicComponent, Fragment, createTextVNode, ref, onMounted, onUnmounted, renderSlot, renderList, unref, createVNode, withModifiers, withCtx, isRef, withDirectives, vModelCheckbox, resolveComponent, TransitionGroup, defineComponent, nextTick } from "vue";
+const _hoisted_1$6 = { key: 0 };
+const _hoisted_2$6 = {
   style: { "width": "100%", "height": "100%" },
   viewBox: "0 0 20 20",
   fill: "none",
@@ -53,13 +53,13 @@ const _hoisted_8$3 = {
   xmlns: "http://www.w3.org/2000/svg"
 };
 const _hoisted_9$2 = { key: 4 };
-const _hoisted_10$2 = {
+const _hoisted_10$1 = {
   style: { "width": "100%", "height": "100%" },
   viewBox: "0 0 16 16",
   fill: "none",
   xmlns: "http://www.w3.org/2000/svg"
 };
-const _hoisted_11$2 = { key: 5 };
+const _hoisted_11$1 = { key: 5 };
 const _hoisted_12$1 = {
   style: { "width": "100%", "height": "100%" },
   viewBox: "0 0 16 16",
@@ -110,12 +110,29 @@ const _hoisted_24 = {
 };
 const _hoisted_25 = { key: 12 };
 const _hoisted_26 = {
-  style: { "width": "100%", "height": "100%" },
-  viewBox: "0 0 6 13",
-  fill: "none",
-  xmlns: "http://www.w3.org/2000/svg"
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 320 512",
+  style: { "width": "100%", "height": "100%" }
 };
-const _sfc_main$8 = {
+const _hoisted_27 = { key: 13 };
+const _hoisted_28 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 320 512",
+  style: { "width": "100%", "height": "100%" }
+};
+const _hoisted_29 = { key: 14 };
+const _hoisted_30 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 320 512",
+  style: { "width": "100%", "height": "100%" }
+};
+const _hoisted_31 = { key: 15 };
+const _hoisted_32 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 320 512",
+  style: { "width": "100%", "height": "100%" }
+};
+const _sfc_main$9 = {
   __name: "Icon",
   props: {
     icon: {
@@ -125,8 +142,8 @@ const _sfc_main$8 = {
   },
   setup(__props) {
     return (_ctx, _cache) => {
-      return __props.icon === "minus" ? (openBlock(), createElementBlock("div", _hoisted_1$5, [
-        (openBlock(), createElementBlock("svg", _hoisted_2$5, _cache[0] || (_cache[0] = [
+      return __props.icon === "minus" ? (openBlock(), createElementBlock("div", _hoisted_1$6, [
+        (openBlock(), createElementBlock("svg", _hoisted_2$6, _cache[0] || (_cache[0] = [
           createElementVNode("path", {
             d: "M16.6667 9.16797H3.33333C2.87333 9.16797 2.5 9.5413 2.5 10.0013C2.5 10.4613 2.87333 10.8346 3.33333 10.8346H16.6667C17.1267 10.8346 17.5 10.4613 17.5 10.0013C17.5 9.5413 17.1267 9.16797 16.6667 9.16797Z",
             fill: "currentColor"
@@ -168,7 +185,7 @@ const _sfc_main$8 = {
           }, null, -1)
         ])))
       ])) : __props.icon === "small-row" ? (openBlock(), createElementBlock("div", _hoisted_9$2, [
-        (openBlock(), createElementBlock("svg", _hoisted_10$2, _cache[4] || (_cache[4] = [
+        (openBlock(), createElementBlock("svg", _hoisted_10$1, _cache[4] || (_cache[4] = [
           createElementVNode("path", {
             "fill-rule": "evenodd",
             "clip-rule": "evenodd",
@@ -176,7 +193,7 @@ const _sfc_main$8 = {
             fill: "black"
           }, null, -1)
         ])))
-      ])) : __props.icon === "medium-row" ? (openBlock(), createElementBlock("div", _hoisted_11$2, [
+      ])) : __props.icon === "medium-row" ? (openBlock(), createElementBlock("div", _hoisted_11$1, [
         (openBlock(), createElementBlock("svg", _hoisted_12$1, _cache[5] || (_cache[5] = [
           createElementVNode("path", {
             "fill-rule": "evenodd",
@@ -238,113 +255,57 @@ const _sfc_main$8 = {
       ])) : __props.icon === "sort" ? (openBlock(), createElementBlock("div", _hoisted_25, [
         (openBlock(), createElementBlock("svg", _hoisted_26, _cache[12] || (_cache[12] = [
           createElementVNode("path", {
-            d: "M3.45883 11.9404C3.28486 12.3421 2.71514 12.3421 2.54117 11.9404L0.704461 7.69868C0.561505 7.36854 0.803529 7 1.16329 7L4.83671 7C5.19647 7 5.43849 7.36854 5.29554 7.69868L3.45883 11.9404Z",
+            d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
             fill: "currentColor"
           }, null, -1),
           createElementVNode("path", {
-            d: "M2.54117 1.05963C2.71514 0.657866 3.28486 0.657866 3.45883 1.05963L5.29554 5.30132C5.43849 5.63146 5.19647 6 4.83671 6L1.16329 6C0.803529 6 0.561506 5.63146 0.704461 5.30132L2.54117 1.05963Z",
+            d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
             fill: "currentColor"
+          }, null, -1)
+        ])))
+      ])) : __props.icon === "sort-ascending" ? (openBlock(), createElementBlock("div", _hoisted_27, [
+        (openBlock(), createElementBlock("svg", _hoisted_28, _cache[13] || (_cache[13] = [
+          createElementVNode("path", {
+            d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
+            fill: "currentColor"
+          }, null, -1),
+          createElementVNode("path", {
+            d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "20"
+          }, null, -1)
+        ])))
+      ])) : __props.icon === "sort-descending" ? (openBlock(), createElementBlock("div", _hoisted_29, [
+        (openBlock(), createElementBlock("svg", _hoisted_30, _cache[14] || (_cache[14] = [
+          createElementVNode("path", {
+            d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "20"
+          }, null, -1),
+          createElementVNode("path", {
+            d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
+            fill: "currentColor"
+          }, null, -1)
+        ])))
+      ])) : __props.icon === "sortable" ? (openBlock(), createElementBlock("div", _hoisted_31, [
+        (openBlock(), createElementBlock("svg", _hoisted_32, _cache[15] || (_cache[15] = [
+          createElementVNode("path", {
+            d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "20"
+          }, null, -1),
+          createElementVNode("path", {
+            d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": "20"
           }, null, -1)
         ])))
       ])) : createCommentVNode("", true);
     };
-  }
-};
-function useEventBus() {
-  let eventBus = window.__vue3TableDataConfig.mitt;
-  function addEventHandler(event, handler) {
-    eventBus.on(event, handler);
-  }
-  function removeEventHandler(event, handler) {
-    eventBus.off(event, handler);
-  }
-  function triggerEvent(event, options = null) {
-    eventBus.emit(event, options);
-  }
-  return {
-    addEventHandler,
-    removeEventHandler,
-    triggerEvent
-  };
-}
-const translateHelpers = {
-  /**
-   * Get translate from the translation file.
-   *
-   * e.g. {
-   *    "column_settings_modal": {
-   *        "title": "Column order and visibility",
-   *    },
-   *    "style_settings_modal": {...},
-   * }
-   *
-   * and the given path is "column_settings_modal.title" then return "Column order and visibility"
-   */
-  getTranslate(path, object = window.__vue3TableDataConfig.translation.file) {
-    let pathParts = path.split(".");
-    pathParts.forEach((step) => {
-      if (object)
-        object = object[step];
-      else
-        object = void 0;
-    });
-    return object;
-  },
-  /**
-   * Set the translation file. We need a json file with the proper structure
-   * (you can find the structure in translate.json file)
-   *
-   */
-  setTranslateFile(jsonFile) {
-    if (!this.hasValidContent(jsonFile))
-      return;
-    window.__vue3TableDataConfig.translation.file = jsonFile;
-  },
-  /**
-   * Validate json file. Check if the given file has the proper structure.
-   * You can find the structure in translate.json file
-   */
-  hasValidContent(jsonFile) {
-    if (typeof jsonFile !== "object") {
-      console.error("The given file is not a valid json file", jsonFile);
-      return false;
-    }
-    let structure = [
-      "search",
-      "column_settings_modal",
-      "column_settings_modal.title",
-      "column_settings_modal.description",
-      "column_settings_modal.actions",
-      "column_settings_modal.actions.save",
-      "column_settings_modal.actions.cancel",
-      "style_settings_modal",
-      "style_settings_modal.title",
-      "style_settings_modal.description",
-      "style_settings_modal.sections",
-      "style_settings_modal.sections.row_size",
-      "style_settings_modal.sections.numbers_color",
-      "style_settings_modal.sections.row_size.title",
-      "style_settings_modal.sections.numbers_color.title",
-      "style_settings_modal.sections.row_size.options",
-      "style_settings_modal.sections.row_size.options.small",
-      "style_settings_modal.sections.row_size.options.medium",
-      "style_settings_modal.sections.row_size.options.large",
-      "style_settings_modal.sections.numbers_color.options.black",
-      "style_settings_modal.sections.numbers_color.options.color",
-      "style_settings_modal.actions",
-      "style_settings_modal.actions.save",
-      "style_settings_modal.actions.cancel"
-    ];
-    structure.forEach((path) => {
-      let translate2 = this.getTranslate(path, jsonFile);
-      if (translate2 === void 0) {
-        console.error(
-          "The given file has an invalid structure. We could not find the translate for path: " + path.replaceAll(".", " -> ")
-        );
-        return false;
-      }
-    });
-    return true;
   }
 };
 const helpers = {
@@ -3678,9 +3639,9 @@ class Rows {
    */
   constructor(rows) {
     __publicField(this, "rows");
-    __publicField(this, "filteredRows", ref([]));
+    __publicField(this, "filteredRows");
     this.rows = rows;
-    this.filteredRows.value = rows;
+    this.filteredRows = rows;
   }
   static create(columns, rawRows) {
     let rows = [];
@@ -3703,19 +3664,19 @@ class Rows {
         continue;
       rows = rows.filter((row) => row.cleanValue(column.key).includes(searchTerm));
     }
-    this.filteredRows.value = rows;
+    this.filteredRows = rows;
   }
   clearSearch() {
-    this.filteredRows.value = this.rows;
+    this.filteredRows = this.rows;
   }
-  sort(column, direction) {
-    this.filteredRows.value = this.filteredRows.value.sort((rowA, rowB) => {
+  sortByColumn(column) {
+    this.filteredRows = this.filteredRows.sort((rowA, rowB) => {
       let valueA = rowA.data[column.key];
       let valueB = rowB.data[column.key];
       if (valueA === valueB)
         return 0;
       let result = valueA < valueB ? -1 : 1;
-      return direction === "asc" ? result : -result;
+      return column.sortDirection === "asc" ? result : -result;
     });
   }
 }
@@ -3750,6 +3711,15 @@ const _Column = class _Column {
   //--- Getters and setters -----------------------------------------------------------------------------------------
   get hasRenderer() {
     return __privateGet(this, _renderer) !== null;
+  }
+  get isSortAscending() {
+    return this.sortDirection === "asc";
+  }
+  get isSortDescending() {
+    return this.sortDirection === "desc";
+  }
+  get isSortNone() {
+    return this.sortDirection === null;
   }
   //--- Fluent api --------------------------------------------------------------------------------------------------
   numeric(value = true) {
@@ -3875,9 +3845,9 @@ const _Column = class _Column {
     this.withRenderer((value) => helpers.formatNumber(value, fractionDigits, decimalSeparator, thousandsSeparator));
     return this;
   }
-  component(component) {
+  component(component, props2 = {}) {
     this.isComponent = true;
-    this.withRenderer((value, context) => h(component, { value, context }));
+    this.withRenderer((value, context) => h(component, { value, context, ...props2 }));
     return this;
   }
   //--- Public helpers ----------------------------------------------------------------------------------------------
@@ -3905,81 +3875,64 @@ _mutator = new WeakMap();
 _renderer = new WeakMap();
 _searchTerm = new WeakMap();
 let Column = _Column;
-class TableData {
-  //--- Constructor & Factories -------------------------------------------------------------------------------------
-  /**
-   * @param {Array.<Column>} columns
-   * @param {Array} rawRows
-   * @param {number} initialRowCount
-   * @param {number} loadCount
-   */
-  constructor(columns, rawRows, initialRowCount = 75, loadCount = 30) {
-    /**
-     * @param {Rows} rows
-     */
-    __publicField(this, "rows");
-    /**
-     * @param {Array.<Column>} columns
-     */
-    __publicField(this, "columns");
-    /**
-     * @param {Array.<Row>} visibleRows
-     */
-    __publicField(this, "loadedRows", []);
-    __publicField(this, "initialRowCount");
-    __publicField(this, "loadCount");
-    this.rows = rawRows instanceof Rows ? rawRows : Rows.create(columns, rawRows);
-    this.columns = columns;
-    this.initialRowCount = initialRowCount;
-    this.loadCount = loadCount;
-    this.resetLoadedRows();
+const _hoisted_1$5 = ["textContent"];
+const _hoisted_2$5 = { key: 0 };
+const _sfc_main$8 = {
+  __name: "ColumnHeader",
+  props: {
+    column: {
+      type: Column,
+      required: true
+    }
+    //sortKey: {
+    //    type: String,
+    //    required: true,
+    //},
+    //ascendingSort: {
+    //    type: Boolean,
+    //    required: true,
+    //},
+  },
+  emits: ["sort"],
+  setup(__props, { emit: __emit }) {
+    const props2 = __props;
+    const emit2 = __emit;
+    function handleClick() {
+      if (!props2.column.isSortable)
+        return;
+      props2.column.toggleSortDirection();
+      emit2("sort");
+    }
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("th", { onClick: handleClick }, [
+        createElementVNode("div", {
+          class: normalizeClass(["header-row-item", __props.column.isNumeric ? "numeric" : ""])
+        }, [
+          createElementVNode("span", {
+            textContent: toDisplayString(__props.column.label)
+          }, null, 8, _hoisted_1$5),
+          __props.column.isSortable ? (openBlock(), createElementBlock("div", _hoisted_2$5, [
+            __props.column.isSortNone ? (openBlock(), createBlock(_sfc_main$9, {
+              key: 0,
+              icon: "sortable",
+              style: { "width": "12px" }
+            })) : createCommentVNode("", true),
+            __props.column.isSortAscending ? (openBlock(), createBlock(_sfc_main$9, {
+              key: 1,
+              icon: "sort-ascending",
+              style: { "width": "12px" }
+            })) : createCommentVNode("", true),
+            __props.column.isSortDescending ? (openBlock(), createBlock(_sfc_main$9, {
+              key: 2,
+              icon: "sort-descending",
+              style: { "width": "12px" }
+            })) : createCommentVNode("", true)
+          ])) : createCommentVNode("", true)
+        ], 2)
+      ]);
+    };
   }
-  /**
-   * @param {Array.<Column>} columns
-   * @param {Array} rawRows
-   * @param {number} initialRowCount
-   * @param {number} loadCount
-   */
-  static create(columns, rawRows, initialRowCount = 75, loadCount = 30) {
-    return new TableData(columns, rawRows, initialRowCount, loadCount);
-  }
-  //--- Getters and setters -----------------------------------------------------------------------------------------
-  get rowsCount() {
-    return this.rows.rows.length;
-  }
-  get loadedRowsCount() {
-    return this.loadedRows.length;
-  }
-  //--- Column operations -------------------------------------------------------------------------------------------
-  get visibleColumns() {
-    return this.columns.filter((column) => column.isVisible);
-  }
-  updateSearchTerm(column, searchTerm) {
-    column.searchTerm = searchTerm;
-    this.rows.filterBySearchTerms(this.columns);
-  }
-  clearSearch() {
-    this.rows.clearSearch();
-  }
-  //--- Row operations ----------------------------------------------------------------------------------------------
-  loadRows(count) {
-    let loadCount = count || this.loadCount;
-    let lastIndex = this.loadedRowsCount;
-    if (lastIndex >= this.rowsCount)
-      return;
-    let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
-    this.loadedRows = [...this.loadedRows, ...newRows];
-    console.log(this.loadedRows);
-  }
-  resetLoadedRows() {
-    this.loadedRows = [];
-    this.loadRows(this.initialRowCount);
-  }
-  sortByColumn(column, direction) {
-    this.rows.sort(column, direction);
-    this.resetLoadedRows();
-  }
-}
+};
 class TableStyling {
   constructor() {
     __publicField(this, "rowSizeClasses", {
@@ -4090,23 +4043,192 @@ const _sfc_main$6 = {
     };
   }
 };
+function useEventBus() {
+  let eventBus = window.__vue3TableDataConfig.mitt;
+  function addEventHandler(event, handler) {
+    eventBus.on(event, handler);
+  }
+  function removeEventHandler(event, handler) {
+    eventBus.off(event, handler);
+  }
+  function triggerEvent(event, options = null) {
+    eventBus.emit(event, options);
+  }
+  return {
+    addEventHandler,
+    removeEventHandler,
+    triggerEvent
+  };
+}
+const translateHelpers = {
+  /**
+   * Get translate from the translation file.
+   *
+   * e.g. {
+   *    "column_settings_modal": {
+   *        "title": "Column order and visibility",
+   *    },
+   *    "style_settings_modal": {...},
+   * }
+   *
+   * and the given path is "column_settings_modal.title" then return "Column order and visibility"
+   */
+  getTranslate(path, object = window.__vue3TableDataConfig.translation.file) {
+    let pathParts = path.split(".");
+    pathParts.forEach((step) => {
+      if (object)
+        object = object[step];
+      else
+        object = void 0;
+    });
+    return object;
+  },
+  /**
+   * Set the translation file. We need a json file with the proper structure
+   * (you can find the structure in translate.json file)
+   *
+   */
+  setTranslateFile(jsonFile) {
+    if (!this.hasValidContent(jsonFile))
+      return;
+    window.__vue3TableDataConfig.translation.file = jsonFile;
+  },
+  /**
+   * Validate json file. Check if the given file has the proper structure.
+   * You can find the structure in translate.json file
+   */
+  hasValidContent(jsonFile) {
+    if (typeof jsonFile !== "object") {
+      console.error("The given file is not a valid json file", jsonFile);
+      return false;
+    }
+    let structure = [
+      "search",
+      "column_settings_modal",
+      "column_settings_modal.title",
+      "column_settings_modal.description",
+      "column_settings_modal.actions",
+      "column_settings_modal.actions.save",
+      "column_settings_modal.actions.cancel",
+      "style_settings_modal",
+      "style_settings_modal.title",
+      "style_settings_modal.description",
+      "style_settings_modal.sections",
+      "style_settings_modal.sections.row_size",
+      "style_settings_modal.sections.numbers_color",
+      "style_settings_modal.sections.row_size.title",
+      "style_settings_modal.sections.numbers_color.title",
+      "style_settings_modal.sections.row_size.options",
+      "style_settings_modal.sections.row_size.options.small",
+      "style_settings_modal.sections.row_size.options.medium",
+      "style_settings_modal.sections.row_size.options.large",
+      "style_settings_modal.sections.numbers_color.options.black",
+      "style_settings_modal.sections.numbers_color.options.color",
+      "style_settings_modal.actions",
+      "style_settings_modal.actions.save",
+      "style_settings_modal.actions.cancel"
+    ];
+    structure.forEach((path) => {
+      let translate2 = this.getTranslate(path, jsonFile);
+      if (translate2 === void 0) {
+        console.error(
+          "The given file has an invalid structure. We could not find the translate for path: " + path.replaceAll(".", " -> ")
+        );
+        return false;
+      }
+    });
+    return true;
+  }
+};
+class TableData {
+  //--- Constructor & Factories -------------------------------------------------------------------------------------
+  /**
+   * @param {Array.<Column>} columns
+   * @param {Array} rawRows
+   * @param {number} initialRowCount
+   * @param {number} loadCount
+   */
+  constructor(columns, rawRows, initialRowCount = 75, loadCount = 30) {
+    /**
+     * @param {Rows} rows
+     */
+    __publicField(this, "rows");
+    /**
+     * @param {Array.<Column>} columns
+     */
+    __publicField(this, "columns");
+    /**
+     * @param {Array.<Row>} visibleRows
+     */
+    __publicField(this, "loadedRows", []);
+    __publicField(this, "initialRowCount");
+    __publicField(this, "loadCount");
+    this.rows = rawRows instanceof Rows ? rawRows : Rows.create(columns, rawRows);
+    this.columns = columns;
+    this.initialRowCount = initialRowCount;
+    this.loadCount = loadCount;
+    this.resetLoadedRows();
+  }
+  /**
+   * @param {Array.<Column>} columns
+   * @param {Array} rawRows
+   * @param {number} initialRowCount
+   * @param {number} loadCount
+   */
+  static create(columns, rawRows, initialRowCount = 75, loadCount = 30) {
+    return new TableData(columns, rawRows, initialRowCount, loadCount);
+  }
+  //--- Getters and setters -----------------------------------------------------------------------------------------
+  get rowsCount() {
+    return this.rows.rows.length;
+  }
+  get loadedRowsCount() {
+    return this.loadedRows.length;
+  }
+  //--- Column operations -------------------------------------------------------------------------------------------
+  get visibleColumns() {
+    return this.columns.filter((column) => column.isVisible);
+  }
+  updateSearchTerm(column, searchTerm) {
+    column.searchTerm = searchTerm;
+    this.rows.filterBySearchTerms(this.columns);
+  }
+  clearSearch() {
+    this.rows.clearSearch();
+  }
+  //--- Row operations ----------------------------------------------------------------------------------------------
+  loadRows(count) {
+    let loadCount = count || this.loadCount;
+    let lastIndex = this.loadedRowsCount;
+    if (lastIndex >= this.rowsCount)
+      return;
+    let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
+    this.loadedRows = [...this.loadedRows, ...newRows];
+  }
+  resetLoadedRows() {
+    this.loadedRows = [];
+    this.loadRows(this.initialRowCount);
+  }
+  sortByColumn(column) {
+    this.rows.sortByColumn(column);
+    this.resetLoadedRows();
+  }
+}
 const _hoisted_1$4 = { class: "table-header" };
 const _hoisted_2$4 = { class: "table-header-row" };
-const _hoisted_3$3 = ["onClick"];
-const _hoisted_4$3 = ["textContent"];
-const _hoisted_5$3 = { key: 0 };
-const _hoisted_6$2 = { class: "delimiter" };
-const _hoisted_7$2 = {
+const _hoisted_3$3 = { key: 0 };
+const _hoisted_4$3 = { class: "delimiter" };
+const _hoisted_5$3 = {
   key: 1,
   class: "table-total"
 };
-const _hoisted_8$2 = {
+const _hoisted_6$2 = {
   key: 2,
   class: "column-search-container"
 };
-const _hoisted_9$1 = ["onInput", "placeholder"];
-const _hoisted_10$1 = { class: "table-body" };
-const _hoisted_11$1 = ["onClick"];
+const _hoisted_7$2 = ["onInput", "placeholder"];
+const _hoisted_8$2 = { class: "table-body" };
+const _hoisted_9$1 = ["onClick"];
 const _sfc_main$5 = {
   __name: "SmartTable",
   props: {
@@ -4128,8 +4250,6 @@ const _sfc_main$5 = {
     const props2 = __props;
     let tableData = ref(null);
     let tableContainer = ref(null);
-    let sortKey = ref(null);
-    ref(false);
     let tableStyling = ref(null);
     tableStyling.value = new TableStyling();
     let showSearch = ref(false);
@@ -4139,7 +4259,6 @@ const _sfc_main$5 = {
       return visibleColumns.value.some((column) => column.isNumeric);
     });
     function sortByColumn(column) {
-      column.toggleSortDirection();
       tableData.value.sortByColumn(column);
     }
     function handleTableStyleEvent(data) {
@@ -4183,34 +4302,24 @@ const _sfc_main$5 = {
           createElementVNode("thead", _hoisted_1$4, [
             createElementVNode("tr", _hoisted_2$4, [
               (openBlock(true), createElementBlock(Fragment, null, renderList(visibleColumns.value, (column) => {
-                return openBlock(), createElementBlock("th", {
-                  onClick: ($event) => sortByColumn(column)
-                }, [
-                  createElementVNode("div", {
-                    class: normalizeClass(["header-row-item", column.isNumeric ? "numeric" : ""])
-                  }, [
-                    createElementVNode("span", {
-                      textContent: toDisplayString(column.label)
-                    }, null, 8, _hoisted_4$3),
-                    createVNode(_sfc_main$8, {
-                      icon: "sort",
-                      class: normalizeClass(["header-row-item-icon", `${unref(sortKey) === column.key ? "selected" : ""}`])
-                    }, null, 8, ["class"])
-                  ], 2)
-                ], 8, _hoisted_3$3);
-              }), 256))
+                return openBlock(), createBlock(_sfc_main$8, {
+                  key: column.key,
+                  column,
+                  onSort: ($event) => sortByColumn(column)
+                }, null, 8, ["column", "onSort"]);
+              }), 128))
             ]),
-            hasNumericColumns.value ? (openBlock(), createElementBlock("tr", _hoisted_5$3, [
+            hasNumericColumns.value ? (openBlock(), createElementBlock("tr", _hoisted_3$3, [
               (openBlock(true), createElementBlock(Fragment, null, renderList(visibleColumns.value, (column) => {
-                return openBlock(), createElementBlock("th", _hoisted_6$2);
+                return openBlock(), createElementBlock("th", _hoisted_4$3);
               }), 256))
             ])) : createCommentVNode("", true),
-            hasNumericColumns.value ? (openBlock(), createElementBlock("tr", _hoisted_7$2, [
+            hasNumericColumns.value ? (openBlock(), createElementBlock("tr", _hoisted_5$3, [
               (openBlock(true), createElementBlock(Fragment, null, renderList(visibleColumns.value, (column, index2) => {
                 return openBlock(), createElementBlock("th", null, toDisplayString(index2 === 0 ? "Total" : columnSum(column)), 1);
               }), 256))
             ])) : createCommentVNode("", true),
-            unref(showSearch) ? (openBlock(), createElementBlock("tr", _hoisted_8$2, [
+            unref(showSearch) ? (openBlock(), createElementBlock("tr", _hoisted_6$2, [
               (openBlock(true), createElementBlock(Fragment, null, renderList(visibleColumns.value, (column) => {
                 return openBlock(), createElementBlock("th", null, [
                   column.searchable ? (openBlock(), createElementBlock("input", {
@@ -4218,12 +4327,12 @@ const _sfc_main$5 = {
                     onInput: ($event) => unref(tableData).updateSearchTerm(column, $event.target.value),
                     class: "column-search",
                     placeholder: unref(translateHelpers).getTranslate("search")
-                  }, null, 40, _hoisted_9$1)) : createCommentVNode("", true)
+                  }, null, 40, _hoisted_7$2)) : createCommentVNode("", true)
                 ]);
               }), 256))
             ])) : createCommentVNode("", true)
           ]),
-          createElementVNode("tbody", _hoisted_10$1, [
+          createElementVNode("tbody", _hoisted_8$2, [
             (openBlock(true), createElementBlock(Fragment, null, renderList(unref(tableData).loadedRows, (row) => {
               return openBlock(), createElementBlock("tr", {
                 onClick: ($event) => handleRowClick(row)
@@ -4236,7 +4345,7 @@ const _sfc_main$5 = {
                     key: column.key
                   }, null, 8, ["column", "row", "styling"]);
                 }), 128))
-              ], 8, _hoisted_11$1);
+              ], 8, _hoisted_9$1);
             }), 256)),
             createVNode(_sfc_main$6, { onTrigger: handleReachedBottom })
           ])
@@ -4350,11 +4459,11 @@ const _sfc_main$3 = {
                     class: "option-title",
                     textContent: toDisplayString(unref(translateHelpers).getTranslate("style_settings_modal.sections.row_size.title"))
                   }, null, 8, _hoisted_6$1),
-                  !unref(showRowSizeSection) ? (openBlock(), createBlock(_sfc_main$8, {
+                  !unref(showRowSizeSection) ? (openBlock(), createBlock(_sfc_main$9, {
                     key: 0,
                     icon: "plus",
                     class: "icon-size"
-                  })) : (openBlock(), createBlock(_sfc_main$8, {
+                  })) : (openBlock(), createBlock(_sfc_main$9, {
                     key: 1,
                     icon: "minus",
                     class: "icon-size"
@@ -4366,12 +4475,12 @@ const _sfc_main$3 = {
                       class: "option-item-container",
                       onClick: ($event) => isRef(rowSize) ? rowSize.value = key : rowSize = key
                     }, [
-                      createVNode(_sfc_main$8, {
+                      createVNode(_sfc_main$9, {
                         icon: `radio-circle${unref(rowSize) === key ? "-selected" : ""}`,
                         class: normalizeClass(`icon-size ${unref(rowSize) === key ? "icon-selected" : "icon-unselected"}`)
                       }, null, 8, ["icon", "class"]),
                       createElementVNode("div", _hoisted_9, [
-                        createVNode(_sfc_main$8, {
+                        createVNode(_sfc_main$9, {
                           icon: option2.icon,
                           class: "icon-size"
                         }, null, 8, ["icon"]),
@@ -4394,11 +4503,11 @@ const _sfc_main$3 = {
                     class: "option-title",
                     textContent: toDisplayString(unref(translateHelpers).getTranslate("style_settings_modal.sections.numbers_color.title"))
                   }, null, 8, _hoisted_12),
-                  !unref(showDigitsColorSection) ? (openBlock(), createBlock(_sfc_main$8, {
+                  !unref(showDigitsColorSection) ? (openBlock(), createBlock(_sfc_main$9, {
                     key: 0,
                     icon: "plus",
                     class: "icon-size"
-                  })) : (openBlock(), createBlock(_sfc_main$8, {
+                  })) : (openBlock(), createBlock(_sfc_main$9, {
                     key: 1,
                     icon: "minus",
                     class: "icon-size"
@@ -4410,7 +4519,7 @@ const _sfc_main$3 = {
                       class: "option-item-container",
                       onClick: ($event) => isRef(digitsColor) ? digitsColor.value = key : digitsColor = key
                     }, [
-                      createVNode(_sfc_main$8, {
+                      createVNode(_sfc_main$9, {
                         icon: `radio-circle${unref(digitsColor) === key ? "-selected" : ""}`,
                         class: normalizeClass(`icon-size ${unref(digitsColor) === key ? "icon-selected" : "icon-unselected"}`)
                       }, null, 8, ["icon", "class"]),
@@ -4495,7 +4604,7 @@ const _sfc_main$2 = {
         class: "checkbox-container"
       }, [
         !inputValue.value ? (openBlock(), createElementBlock("div", _hoisted_2$2)) : (openBlock(), createElementBlock("div", _hoisted_3$1, [
-          createVNode(_sfc_main$8, {
+          createVNode(_sfc_main$9, {
             icon: "check",
             class: "checkbox-selected-icon"
           })
@@ -7291,7 +7400,7 @@ const _sfc_main$1 = {
                       "model-value": column.visible,
                       "onUpdate:modelValue": ($event) => column.visible = $event
                     }, null, 8, ["label", "model-value", "onUpdate:modelValue"]),
-                    createVNode(_sfc_main$8, {
+                    createVNode(_sfc_main$9, {
                       icon: "drag-indicator",
                       class: "drag-indicator-icon"
                     })
@@ -7357,7 +7466,7 @@ const _sfc_main = {
             onClick: handleSearchClick,
             class: normalizeClass(["search-button", unref(isActiveSearch) ? "active" : "inactive"])
           }, [
-            createVNode(_sfc_main$8, {
+            createVNode(_sfc_main$9, {
               icon: "search",
               class: "search-icon"
             })
@@ -7368,7 +7477,7 @@ const _sfc_main = {
               onClick: _cache[0] || (_cache[0] = ($event) => isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = true : showColumnSettingsModal = true),
               class: "setting"
             }, [
-              createVNode(_sfc_main$8, {
+              createVNode(_sfc_main$9, {
                 icon: "columns",
                 class: "setting-icon"
               })
@@ -7377,7 +7486,7 @@ const _sfc_main = {
               onClick: _cache[1] || (_cache[1] = ($event) => isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = true : showStyleSettingsModal = true),
               class: "setting"
             }, [
-              createVNode(_sfc_main$8, {
+              createVNode(_sfc_main$9, {
                 icon: "settings",
                 class: "setting-icon"
               })

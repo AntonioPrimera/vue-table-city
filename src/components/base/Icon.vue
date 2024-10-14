@@ -87,9 +87,39 @@ defineProps({
     </div>
 
     <div v-else-if="icon === 'sort'">
-        <svg style="width: 100%; height: 100%" viewBox="0 0 6 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.45883 11.9404C3.28486 12.3421 2.71514 12.3421 2.54117 11.9404L0.704461 7.69868C0.561505 7.36854 0.803529 7 1.16329 7L4.83671 7C5.19647 7 5.43849 7.36854 5.29554 7.69868L3.45883 11.9404Z" fill="currentColor"/>
-            <path d="M2.54117 1.05963C2.71514 0.657866 3.28486 0.657866 3.45883 1.05963L5.29554 5.30132C5.43849 5.63146 5.19647 6 4.83671 6L1.16329 6C0.803529 6 0.561506 5.63146 0.704461 5.30132L2.54117 1.05963Z" fill="currentColor"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 100%; height: 100%">
+            <!-- Top triangle full -->
+            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="currentColor"/>
+            <!-- Bottom triangle full -->
+            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="currentColor"/>
+        </svg>
+    </div>
+
+    <div v-else-if="icon === 'sort-ascending'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 100%; height: 100%">
+            <!-- Top triangle full -->
+            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="currentColor"/>
+            <!-- Bottom triangle outline -->
+            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="none" stroke="currentColor" stroke-width="20"/>
+        </svg>
+    </div>
+
+    <div v-else-if="icon === 'sort-descending'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 100%; height: 100%">
+            <!-- Top triangle outline -->
+            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="none" stroke="currentColor" stroke-width="20"/>
+
+            <!-- Bottom triangle full -->
+            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="currentColor"/>
+        </svg>
+    </div>
+
+    <div v-else-if="icon === 'sortable'">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 100%; height: 100%">
+            <!-- Top triangle outline -->
+            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="none" stroke="currentColor" stroke-width="20"/>
+            <!-- Bottom triangle outline -->
+            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="none" stroke="currentColor" stroke-width="20"/>
         </svg>
     </div>
 </template>

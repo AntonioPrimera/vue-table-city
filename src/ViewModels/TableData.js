@@ -89,7 +89,6 @@ export class TableData {
 		//load another batch of data (count rows) and add it to the loadedData array
 		let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
 		this.loadedRows = [...this.loadedRows, ...newRows];
-		console.log(this.loadedRows);
 	}
 	
 	resetLoadedRows() {

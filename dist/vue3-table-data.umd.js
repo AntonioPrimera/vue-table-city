@@ -27,8 +27,8 @@ var __privateSet = (obj, member, value, setter) => {
 })(this, function(exports2, vue) {
   var _filter, _mutator, _renderer, _searchTerm;
   "use strict";
-  const _hoisted_1$5 = { key: 0 };
-  const _hoisted_2$5 = {
+  const _hoisted_1$6 = { key: 0 };
+  const _hoisted_2$6 = {
     style: { "width": "100%", "height": "100%" },
     viewBox: "0 0 20 20",
     fill: "none",
@@ -56,13 +56,13 @@ var __privateSet = (obj, member, value, setter) => {
     xmlns: "http://www.w3.org/2000/svg"
   };
   const _hoisted_9$2 = { key: 4 };
-  const _hoisted_10$2 = {
+  const _hoisted_10$1 = {
     style: { "width": "100%", "height": "100%" },
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   };
-  const _hoisted_11$2 = { key: 5 };
+  const _hoisted_11$1 = { key: 5 };
   const _hoisted_12$1 = {
     style: { "width": "100%", "height": "100%" },
     viewBox: "0 0 16 16",
@@ -113,12 +113,29 @@ var __privateSet = (obj, member, value, setter) => {
   };
   const _hoisted_25 = { key: 12 };
   const _hoisted_26 = {
-    style: { "width": "100%", "height": "100%" },
-    viewBox: "0 0 6 13",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg"
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 320 512",
+    style: { "width": "100%", "height": "100%" }
   };
-  const _sfc_main$8 = {
+  const _hoisted_27 = { key: 13 };
+  const _hoisted_28 = {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 320 512",
+    style: { "width": "100%", "height": "100%" }
+  };
+  const _hoisted_29 = { key: 14 };
+  const _hoisted_30 = {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 320 512",
+    style: { "width": "100%", "height": "100%" }
+  };
+  const _hoisted_31 = { key: 15 };
+  const _hoisted_32 = {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 320 512",
+    style: { "width": "100%", "height": "100%" }
+  };
+  const _sfc_main$9 = {
     __name: "Icon",
     props: {
       icon: {
@@ -128,8 +145,8 @@ var __privateSet = (obj, member, value, setter) => {
     },
     setup(__props) {
       return (_ctx, _cache) => {
-        return __props.icon === "minus" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
-          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$5, _cache[0] || (_cache[0] = [
+        return __props.icon === "minus" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$6, [
+          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$6, _cache[0] || (_cache[0] = [
             vue.createElementVNode("path", {
               d: "M16.6667 9.16797H3.33333C2.87333 9.16797 2.5 9.5413 2.5 10.0013C2.5 10.4613 2.87333 10.8346 3.33333 10.8346H16.6667C17.1267 10.8346 17.5 10.4613 17.5 10.0013C17.5 9.5413 17.1267 9.16797 16.6667 9.16797Z",
               fill: "currentColor"
@@ -171,7 +188,7 @@ var __privateSet = (obj, member, value, setter) => {
             }, null, -1)
           ])))
         ])) : __props.icon === "small-row" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9$2, [
-          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_10$2, _cache[4] || (_cache[4] = [
+          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_10$1, _cache[4] || (_cache[4] = [
             vue.createElementVNode("path", {
               "fill-rule": "evenodd",
               "clip-rule": "evenodd",
@@ -179,7 +196,7 @@ var __privateSet = (obj, member, value, setter) => {
               fill: "black"
             }, null, -1)
           ])))
-        ])) : __props.icon === "medium-row" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11$2, [
+        ])) : __props.icon === "medium-row" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11$1, [
           (vue.openBlock(), vue.createElementBlock("svg", _hoisted_12$1, _cache[5] || (_cache[5] = [
             vue.createElementVNode("path", {
               "fill-rule": "evenodd",
@@ -241,113 +258,57 @@ var __privateSet = (obj, member, value, setter) => {
         ])) : __props.icon === "sort" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_25, [
           (vue.openBlock(), vue.createElementBlock("svg", _hoisted_26, _cache[12] || (_cache[12] = [
             vue.createElementVNode("path", {
-              d: "M3.45883 11.9404C3.28486 12.3421 2.71514 12.3421 2.54117 11.9404L0.704461 7.69868C0.561505 7.36854 0.803529 7 1.16329 7L4.83671 7C5.19647 7 5.43849 7.36854 5.29554 7.69868L3.45883 11.9404Z",
+              d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
               fill: "currentColor"
             }, null, -1),
             vue.createElementVNode("path", {
-              d: "M2.54117 1.05963C2.71514 0.657866 3.28486 0.657866 3.45883 1.05963L5.29554 5.30132C5.43849 5.63146 5.19647 6 4.83671 6L1.16329 6C0.803529 6 0.561506 5.63146 0.704461 5.30132L2.54117 1.05963Z",
+              d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
               fill: "currentColor"
+            }, null, -1)
+          ])))
+        ])) : __props.icon === "sort-ascending" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_27, [
+          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_28, _cache[13] || (_cache[13] = [
+            vue.createElementVNode("path", {
+              d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
+              fill: "currentColor"
+            }, null, -1),
+            vue.createElementVNode("path", {
+              d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
+              fill: "none",
+              stroke: "currentColor",
+              "stroke-width": "20"
+            }, null, -1)
+          ])))
+        ])) : __props.icon === "sort-descending" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_29, [
+          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_30, _cache[14] || (_cache[14] = [
+            vue.createElementVNode("path", {
+              d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
+              fill: "none",
+              stroke: "currentColor",
+              "stroke-width": "20"
+            }, null, -1),
+            vue.createElementVNode("path", {
+              d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
+              fill: "currentColor"
+            }, null, -1)
+          ])))
+        ])) : __props.icon === "sortable" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_31, [
+          (vue.openBlock(), vue.createElementBlock("svg", _hoisted_32, _cache[15] || (_cache[15] = [
+            vue.createElementVNode("path", {
+              d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
+              fill: "none",
+              stroke: "currentColor",
+              "stroke-width": "20"
+            }, null, -1),
+            vue.createElementVNode("path", {
+              d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
+              fill: "none",
+              stroke: "currentColor",
+              "stroke-width": "20"
             }, null, -1)
           ])))
         ])) : vue.createCommentVNode("", true);
       };
-    }
-  };
-  function useEventBus() {
-    let eventBus = window.__vue3TableDataConfig.mitt;
-    function addEventHandler(event, handler) {
-      eventBus.on(event, handler);
-    }
-    function removeEventHandler(event, handler) {
-      eventBus.off(event, handler);
-    }
-    function triggerEvent(event, options = null) {
-      eventBus.emit(event, options);
-    }
-    return {
-      addEventHandler,
-      removeEventHandler,
-      triggerEvent
-    };
-  }
-  const translateHelpers = {
-    /**
-     * Get translate from the translation file.
-     *
-     * e.g. {
-     *    "column_settings_modal": {
-     *        "title": "Column order and visibility",
-     *    },
-     *    "style_settings_modal": {...},
-     * }
-     *
-     * and the given path is "column_settings_modal.title" then return "Column order and visibility"
-     */
-    getTranslate(path, object = window.__vue3TableDataConfig.translation.file) {
-      let pathParts = path.split(".");
-      pathParts.forEach((step) => {
-        if (object)
-          object = object[step];
-        else
-          object = void 0;
-      });
-      return object;
-    },
-    /**
-     * Set the translation file. We need a json file with the proper structure
-     * (you can find the structure in translate.json file)
-     *
-     */
-    setTranslateFile(jsonFile) {
-      if (!this.hasValidContent(jsonFile))
-        return;
-      window.__vue3TableDataConfig.translation.file = jsonFile;
-    },
-    /**
-     * Validate json file. Check if the given file has the proper structure.
-     * You can find the structure in translate.json file
-     */
-    hasValidContent(jsonFile) {
-      if (typeof jsonFile !== "object") {
-        console.error("The given file is not a valid json file", jsonFile);
-        return false;
-      }
-      let structure = [
-        "search",
-        "column_settings_modal",
-        "column_settings_modal.title",
-        "column_settings_modal.description",
-        "column_settings_modal.actions",
-        "column_settings_modal.actions.save",
-        "column_settings_modal.actions.cancel",
-        "style_settings_modal",
-        "style_settings_modal.title",
-        "style_settings_modal.description",
-        "style_settings_modal.sections",
-        "style_settings_modal.sections.row_size",
-        "style_settings_modal.sections.numbers_color",
-        "style_settings_modal.sections.row_size.title",
-        "style_settings_modal.sections.numbers_color.title",
-        "style_settings_modal.sections.row_size.options",
-        "style_settings_modal.sections.row_size.options.small",
-        "style_settings_modal.sections.row_size.options.medium",
-        "style_settings_modal.sections.row_size.options.large",
-        "style_settings_modal.sections.numbers_color.options.black",
-        "style_settings_modal.sections.numbers_color.options.color",
-        "style_settings_modal.actions",
-        "style_settings_modal.actions.save",
-        "style_settings_modal.actions.cancel"
-      ];
-      structure.forEach((path) => {
-        let translate2 = this.getTranslate(path, jsonFile);
-        if (translate2 === void 0) {
-          console.error(
-            "The given file has an invalid structure. We could not find the translate for path: " + path.replaceAll(".", " -> ")
-          );
-          return false;
-        }
-      });
-      return true;
     }
   };
   const helpers = {
@@ -3681,9 +3642,9 @@ var __privateSet = (obj, member, value, setter) => {
      */
     constructor(rows) {
       __publicField(this, "rows");
-      __publicField(this, "filteredRows", vue.ref([]));
+      __publicField(this, "filteredRows");
       this.rows = rows;
-      this.filteredRows.value = rows;
+      this.filteredRows = rows;
     }
     static create(columns, rawRows) {
       let rows = [];
@@ -3706,19 +3667,19 @@ var __privateSet = (obj, member, value, setter) => {
           continue;
         rows = rows.filter((row) => row.cleanValue(column.key).includes(searchTerm));
       }
-      this.filteredRows.value = rows;
+      this.filteredRows = rows;
     }
     clearSearch() {
-      this.filteredRows.value = this.rows;
+      this.filteredRows = this.rows;
     }
-    sort(column, direction) {
-      this.filteredRows.value = this.filteredRows.value.sort((rowA, rowB) => {
+    sortByColumn(column) {
+      this.filteredRows = this.filteredRows.sort((rowA, rowB) => {
         let valueA = rowA.data[column.key];
         let valueB = rowB.data[column.key];
         if (valueA === valueB)
           return 0;
         let result = valueA < valueB ? -1 : 1;
-        return direction === "asc" ? result : -result;
+        return column.sortDirection === "asc" ? result : -result;
       });
     }
   }
@@ -3753,6 +3714,15 @@ var __privateSet = (obj, member, value, setter) => {
     //--- Getters and setters -----------------------------------------------------------------------------------------
     get hasRenderer() {
       return __privateGet(this, _renderer) !== null;
+    }
+    get isSortAscending() {
+      return this.sortDirection === "asc";
+    }
+    get isSortDescending() {
+      return this.sortDirection === "desc";
+    }
+    get isSortNone() {
+      return this.sortDirection === null;
     }
     //--- Fluent api --------------------------------------------------------------------------------------------------
     numeric(value = true) {
@@ -3878,9 +3848,9 @@ var __privateSet = (obj, member, value, setter) => {
       this.withRenderer((value) => helpers.formatNumber(value, fractionDigits, decimalSeparator, thousandsSeparator));
       return this;
     }
-    component(component) {
+    component(component, props2 = {}) {
       this.isComponent = true;
-      this.withRenderer((value, context) => vue.h(component, { value, context }));
+      this.withRenderer((value, context) => vue.h(component, { value, context, ...props2 }));
       return this;
     }
     //--- Public helpers ----------------------------------------------------------------------------------------------
@@ -3908,81 +3878,64 @@ var __privateSet = (obj, member, value, setter) => {
   _renderer = new WeakMap();
   _searchTerm = new WeakMap();
   let Column = _Column;
-  class TableData {
-    //--- Constructor & Factories -------------------------------------------------------------------------------------
-    /**
-     * @param {Array.<Column>} columns
-     * @param {Array} rawRows
-     * @param {number} initialRowCount
-     * @param {number} loadCount
-     */
-    constructor(columns, rawRows, initialRowCount = 75, loadCount = 30) {
-      /**
-       * @param {Rows} rows
-       */
-      __publicField(this, "rows");
-      /**
-       * @param {Array.<Column>} columns
-       */
-      __publicField(this, "columns");
-      /**
-       * @param {Array.<Row>} visibleRows
-       */
-      __publicField(this, "loadedRows", []);
-      __publicField(this, "initialRowCount");
-      __publicField(this, "loadCount");
-      this.rows = rawRows instanceof Rows ? rawRows : Rows.create(columns, rawRows);
-      this.columns = columns;
-      this.initialRowCount = initialRowCount;
-      this.loadCount = loadCount;
-      this.resetLoadedRows();
+  const _hoisted_1$5 = ["textContent"];
+  const _hoisted_2$5 = { key: 0 };
+  const _sfc_main$8 = {
+    __name: "ColumnHeader",
+    props: {
+      column: {
+        type: Column,
+        required: true
+      }
+      //sortKey: {
+      //    type: String,
+      //    required: true,
+      //},
+      //ascendingSort: {
+      //    type: Boolean,
+      //    required: true,
+      //},
+    },
+    emits: ["sort"],
+    setup(__props, { emit: __emit }) {
+      const props2 = __props;
+      const emit2 = __emit;
+      function handleClick() {
+        if (!props2.column.isSortable)
+          return;
+        props2.column.toggleSortDirection();
+        emit2("sort");
+      }
+      return (_ctx, _cache) => {
+        return vue.openBlock(), vue.createElementBlock("th", { onClick: handleClick }, [
+          vue.createElementVNode("div", {
+            class: vue.normalizeClass(["header-row-item", __props.column.isNumeric ? "numeric" : ""])
+          }, [
+            vue.createElementVNode("span", {
+              textContent: vue.toDisplayString(__props.column.label)
+            }, null, 8, _hoisted_1$5),
+            __props.column.isSortable ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$5, [
+              __props.column.isSortNone ? (vue.openBlock(), vue.createBlock(_sfc_main$9, {
+                key: 0,
+                icon: "sortable",
+                style: { "width": "12px" }
+              })) : vue.createCommentVNode("", true),
+              __props.column.isSortAscending ? (vue.openBlock(), vue.createBlock(_sfc_main$9, {
+                key: 1,
+                icon: "sort-ascending",
+                style: { "width": "12px" }
+              })) : vue.createCommentVNode("", true),
+              __props.column.isSortDescending ? (vue.openBlock(), vue.createBlock(_sfc_main$9, {
+                key: 2,
+                icon: "sort-descending",
+                style: { "width": "12px" }
+              })) : vue.createCommentVNode("", true)
+            ])) : vue.createCommentVNode("", true)
+          ], 2)
+        ]);
+      };
     }
-    /**
-     * @param {Array.<Column>} columns
-     * @param {Array} rawRows
-     * @param {number} initialRowCount
-     * @param {number} loadCount
-     */
-    static create(columns, rawRows, initialRowCount = 75, loadCount = 30) {
-      return new TableData(columns, rawRows, initialRowCount, loadCount);
-    }
-    //--- Getters and setters -----------------------------------------------------------------------------------------
-    get rowsCount() {
-      return this.rows.rows.length;
-    }
-    get loadedRowsCount() {
-      return this.loadedRows.length;
-    }
-    //--- Column operations -------------------------------------------------------------------------------------------
-    get visibleColumns() {
-      return this.columns.filter((column) => column.isVisible);
-    }
-    updateSearchTerm(column, searchTerm) {
-      column.searchTerm = searchTerm;
-      this.rows.filterBySearchTerms(this.columns);
-    }
-    clearSearch() {
-      this.rows.clearSearch();
-    }
-    //--- Row operations ----------------------------------------------------------------------------------------------
-    loadRows(count) {
-      let loadCount = count || this.loadCount;
-      let lastIndex = this.loadedRowsCount;
-      if (lastIndex >= this.rowsCount)
-        return;
-      let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
-      this.loadedRows = [...this.loadedRows, ...newRows];
-      console.log(this.loadedRows);
-    }
-    resetLoadedRows() {
-      this.loadedRows = [];
-      this.loadRows(this.initialRowCount);
-    }
-    sortByColumn(column, direction) {
-      this.rows.sort(column, direction);
-      this.resetLoadedRows();
-    }
-  }
+  };
   class TableStyling {
     constructor() {
       __publicField(this, "rowSizeClasses", {
@@ -4093,23 +4046,192 @@ var __privateSet = (obj, member, value, setter) => {
       };
     }
   };
+  function useEventBus() {
+    let eventBus = window.__vue3TableDataConfig.mitt;
+    function addEventHandler(event, handler) {
+      eventBus.on(event, handler);
+    }
+    function removeEventHandler(event, handler) {
+      eventBus.off(event, handler);
+    }
+    function triggerEvent(event, options = null) {
+      eventBus.emit(event, options);
+    }
+    return {
+      addEventHandler,
+      removeEventHandler,
+      triggerEvent
+    };
+  }
+  const translateHelpers = {
+    /**
+     * Get translate from the translation file.
+     *
+     * e.g. {
+     *    "column_settings_modal": {
+     *        "title": "Column order and visibility",
+     *    },
+     *    "style_settings_modal": {...},
+     * }
+     *
+     * and the given path is "column_settings_modal.title" then return "Column order and visibility"
+     */
+    getTranslate(path, object = window.__vue3TableDataConfig.translation.file) {
+      let pathParts = path.split(".");
+      pathParts.forEach((step) => {
+        if (object)
+          object = object[step];
+        else
+          object = void 0;
+      });
+      return object;
+    },
+    /**
+     * Set the translation file. We need a json file with the proper structure
+     * (you can find the structure in translate.json file)
+     *
+     */
+    setTranslateFile(jsonFile) {
+      if (!this.hasValidContent(jsonFile))
+        return;
+      window.__vue3TableDataConfig.translation.file = jsonFile;
+    },
+    /**
+     * Validate json file. Check if the given file has the proper structure.
+     * You can find the structure in translate.json file
+     */
+    hasValidContent(jsonFile) {
+      if (typeof jsonFile !== "object") {
+        console.error("The given file is not a valid json file", jsonFile);
+        return false;
+      }
+      let structure = [
+        "search",
+        "column_settings_modal",
+        "column_settings_modal.title",
+        "column_settings_modal.description",
+        "column_settings_modal.actions",
+        "column_settings_modal.actions.save",
+        "column_settings_modal.actions.cancel",
+        "style_settings_modal",
+        "style_settings_modal.title",
+        "style_settings_modal.description",
+        "style_settings_modal.sections",
+        "style_settings_modal.sections.row_size",
+        "style_settings_modal.sections.numbers_color",
+        "style_settings_modal.sections.row_size.title",
+        "style_settings_modal.sections.numbers_color.title",
+        "style_settings_modal.sections.row_size.options",
+        "style_settings_modal.sections.row_size.options.small",
+        "style_settings_modal.sections.row_size.options.medium",
+        "style_settings_modal.sections.row_size.options.large",
+        "style_settings_modal.sections.numbers_color.options.black",
+        "style_settings_modal.sections.numbers_color.options.color",
+        "style_settings_modal.actions",
+        "style_settings_modal.actions.save",
+        "style_settings_modal.actions.cancel"
+      ];
+      structure.forEach((path) => {
+        let translate2 = this.getTranslate(path, jsonFile);
+        if (translate2 === void 0) {
+          console.error(
+            "The given file has an invalid structure. We could not find the translate for path: " + path.replaceAll(".", " -> ")
+          );
+          return false;
+        }
+      });
+      return true;
+    }
+  };
+  class TableData {
+    //--- Constructor & Factories -------------------------------------------------------------------------------------
+    /**
+     * @param {Array.<Column>} columns
+     * @param {Array} rawRows
+     * @param {number} initialRowCount
+     * @param {number} loadCount
+     */
+    constructor(columns, rawRows, initialRowCount = 75, loadCount = 30) {
+      /**
+       * @param {Rows} rows
+       */
+      __publicField(this, "rows");
+      /**
+       * @param {Array.<Column>} columns
+       */
+      __publicField(this, "columns");
+      /**
+       * @param {Array.<Row>} visibleRows
+       */
+      __publicField(this, "loadedRows", []);
+      __publicField(this, "initialRowCount");
+      __publicField(this, "loadCount");
+      this.rows = rawRows instanceof Rows ? rawRows : Rows.create(columns, rawRows);
+      this.columns = columns;
+      this.initialRowCount = initialRowCount;
+      this.loadCount = loadCount;
+      this.resetLoadedRows();
+    }
+    /**
+     * @param {Array.<Column>} columns
+     * @param {Array} rawRows
+     * @param {number} initialRowCount
+     * @param {number} loadCount
+     */
+    static create(columns, rawRows, initialRowCount = 75, loadCount = 30) {
+      return new TableData(columns, rawRows, initialRowCount, loadCount);
+    }
+    //--- Getters and setters -----------------------------------------------------------------------------------------
+    get rowsCount() {
+      return this.rows.rows.length;
+    }
+    get loadedRowsCount() {
+      return this.loadedRows.length;
+    }
+    //--- Column operations -------------------------------------------------------------------------------------------
+    get visibleColumns() {
+      return this.columns.filter((column) => column.isVisible);
+    }
+    updateSearchTerm(column, searchTerm) {
+      column.searchTerm = searchTerm;
+      this.rows.filterBySearchTerms(this.columns);
+    }
+    clearSearch() {
+      this.rows.clearSearch();
+    }
+    //--- Row operations ----------------------------------------------------------------------------------------------
+    loadRows(count) {
+      let loadCount = count || this.loadCount;
+      let lastIndex = this.loadedRowsCount;
+      if (lastIndex >= this.rowsCount)
+        return;
+      let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
+      this.loadedRows = [...this.loadedRows, ...newRows];
+    }
+    resetLoadedRows() {
+      this.loadedRows = [];
+      this.loadRows(this.initialRowCount);
+    }
+    sortByColumn(column) {
+      this.rows.sortByColumn(column);
+      this.resetLoadedRows();
+    }
+  }
   const _hoisted_1$4 = { class: "table-header" };
   const _hoisted_2$4 = { class: "table-header-row" };
-  const _hoisted_3$3 = ["onClick"];
-  const _hoisted_4$3 = ["textContent"];
-  const _hoisted_5$3 = { key: 0 };
-  const _hoisted_6$2 = { class: "delimiter" };
-  const _hoisted_7$2 = {
+  const _hoisted_3$3 = { key: 0 };
+  const _hoisted_4$3 = { class: "delimiter" };
+  const _hoisted_5$3 = {
     key: 1,
     class: "table-total"
   };
-  const _hoisted_8$2 = {
+  const _hoisted_6$2 = {
     key: 2,
     class: "column-search-container"
   };
-  const _hoisted_9$1 = ["onInput", "placeholder"];
-  const _hoisted_10$1 = { class: "table-body" };
-  const _hoisted_11$1 = ["onClick"];
+  const _hoisted_7$2 = ["onInput", "placeholder"];
+  const _hoisted_8$2 = { class: "table-body" };
+  const _hoisted_9$1 = ["onClick"];
   const _sfc_main$5 = {
     __name: "SmartTable",
     props: {
@@ -4131,8 +4253,6 @@ var __privateSet = (obj, member, value, setter) => {
       const props2 = __props;
       let tableData = vue.ref(null);
       let tableContainer = vue.ref(null);
-      let sortKey = vue.ref(null);
-      vue.ref(false);
       let tableStyling = vue.ref(null);
       tableStyling.value = new TableStyling();
       let showSearch = vue.ref(false);
@@ -4142,7 +4262,6 @@ var __privateSet = (obj, member, value, setter) => {
         return visibleColumns.value.some((column) => column.isNumeric);
       });
       function sortByColumn(column) {
-        column.toggleSortDirection();
         tableData.value.sortByColumn(column);
       }
       function handleTableStyleEvent(data) {
@@ -4186,34 +4305,24 @@ var __privateSet = (obj, member, value, setter) => {
             vue.createElementVNode("thead", _hoisted_1$4, [
               vue.createElementVNode("tr", _hoisted_2$4, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column) => {
-                  return vue.openBlock(), vue.createElementBlock("th", {
-                    onClick: ($event) => sortByColumn(column)
-                  }, [
-                    vue.createElementVNode("div", {
-                      class: vue.normalizeClass(["header-row-item", column.isNumeric ? "numeric" : ""])
-                    }, [
-                      vue.createElementVNode("span", {
-                        textContent: vue.toDisplayString(column.label)
-                      }, null, 8, _hoisted_4$3),
-                      vue.createVNode(_sfc_main$8, {
-                        icon: "sort",
-                        class: vue.normalizeClass(["header-row-item-icon", `${vue.unref(sortKey) === column.key ? "selected" : ""}`])
-                      }, null, 8, ["class"])
-                    ], 2)
-                  ], 8, _hoisted_3$3);
-                }), 256))
+                  return vue.openBlock(), vue.createBlock(_sfc_main$8, {
+                    key: column.key,
+                    column,
+                    onSort: ($event) => sortByColumn(column)
+                  }, null, 8, ["column", "onSort"]);
+                }), 128))
               ]),
-              hasNumericColumns.value ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_5$3, [
+              hasNumericColumns.value ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_3$3, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column) => {
-                  return vue.openBlock(), vue.createElementBlock("th", _hoisted_6$2);
+                  return vue.openBlock(), vue.createElementBlock("th", _hoisted_4$3);
                 }), 256))
               ])) : vue.createCommentVNode("", true),
-              hasNumericColumns.value ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_7$2, [
+              hasNumericColumns.value ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_5$3, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column, index2) => {
                   return vue.openBlock(), vue.createElementBlock("th", null, vue.toDisplayString(index2 === 0 ? "Total" : columnSum(column)), 1);
                 }), 256))
               ])) : vue.createCommentVNode("", true),
-              vue.unref(showSearch) ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_8$2, [
+              vue.unref(showSearch) ? (vue.openBlock(), vue.createElementBlock("tr", _hoisted_6$2, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column) => {
                   return vue.openBlock(), vue.createElementBlock("th", null, [
                     column.searchable ? (vue.openBlock(), vue.createElementBlock("input", {
@@ -4221,12 +4330,12 @@ var __privateSet = (obj, member, value, setter) => {
                       onInput: ($event) => vue.unref(tableData).updateSearchTerm(column, $event.target.value),
                       class: "column-search",
                       placeholder: vue.unref(translateHelpers).getTranslate("search")
-                    }, null, 40, _hoisted_9$1)) : vue.createCommentVNode("", true)
+                    }, null, 40, _hoisted_7$2)) : vue.createCommentVNode("", true)
                   ]);
                 }), 256))
               ])) : vue.createCommentVNode("", true)
             ]),
-            vue.createElementVNode("tbody", _hoisted_10$1, [
+            vue.createElementVNode("tbody", _hoisted_8$2, [
               (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(vue.unref(tableData).loadedRows, (row) => {
                 return vue.openBlock(), vue.createElementBlock("tr", {
                   onClick: ($event) => handleRowClick(row)
@@ -4239,7 +4348,7 @@ var __privateSet = (obj, member, value, setter) => {
                       key: column.key
                     }, null, 8, ["column", "row", "styling"]);
                   }), 128))
-                ], 8, _hoisted_11$1);
+                ], 8, _hoisted_9$1);
               }), 256)),
               vue.createVNode(_sfc_main$6, { onTrigger: handleReachedBottom })
             ])
@@ -4353,11 +4462,11 @@ var __privateSet = (obj, member, value, setter) => {
                       class: "option-title",
                       textContent: vue.toDisplayString(vue.unref(translateHelpers).getTranslate("style_settings_modal.sections.row_size.title"))
                     }, null, 8, _hoisted_6$1),
-                    !vue.unref(showRowSizeSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$8, {
+                    !vue.unref(showRowSizeSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$9, {
                       key: 0,
                       icon: "plus",
                       class: "icon-size"
-                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$8, {
+                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$9, {
                       key: 1,
                       icon: "minus",
                       class: "icon-size"
@@ -4369,12 +4478,12 @@ var __privateSet = (obj, member, value, setter) => {
                         class: "option-item-container",
                         onClick: ($event) => vue.isRef(rowSize) ? rowSize.value = key : rowSize = key
                       }, [
-                        vue.createVNode(_sfc_main$8, {
+                        vue.createVNode(_sfc_main$9, {
                           icon: `radio-circle${vue.unref(rowSize) === key ? "-selected" : ""}`,
                           class: vue.normalizeClass(`icon-size ${vue.unref(rowSize) === key ? "icon-selected" : "icon-unselected"}`)
                         }, null, 8, ["icon", "class"]),
                         vue.createElementVNode("div", _hoisted_9, [
-                          vue.createVNode(_sfc_main$8, {
+                          vue.createVNode(_sfc_main$9, {
                             icon: option.icon,
                             class: "icon-size"
                           }, null, 8, ["icon"]),
@@ -4397,11 +4506,11 @@ var __privateSet = (obj, member, value, setter) => {
                       class: "option-title",
                       textContent: vue.toDisplayString(vue.unref(translateHelpers).getTranslate("style_settings_modal.sections.numbers_color.title"))
                     }, null, 8, _hoisted_12),
-                    !vue.unref(showDigitsColorSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$8, {
+                    !vue.unref(showDigitsColorSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$9, {
                       key: 0,
                       icon: "plus",
                       class: "icon-size"
-                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$8, {
+                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$9, {
                       key: 1,
                       icon: "minus",
                       class: "icon-size"
@@ -4413,7 +4522,7 @@ var __privateSet = (obj, member, value, setter) => {
                         class: "option-item-container",
                         onClick: ($event) => vue.isRef(digitsColor) ? digitsColor.value = key : digitsColor = key
                       }, [
-                        vue.createVNode(_sfc_main$8, {
+                        vue.createVNode(_sfc_main$9, {
                           icon: `radio-circle${vue.unref(digitsColor) === key ? "-selected" : ""}`,
                           class: vue.normalizeClass(`icon-size ${vue.unref(digitsColor) === key ? "icon-selected" : "icon-unselected"}`)
                         }, null, 8, ["icon", "class"]),
@@ -4498,7 +4607,7 @@ var __privateSet = (obj, member, value, setter) => {
           class: "checkbox-container"
         }, [
           !inputValue.value ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, [
-            vue.createVNode(_sfc_main$8, {
+            vue.createVNode(_sfc_main$9, {
               icon: "check",
               class: "checkbox-selected-icon"
             })
@@ -7294,7 +7403,7 @@ var __privateSet = (obj, member, value, setter) => {
                         "model-value": column.visible,
                         "onUpdate:modelValue": ($event) => column.visible = $event
                       }, null, 8, ["label", "model-value", "onUpdate:modelValue"]),
-                      vue.createVNode(_sfc_main$8, {
+                      vue.createVNode(_sfc_main$9, {
                         icon: "drag-indicator",
                         class: "drag-indicator-icon"
                       })
@@ -7360,7 +7469,7 @@ var __privateSet = (obj, member, value, setter) => {
               onClick: handleSearchClick,
               class: vue.normalizeClass(["search-button", vue.unref(isActiveSearch) ? "active" : "inactive"])
             }, [
-              vue.createVNode(_sfc_main$8, {
+              vue.createVNode(_sfc_main$9, {
                 icon: "search",
                 class: "search-icon"
               })
@@ -7371,7 +7480,7 @@ var __privateSet = (obj, member, value, setter) => {
                 onClick: _cache[0] || (_cache[0] = ($event) => vue.isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = true : showColumnSettingsModal = true),
                 class: "setting"
               }, [
-                vue.createVNode(_sfc_main$8, {
+                vue.createVNode(_sfc_main$9, {
                   icon: "columns",
                   class: "setting-icon"
                 })
@@ -7380,7 +7489,7 @@ var __privateSet = (obj, member, value, setter) => {
                 onClick: _cache[1] || (_cache[1] = ($event) => vue.isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = true : showStyleSettingsModal = true),
                 class: "setting"
               }, [
-                vue.createVNode(_sfc_main$8, {
+                vue.createVNode(_sfc_main$9, {
                   icon: "settings",
                   class: "setting-icon"
                 })

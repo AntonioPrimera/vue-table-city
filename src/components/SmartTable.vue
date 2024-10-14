@@ -1,9 +1,11 @@
 <script setup>
 //--- --- Vue ---------------------------------------------------------------------------------------------------------
-import {computed, onMounted, reactive, ref, watch} from "vue";
+import {computed, onMounted, ref} from "vue";
 
 //--- --- Components --------------------------------------------------------------------------------------------------
-import Icon from "./base/Icon.vue";
+import ColumnHeader from "./ColumnHeader.vue";
+import TableCell from "./TableCell.vue";
+import InfiniteScrollTrigger from "./InfiniteScrollTrigger.vue";
 
 //--- --- Composables -------------------------------------------------------------------------------------------------
 import {useEventBus} from "../composables/useEventBus.js";
@@ -11,11 +13,11 @@ import {useEventBus} from "../composables/useEventBus.js";
 //--- --- Helpers -----------------------------------------------------------------------------------------------------
 import translateHelpers from "../helpers/translateHelpers.js";
 import helpers from "../helpers/helpers.js";
+
+//--- --- ViewModels --------------------------------------------------------------------------------------------------
 import {Column} from "../ViewModels/Column.js";
 import {TableData} from "../ViewModels/TableData.js";
-import TableCell from "./TableCell.vue";
 import {TableStyling} from "../ViewModels/TableStyling.js";
-import InfiniteScrollTrigger from "./InfiniteScrollTrigger.vue";
 
 //=====================================================================================================================
 //--- --- Setup -------------------------------------------------------------------------------------------------------
@@ -39,8 +41,8 @@ const props = defineProps({
 
 let tableData = ref(null);
 let tableContainer = ref(null);
-let sortKey = ref(null);
-let ascendingSort = ref(false);
+//let sortKey = ref(null);
+//let ascendingSort = ref(false);
 let tableStyling = ref(null);
 tableStyling.value = new TableStyling();
 
@@ -62,7 +64,10 @@ const hasNumericColumns = computed(() => {
  * @param {Column} column
  */
 function sortByColumn(column) {
-    column.toggleSortDirection();
+    //if (!column.isSortable)
+    //    return;
+    //
+    //column.toggleSortDirection();
     tableData.value.sortByColumn(column);
 }
 
@@ -115,7 +120,7 @@ function handleReachedBottom() {
 eventBus.addEventHandler('update-table-style-event', handleTableStyleEvent);
 eventBus.addEventHandler('update-table-columns-event', handleTableColumnsEvent);
 eventBus.addEventHandler('toggle-search-event', handleToggleSearchEvent);
-window.addEventListener('resize', setTableHeight);
+window.addEventListener('resize', setTableHeight);      //todo: throttle this (500ms)
 
 //initialize the table data and trigger the sync-table-columns-event (to update the TableControls component)
 tableData.value = TableData.create(props.columns, props.rows);
@@ -132,16 +137,9 @@ onMounted(() => setTableHeight());
             <thead class="table-header">
                 <!-- --- Columns ------------------------------------------------------------------------------------->
                 <tr class="table-header-row">
-                    <th v-for="column in visibleColumns" @click="sortByColumn(column)">
-                        <div class="header-row-item" :class="column.isNumeric ? 'numeric' : ''">
-                            <span v-text="column.label"></span>
-
-                            <icon icon="sort"
-                                  class="header-row-item-icon"
-                                  :class="`${sortKey === column.key ? 'selected' : ''}`"
-                            ></icon>
-                        </div>
-                    </th>
+                    <template v-for="column in visibleColumns" :key="column.key">
+                        <ColumnHeader :column="column" @sort="sortByColumn(column)"/>
+                    </template>
                 </tr>
 
                 <!-- --- Delimiter ----------------------------------------------------------------------------------->

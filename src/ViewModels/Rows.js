@@ -1,17 +1,16 @@
 import {Row} from "./Row.js";
-import {ref} from "vue";
 import {Column} from "./Column.js";
 
 export class Rows {
 	rows;
-	filteredRows = ref([]);
+	filteredRows;
 	
 	/**
 	 * @param {Array.<Row>} rows
 	 */
 	constructor(rows) {
 		this.rows = rows;
-		this.filteredRows.value = rows;		//initially the filtered rows are the same as the rows
+		this.filteredRows = rows;		//initially the filtered rows are the same as the rows
 	}
 	
 	static create(columns, rawRows) {
@@ -44,15 +43,15 @@ export class Rows {
 			rows = rows.filter(row => row.cleanValue(column.key).includes(searchTerm));
 		}
 		
-		this.filteredRows.value = rows;
+		this.filteredRows = rows;
 	}
 	
 	clearSearch() {
-		this.filteredRows.value = this.rows;
+		this.filteredRows = this.rows;
 	}
 	
 	sortByColumn(column) {
-		this.filteredRows.value = this.filteredRows.value.sort((rowA, rowB) => {
+		this.filteredRows = this.filteredRows.sort((rowA, rowB) => {
 			let valueA = rowA.data[column.key];
 			let valueB = rowB.data[column.key];
 			

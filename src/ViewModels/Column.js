@@ -94,6 +94,18 @@ export class Column {
 		return this.#renderer !== null;
 	}
 	
+	get isSortAscending() {
+		return this.sortDirection === 'asc';
+	}
+	
+	get isSortDescending() {
+		return this.sortDirection === 'desc';
+	}
+	
+	get isSortNone() {
+		return this.sortDirection === null;
+	}
+	
 	//--- Fluent api --------------------------------------------------------------------------------------------------
 	
 	numeric(value = true) {
@@ -266,9 +278,9 @@ export class Column {
 		return this;
 	}
 	
-	component(component) {
+	component(component, props = {}) {
 		this.isComponent = true;
-		this.withRenderer((value, context) => h(component, {value, context}));
+		this.withRenderer((value, context) => h(component, {value, context, ...props}));
 		return this;
 	}
 	
