@@ -1,4 +1,5 @@
 import helpers from "../helpers/helpers.js";
+import {CellRenderContext} from "./CellRenderContext.js";
 
 export class Row {
 	/**
@@ -67,14 +68,18 @@ export class Row {
 				rowKey = rowKey ? `${rowKey}-${value}` : value;
 		}
 		
-		//run through all columns again and render the data and render the data for the columns that have a renderer
-		for (let column of columns)
-			if (column.hasRenderer)
-				renderedData[column.key] = column.render(mutatedRowData[column.key], mutatedRowData);
-		
 		//if the row key is not set, try to get it from the raw row data or generate a new one
 		if (!rowKey)
 			rowKey = rawRow['id'] || rawRow['uuid'] || rawRow['uid'] || helpers.uid();
+		
+		//run through all columns again and render the data and render the data for the columns that have a renderer
+		//the render function will receive the following parameters:
+		for (let column of columns)
+			if (column.hasRenderer)
+				renderedData[column.key] = column.render(
+					mutatedRowData[column.key],										//value
+					new CellRenderContext(mutatedRowData, rawRow, column, rowKey)	//context
+				);
 		
 		return new Row(rowKey, mutatedRowData, renderedData);
 	}

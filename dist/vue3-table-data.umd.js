@@ -27,7 +27,7 @@ var __privateSet = (obj, member, value, setter) => {
 })(this, function(exports2, vue) {
   var _filter, _mutator, _renderer, _searchTerm;
   "use strict";
-  const _hoisted_1$6 = { key: 0 };
+  const _hoisted_1$5 = { key: 0 };
   const _hoisted_2$5 = {
     style: { "width": "100%", "height": "100%" },
     viewBox: "0 0 20 20",
@@ -118,7 +118,7 @@ var __privateSet = (obj, member, value, setter) => {
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
   };
-  const _sfc_main$7 = {
+  const _sfc_main$8 = {
     __name: "Icon",
     props: {
       icon: {
@@ -128,7 +128,7 @@ var __privateSet = (obj, member, value, setter) => {
     },
     setup(__props) {
       return (_ctx, _cache) => {
-        return __props.icon === "minus" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$6, [
+        return __props.icon === "minus" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1$5, [
           (vue.openBlock(), vue.createElementBlock("svg", _hoisted_2$5, _cache[0] || (_cache[0] = [
             vue.createElementVNode("path", {
               d: "M16.6667 9.16797H3.33333C2.87333 9.16797 2.5 9.5413 2.5 10.0013C2.5 10.4613 2.87333 10.8346 3.33333 10.8346H16.6667C17.1267 10.8346 17.5 10.4613 17.5 10.0013C17.5 9.5413 17.1267 9.16797 16.6667 9.16797Z",
@@ -3576,6 +3576,28 @@ var __privateSet = (obj, member, value, setter) => {
   function cleanEscapedString(input) {
     return input.match(escapedStringRegExp)[1].replace(doubleQuoteRegExp, "'");
   }
+  class CellRenderContext {
+    //the key of the row (ideally the id if the data is defined correctly)
+    /**
+     * @param {Object} rowData
+     * @param {Object} rawRowData
+     * @param {Column} column
+     * @param {string|number} rowKey
+     */
+    constructor(rowData, rawRowData, column, rowKey) {
+      __publicField(this, "rowData");
+      //mutated row data
+      __publicField(this, "rawRowData");
+      //raw (original) row data
+      __publicField(this, "column");
+      //column instance
+      __publicField(this, "rowKey");
+      this.rowData = rowData;
+      this.rawRowData = rawRowData;
+      this.column = column;
+      this.rowKey = rowKey;
+    }
+  }
   class Row {
     /**
      * The key is the unique identifier of the row.
@@ -3625,11 +3647,16 @@ var __privateSet = (obj, member, value, setter) => {
         if (column.isRowKey)
           rowKey = rowKey ? `${rowKey}-${value}` : value;
       }
-      for (let column of columns)
-        if (column.hasRenderer)
-          renderedData[column.key] = column.render(mutatedRowData[column.key], mutatedRowData);
       if (!rowKey)
         rowKey = rawRow["id"] || rawRow["uuid"] || rawRow["uid"] || helpers.uid();
+      for (let column of columns)
+        if (column.hasRenderer)
+          renderedData[column.key] = column.render(
+            mutatedRowData[column.key],
+            //value
+            new CellRenderContext(mutatedRowData, rawRow, column, rowKey)
+            //context
+          );
       return new Row(rowKey, mutatedRowData, renderedData);
     }
     //--- Public api --------------------------------------------------------------------------------------------------
@@ -3686,57 +3713,17 @@ var __privateSet = (obj, member, value, setter) => {
     }
     sort(column, direction) {
       this.filteredRows.value = this.filteredRows.value.sort((rowA, rowB) => {
-        let valueA = rowA.get(column.key);
-        let valueB = rowB.get(column.key);
+        let valueA = rowA.data[column.key];
+        let valueB = rowB.data[column.key];
         if (valueA === valueB)
           return 0;
         let result = valueA < valueB ? -1 : 1;
         return direction === "asc" ? result : -result;
       });
     }
-    //--- Getters and setters -----------------------------------------------------------------------------------------
-    //get rows() {
-    //	return this.#rows.value;
-    //}
-    //
-    //set rows(newData) {
-    //	this.#rows.value = newData;
-    //	this.resetLoadedRows();
-    //}
-    //get loadedRows() {
-    //	return this.#loadedRows.value;
-    //}
-    //
-    //set loadedRows(newData) {
-    //	this.#loadedRows.value = newData;
-    //}
-    //get count() {
-    //	return this.rows.length;
-    //}
-    //get loadedRowsCount() {
-    //	return this.#loadedRows.value.length;
-    //}
-    //--- Public api --------------------------------------------------------------------------------------------------
-    //loadRows(count) {
-    //	let loadCount = count || this.loadCount;
-    //
-    //	//check how much data is already loaded (visible in the table)
-    //	let lastIndex = this.loadedRowsCount;
-    //
-    //	//if all available data is already visible, do nothing
-    //	if (lastIndex >= this.rowsCount) return;
-    //
-    //	//load another batch of data (count rows) and add it to the loadedData array
-    //	let newData = this.rows.slice(lastIndex, lastIndex + loadCount);
-    //	this.loadedRows = [...this.loadedRows, ...newData];
-    //}
-    //
-    //resetLoadedRows() {
-    //	this.loadedRows = [];
-    //	this.loadRows(this.initialRowCount);
-    //}
   }
   const _Column = class _Column {
+    //asc, desc or null
     //--- Constructor & Factories -------------------------------------------------------------------------------------
     constructor(key, label, isNumeric = null, isSearchable = false, isSortable = true, isFilterable = false, isVisible = true, isRowKey = false, filter = null, mutator = null, renderer = null) {
       //--- Properties --------------------------------------------------------------------------------------------------
@@ -3753,6 +3740,8 @@ var __privateSet = (obj, member, value, setter) => {
       __privateAdd(this, _renderer, void 0);
       // The search term is used to filter the data in the column
       __privateAdd(this, _searchTerm, void 0);
+      __publicField(this, "isComponent", false);
+      __publicField(this, "sortDirection", null);
       this.key = key;
       this.label = label;
       this.numeric(isNumeric).visible(isVisible).searchable(isSearchable).sortable(isSortable).filterable(isFilterable).rowKey(isRowKey).withMutator(mutator).withFilter(filter).withRenderer(renderer);
@@ -3822,6 +3811,19 @@ var __privateSet = (obj, member, value, setter) => {
       __privateSet(this, _renderer, typeof value === "function" ? value : null);
       return this;
     }
+    toggleSortDirection() {
+      this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+      return this;
+    }
+    sortAscending() {
+      this.sortDirection = "asc";
+      return this;
+    }
+    sortDescending() {
+      this.sortDirection = "desc";
+      return this;
+    }
+    //--- Data transformation -----------------------------------------------------------------------------------------
     filter(value) {
       return __privateGet(this, _filter) ? __privateGet(this, _filter).call(this, value) : true;
     }
@@ -3831,12 +3833,12 @@ var __privateSet = (obj, member, value, setter) => {
     /**
      * Renders the value of the column, using the renderer function
      * It should receive the value and the array of mutated row data (not a row instance!)
-     * @param value
-     * @param {Array} mutatedRowData
+     * @param {*} value
+     * @param {CellRenderContext} cellRenderContext
      * @returns {*}
      */
-    render(value, mutatedRowData) {
-      return __privateGet(this, _renderer) ? __privateGet(this, _renderer).call(this, value, mutatedRowData) : value;
+    render(value, cellRenderContext) {
+      return __privateGet(this, _renderer) ? __privateGet(this, _renderer).call(this, value, cellRenderContext) : value;
     }
     //--- Fluent predefined column types ------------------------------------------------------------------------------
     /**
@@ -3846,6 +3848,7 @@ var __privateSet = (obj, member, value, setter) => {
      * @param {string|null} rawFormat
      */
     date(renderFormat = "dd.MM.yyyy", rawFormat = null) {
+      this.isComponent = false;
       this.withRenderer((isoStringDate) => isoStringDate ? format(new Date(isoStringDate), renderFormat) : "");
       if (rawFormat)
         this.withMutator((value) => value ? parse(value, rawFormat, /* @__PURE__ */ new Date()).toISOString() : null);
@@ -3856,21 +3859,28 @@ var __privateSet = (obj, member, value, setter) => {
     }
     money(currencyColumnKey = null, fractionDigits = 2, decimalSeparator = ",", thousandsSeparator = " ", prefixCurrency = false) {
       this.numeric();
+      this.isComponent = false;
       this.withRenderer(
-        (value, rowData) => helpers.formatNumber(
+        (value, context) => helpers.formatNumber(
           value,
           fractionDigits,
           decimalSeparator,
           thousandsSeparator,
-          currencyColumnKey ? prefixCurrency ? `${rowData[currencyColumnKey] || "-?-"} ` : "" : "",
-          currencyColumnKey ? prefixCurrency ? "" : ` ${rowData[currencyColumnKey] || "-?-"}` : ""
+          currencyColumnKey ? prefixCurrency ? `${context.rowData[currencyColumnKey] || "-?-"} ` : "" : "",
+          currencyColumnKey ? prefixCurrency ? "" : ` ${context.rowData[currencyColumnKey] || "-?-"}` : ""
         )
       );
       return this;
     }
     number(fractionDigits = 2, decimalSeparator = ",", thousandsSeparator = " ") {
       this.numeric();
+      this.isComponent = false;
       this.withRenderer((value) => helpers.formatNumber(value, fractionDigits, decimalSeparator, thousandsSeparator));
+      return this;
+    }
+    component(component) {
+      this.isComponent = true;
+      this.withRenderer((value, context) => vue.h(component, { value, context }));
       return this;
     }
     //--- Public helpers ----------------------------------------------------------------------------------------------
@@ -3918,7 +3928,7 @@ var __privateSet = (obj, member, value, setter) => {
       /**
        * @param {Array.<Row>} visibleRows
        */
-      __publicField(this, "loadedRows", vue.ref([]));
+      __publicField(this, "loadedRows", []);
       __publicField(this, "initialRowCount");
       __publicField(this, "loadCount");
       this.rows = rawRows instanceof Rows ? rawRows : Rows.create(columns, rawRows);
@@ -3941,11 +3951,10 @@ var __privateSet = (obj, member, value, setter) => {
       return this.rows.rows.length;
     }
     get loadedRowsCount() {
-      return this.loadedRows.value.length;
+      return this.loadedRows.length;
     }
     //--- Column operations -------------------------------------------------------------------------------------------
     get visibleColumns() {
-      console.log(this.columns);
       return this.columns.filter((column) => column.isVisible);
     }
     updateSearchTerm(column, searchTerm) {
@@ -3962,11 +3971,16 @@ var __privateSet = (obj, member, value, setter) => {
       if (lastIndex >= this.rowsCount)
         return;
       let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
-      this.loadedRows.value = [...this.loadedRows.value, ...newRows];
+      this.loadedRows = [...this.loadedRows, ...newRows];
+      console.log(this.loadedRows);
     }
     resetLoadedRows() {
-      this.loadedRows.value = [];
+      this.loadedRows = [];
       this.loadRows(this.initialRowCount);
+    }
+    sortByColumn(column, direction) {
+      this.rows.sort(column, direction);
+      this.resetLoadedRows();
     }
   }
   class TableStyling {
@@ -3976,6 +3990,8 @@ var __privateSet = (obj, member, value, setter) => {
         medium: "cell-medium",
         large: "cell-large"
       });
+      __publicField(this, "marginBottom", 10);
+      //10px from the bottom of the table to the bottom of the window
       __publicField(this, "rowSize", "small");
       __publicField(this, "colorDigits", true);
     }
@@ -4001,8 +4017,7 @@ var __privateSet = (obj, member, value, setter) => {
       return this.rowSizeClasses[this.rowSize] + " " + (column.isNumeric && this.colorDigits ? Math.sign(value) < 0 ? "numeric-column text-red" : "numeric-column text-green" : "text-gray");
     }
   }
-  const _hoisted_1$5 = ["innerHTML"];
-  const _sfc_main$6 = {
+  const _sfc_main$7 = {
     __name: "TableCell",
     props: {
       column: {
@@ -4023,9 +4038,58 @@ var __privateSet = (obj, member, value, setter) => {
       const cellStyle = vue.computed(() => (column, value) => props2.styling.cellStyling(column, value));
       return (_ctx, _cache) => {
         return vue.openBlock(), vue.createElementBlock("td", {
-          class: vue.normalizeClass(cellStyle.value(__props.column, __props.row.get(__props.column.key))),
-          innerHTML: __props.row.rendered(__props.column.key)
-        }, null, 10, _hoisted_1$5);
+          class: vue.normalizeClass(cellStyle.value(__props.column, __props.row.get(__props.column.key)))
+        }, [
+          __props.column.isComponent ? (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(__props.row.rendered(__props.column.key)), { key: 0 })) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
+            vue.createTextVNode(vue.toDisplayString(__props.row.rendered(__props.column.key)), 1)
+          ], 64))
+        ], 2);
+      };
+    }
+  };
+  const _sfc_main$6 = {
+    __name: "InfiniteScrollTrigger",
+    props: {
+      options: {
+        type: Object,
+        default: () => ({
+          root: null,
+          threshold: 0
+          //rootMargin: '0px',
+          //threshold: 1.0
+        })
+      }
+    },
+    emits: ["trigger"],
+    setup(__props, { emit: __emit }) {
+      const props2 = __props;
+      let observer = null;
+      let trigger = vue.ref(null);
+      const emit2 = __emit;
+      const handleIntersect = (entry) => {
+        if (entry.isIntersecting) {
+          emit2("trigger");
+          console.log("Infinite scroll triggered");
+        }
+      };
+      vue.onMounted(() => {
+        observer = new IntersectionObserver((entries) => {
+          handleIntersect(entries[0]);
+        }, props2.options);
+        observer.observe(trigger.value);
+      });
+      vue.onUnmounted(() => {
+        observer.disconnect();
+      });
+      return (_ctx, _cache) => {
+        return vue.openBlock(), vue.createElementBlock("div", {
+          "data-name": "infinite-scroll-trigger",
+          ref_key: "trigger",
+          ref: trigger,
+          style: { "width": "100%", "height": "0", "position": "absolute", "bottom": "200px" }
+        }, [
+          vue.renderSlot(_ctx.$slots, "default")
+        ], 512);
       };
     }
   };
@@ -4068,7 +4132,7 @@ var __privateSet = (obj, member, value, setter) => {
       let tableData = vue.ref(null);
       let tableContainer = vue.ref(null);
       let sortKey = vue.ref(null);
-      let ascendingSort = vue.ref(false);
+      vue.ref(false);
       let tableStyling = vue.ref(null);
       tableStyling.value = new TableStyling();
       let showSearch = vue.ref(false);
@@ -4077,26 +4141,9 @@ var __privateSet = (obj, member, value, setter) => {
       const hasNumericColumns = vue.computed(() => {
         return visibleColumns.value.some((column) => column.isNumeric);
       });
-      function sortBy(key) {
-        ascendingSort.value = sortKey.value === key ? !ascendingSort.value : true;
-        sortKey.value = key;
-        let sortedRows = managesLoadedData.getAllData().sort(
-          (a, b) => sort(a[sortKey.value], b[sortKey.value], ascendingSort.value)
-        );
-        managesLoadedData.setData(sortedRows);
-      }
-      function sort(a, b, ascending) {
-        if (a === null || a === void 0)
-          a = "";
-        if (b === null || b === void 0)
-          b = "";
-        if (!ascending)
-          [a, b] = [b, a];
-        if (helpers.isNumericValue(a) && helpers.isNumericValue(b))
-          return b - a;
-        if (helpers.isDate(a) && helpers.isDate(b))
-          return helpers.parseDate(a).getTime() > helpers.parseDate(b).getTime() ? 1 : -1;
-        return a.localeCompare(b);
+      function sortByColumn(column) {
+        column.toggleSortDirection();
+        tableData.value.sortByColumn(column);
       }
       function handleTableStyleEvent(data) {
         tableStyling.value.setRowSize(data.newRowSize).setColorDigits(data.newDigitsColor === "color");
@@ -4115,12 +4162,17 @@ var __privateSet = (obj, member, value, setter) => {
       function columnSum(column) {
         return column.isNumeric ? helpers.formatNumber(column.sum(tableData.value.rows)) : "";
       }
-      function setTableHeight(marginBottom = 10) {
-        tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - marginBottom}px`;
+      function setTableHeight() {
+        tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`;
+        console.log({ maxHeight: tableContainer.value.style.maxHeight, newHeight: `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`, innerHeight: window.innerHeight, top: tableContainer.value.getBoundingClientRect().top, marginBottom: tableStyling.value.marginBottom });
+      }
+      function handleReachedBottom() {
+        tableData.value.loadRows();
       }
       eventBus.addEventHandler("update-table-style-event", handleTableStyleEvent);
       eventBus.addEventHandler("update-table-columns-event", handleTableColumnsEvent);
       eventBus.addEventHandler("toggle-search-event", handleToggleSearchEvent);
+      window.addEventListener("resize", setTableHeight);
       tableData.value = TableData.create(props2.columns, props2.rows);
       eventBus.triggerEvent("sync-table-columns-event", tableData.value.columns);
       vue.onMounted(() => setTableHeight());
@@ -4135,7 +4187,7 @@ var __privateSet = (obj, member, value, setter) => {
               vue.createElementVNode("tr", _hoisted_2$4, [
                 (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column) => {
                   return vue.openBlock(), vue.createElementBlock("th", {
-                    onClick: ($event) => sortBy(column)
+                    onClick: ($event) => sortByColumn(column)
                   }, [
                     vue.createElementVNode("div", {
                       class: vue.normalizeClass(["header-row-item", column.isNumeric ? "numeric" : ""])
@@ -4143,7 +4195,7 @@ var __privateSet = (obj, member, value, setter) => {
                       vue.createElementVNode("span", {
                         textContent: vue.toDisplayString(column.label)
                       }, null, 8, _hoisted_4$3),
-                      vue.createVNode(_sfc_main$7, {
+                      vue.createVNode(_sfc_main$8, {
                         icon: "sort",
                         class: vue.normalizeClass(["header-row-item-icon", `${vue.unref(sortKey) === column.key ? "selected" : ""}`])
                       }, null, 8, ["class"])
@@ -4180,7 +4232,7 @@ var __privateSet = (obj, member, value, setter) => {
                   onClick: ($event) => handleRowClick(row)
                 }, [
                   (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(visibleColumns.value, (column) => {
-                    return vue.openBlock(), vue.createBlock(_sfc_main$6, {
+                    return vue.openBlock(), vue.createBlock(_sfc_main$7, {
                       column,
                       row,
                       styling: vue.unref(tableStyling),
@@ -4188,7 +4240,8 @@ var __privateSet = (obj, member, value, setter) => {
                     }, null, 8, ["column", "row", "styling"]);
                   }), 128))
                 ], 8, _hoisted_11$1);
-              }), 256))
+              }), 256)),
+              vue.createVNode(_sfc_main$6, { onTrigger: handleReachedBottom })
             ])
           ])
         ], 512);
@@ -4300,11 +4353,11 @@ var __privateSet = (obj, member, value, setter) => {
                       class: "option-title",
                       textContent: vue.toDisplayString(vue.unref(translateHelpers).getTranslate("style_settings_modal.sections.row_size.title"))
                     }, null, 8, _hoisted_6$1),
-                    !vue.unref(showRowSizeSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$7, {
+                    !vue.unref(showRowSizeSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$8, {
                       key: 0,
                       icon: "plus",
                       class: "icon-size"
-                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$7, {
+                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$8, {
                       key: 1,
                       icon: "minus",
                       class: "icon-size"
@@ -4316,12 +4369,12 @@ var __privateSet = (obj, member, value, setter) => {
                         class: "option-item-container",
                         onClick: ($event) => vue.isRef(rowSize) ? rowSize.value = key : rowSize = key
                       }, [
-                        vue.createVNode(_sfc_main$7, {
+                        vue.createVNode(_sfc_main$8, {
                           icon: `radio-circle${vue.unref(rowSize) === key ? "-selected" : ""}`,
                           class: vue.normalizeClass(`icon-size ${vue.unref(rowSize) === key ? "icon-selected" : "icon-unselected"}`)
                         }, null, 8, ["icon", "class"]),
                         vue.createElementVNode("div", _hoisted_9, [
-                          vue.createVNode(_sfc_main$7, {
+                          vue.createVNode(_sfc_main$8, {
                             icon: option.icon,
                             class: "icon-size"
                           }, null, 8, ["icon"]),
@@ -4344,11 +4397,11 @@ var __privateSet = (obj, member, value, setter) => {
                       class: "option-title",
                       textContent: vue.toDisplayString(vue.unref(translateHelpers).getTranslate("style_settings_modal.sections.numbers_color.title"))
                     }, null, 8, _hoisted_12),
-                    !vue.unref(showDigitsColorSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$7, {
+                    !vue.unref(showDigitsColorSection) ? (vue.openBlock(), vue.createBlock(_sfc_main$8, {
                       key: 0,
                       icon: "plus",
                       class: "icon-size"
-                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$7, {
+                    })) : (vue.openBlock(), vue.createBlock(_sfc_main$8, {
                       key: 1,
                       icon: "minus",
                       class: "icon-size"
@@ -4360,7 +4413,7 @@ var __privateSet = (obj, member, value, setter) => {
                         class: "option-item-container",
                         onClick: ($event) => vue.isRef(digitsColor) ? digitsColor.value = key : digitsColor = key
                       }, [
-                        vue.createVNode(_sfc_main$7, {
+                        vue.createVNode(_sfc_main$8, {
                           icon: `radio-circle${vue.unref(digitsColor) === key ? "-selected" : ""}`,
                           class: vue.normalizeClass(`icon-size ${vue.unref(digitsColor) === key ? "icon-selected" : "icon-unselected"}`)
                         }, null, 8, ["icon", "class"]),
@@ -4445,7 +4498,7 @@ var __privateSet = (obj, member, value, setter) => {
           class: "checkbox-container"
         }, [
           !inputValue.value ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, [
-            vue.createVNode(_sfc_main$7, {
+            vue.createVNode(_sfc_main$8, {
               icon: "check",
               class: "checkbox-selected-icon"
             })
@@ -7241,7 +7294,7 @@ var __privateSet = (obj, member, value, setter) => {
                         "model-value": column.visible,
                         "onUpdate:modelValue": ($event) => column.visible = $event
                       }, null, 8, ["label", "model-value", "onUpdate:modelValue"]),
-                      vue.createVNode(_sfc_main$7, {
+                      vue.createVNode(_sfc_main$8, {
                         icon: "drag-indicator",
                         class: "drag-indicator-icon"
                       })
@@ -7307,7 +7360,7 @@ var __privateSet = (obj, member, value, setter) => {
               onClick: handleSearchClick,
               class: vue.normalizeClass(["search-button", vue.unref(isActiveSearch) ? "active" : "inactive"])
             }, [
-              vue.createVNode(_sfc_main$7, {
+              vue.createVNode(_sfc_main$8, {
                 icon: "search",
                 class: "search-icon"
               })
@@ -7318,7 +7371,7 @@ var __privateSet = (obj, member, value, setter) => {
                 onClick: _cache[0] || (_cache[0] = ($event) => vue.isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = true : showColumnSettingsModal = true),
                 class: "setting"
               }, [
-                vue.createVNode(_sfc_main$7, {
+                vue.createVNode(_sfc_main$8, {
                   icon: "columns",
                   class: "setting-icon"
                 })
@@ -7327,7 +7380,7 @@ var __privateSet = (obj, member, value, setter) => {
                 onClick: _cache[1] || (_cache[1] = ($event) => vue.isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = true : showStyleSettingsModal = true),
                 class: "setting"
               }, [
-                vue.createVNode(_sfc_main$7, {
+                vue.createVNode(_sfc_main$8, {
                   icon: "settings",
                   class: "setting-icon"
                 })
@@ -7413,6 +7466,7 @@ var __privateSet = (obj, member, value, setter) => {
       setTranslate: (translate2) => translateHelpers.setTranslateFile(translate2)
     }
   };
+  exports2.CellRenderContext = CellRenderContext;
   exports2.Column = Column;
   exports2.SmartTable = _sfc_main$5;
   exports2.TableControls = _sfc_main;

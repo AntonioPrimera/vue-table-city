@@ -13,6 +13,7 @@
 import helpers from '../helpers/helpers.js';
 import {format, parse} from "date-fns";
 import {Rows} from "./Rows.js";
+import {h} from "vue";
 
 export class Column {
 	//--- Properties --------------------------------------------------------------------------------------------------
@@ -32,6 +33,8 @@ export class Column {
 	
 	// The search term is used to filter the data in the column
 	#searchTerm;
+	isComponent = false;
+	sortDirection = null;	//asc, desc or null
 	
 	//--- Constructor & Factories -------------------------------------------------------------------------------------
 	
@@ -163,6 +166,23 @@ export class Column {
 		return this;
 	}
 	
+	toggleSortDirection() {
+		this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+		return this;
+	}
+	
+	sortAscending() {
+		this.sortDirection = 'asc';
+		return this;
+	}
+	
+	sortDescending() {
+		this.sortDirection = 'desc';
+		return this;
+	}
+	
+	//--- Data transformation -----------------------------------------------------------------------------------------
+	
 	filter(value) {
 		return this.#filter ? this.#filter(value) : true;
 	}
@@ -174,12 +194,13 @@ export class Column {
 	/**
 	 * Renders the value of the column, using the renderer function
 	 * It should receive the value and the array of mutated row data (not a row instance!)
-	 * @param value
-	 * @param {Array} mutatedRowData
+	 * @param {*} value
+	 * @param {CellRenderContext} cellRenderContext
 	 * @returns {*}
 	 */
-	render(value, mutatedRowData) {
-		return this.#renderer ? this.#renderer(value, mutatedRowData) : value;
+	render(value, cellRenderContext) {
+		//value, mutatedRowData
+		return this.#renderer ? this.#renderer(value, cellRenderContext) : value;
 	}
 	
 	//--- Fluent predefined column types ------------------------------------------------------------------------------
@@ -191,6 +212,8 @@ export class Column {
 	 * @param {string|null} rawFormat
 	 */
 	date(renderFormat = 'dd.MM.yyyy', rawFormat = null) {
+		this.isComponent = false;
+		
 		//transform the date to a custom format
 		this.withRenderer(isoStringDate => isoStringDate ? format(new Date(isoStringDate), renderFormat) : '');
 		
@@ -214,17 +237,18 @@ export class Column {
 	) {
 		//mark the column as numeric
 		this.numeric();
+		this.isComponent = false;
 		
 		//format the number as a currency string
 		this.withRenderer(
-			(value, rowData) =>
+			(value, context) =>
 				helpers.formatNumber(
 					value,
 					fractionDigits,
 					decimalSeparator,
 					thousandsSeparator,
-					currencyColumnKey ? (prefixCurrency ? `${rowData[currencyColumnKey] || '-?-'} ` : '') : '',
-					currencyColumnKey ? (prefixCurrency ? '' : ` ${rowData[currencyColumnKey] || '-?-'}`) : ''
+					currencyColumnKey ? (prefixCurrency ? `${context.rowData[currencyColumnKey] || '-?-'} ` : '') : '',
+					currencyColumnKey ? (prefixCurrency ? '' : ` ${context.rowData[currencyColumnKey] || '-?-'}`) : ''
 				)
 		);
 		
@@ -234,10 +258,17 @@ export class Column {
 	number(fractionDigits = 2, decimalSeparator = ',', thousandsSeparator = ' ') {
 		//mark the column as numeric
 		this.numeric();
+		this.isComponent = false;
 		
 		//format the number as a string
 		this.withRenderer(value => helpers.formatNumber(value, fractionDigits, decimalSeparator, thousandsSeparator));
 		
+		return this;
+	}
+	
+	component(component) {
+		this.isComponent = true;
+		this.withRenderer((value, context) => h(component, {value, context}));
 		return this;
 	}
 	

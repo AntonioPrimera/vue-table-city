@@ -6,17 +6,16 @@ import {computed, onMounted, reactive, ref, watch} from "vue";
 import Icon from "./base/Icon.vue";
 
 //--- --- Composables -------------------------------------------------------------------------------------------------
-import {useManagesLoadedData} from "../composables/useManagesLoadedData.js";
 import {useEventBus} from "../composables/useEventBus.js";
 
 //--- --- Helpers -----------------------------------------------------------------------------------------------------
 import translateHelpers from "../helpers/translateHelpers.js";
 import helpers from "../helpers/helpers.js";
 import {Column} from "../ViewModels/Column.js";
-import {Rows} from "../ViewModels/Rows.js";
 import {TableData} from "../ViewModels/TableData.js";
 import TableCell from "./TableCell.vue";
 import {TableStyling} from "../ViewModels/TableStyling.js";
+import InfiniteScrollTrigger from "./InfiniteScrollTrigger.vue";
 
 //=====================================================================================================================
 //--- --- Setup -------------------------------------------------------------------------------------------------------
@@ -49,9 +48,6 @@ let showSearch = ref(false);
 
 let eventBus = useEventBus();
 
-//todo: remove managesLoadedData
-//let managesLoadedData = useManagesLoadedData();
-
 //--- --- Computed ----------------------------------------------------------------------------------------------------
 
 const visibleColumns = computed(() => tableData.value.visibleColumns);
@@ -62,39 +58,12 @@ const hasNumericColumns = computed(() => {
 
 //--- --- Methods -----------------------------------------------------------------------------------------------------
 
-//todo: move this to the TableData class
-function sortBy(key) {
-    ascendingSort.value = (sortKey.value === key)
-        ? !ascendingSort.value //  toggle the sorting direction if already sorting by this column
-        : true; //else, sort by this column in ascending direction
-
-    // mark this column as the column we are sorting by
-    sortKey.value = key;
-
-    let sortedRows = managesLoadedData.getAllData().sort((a, b) =>
-        sort(a[sortKey.value], b[sortKey.value], ascendingSort.value)
-    );
-
-    //todo: remove managesLoadedData
-    managesLoadedData.setData(sortedRows);
-}
-
-//todo: move this to the TableData class
-function sort(a, b, ascending) {
-    if (a === null || a === undefined) a = '';
-    if (b === null || b === undefined) b = '';
-
-    if (!ascending) [a, b] = [b, a]
-
-    //numeric sort
-    if (helpers.isNumericValue(a) && helpers.isNumericValue(b)) return b - a;
-
-    //date sort
-    if (helpers.isDate(a) && helpers.isDate(b))
-        return (helpers.parseDate(a).getTime() > helpers.parseDate(b).getTime()) ? 1 : -1;
-
-    //string sort
-    return a.localeCompare(b);
+/**
+ * @param {Column} column
+ */
+function sortByColumn(column) {
+    column.toggleSortDirection();
+    tableData.value.sortByColumn(column);
 }
 
 //--- Event handlers --------------------------------------------------------------------------------------------------
@@ -129,22 +98,24 @@ function columnSum(column) {
 
 //--- Table design ----------------------------------------------------------------------------------------------------
 
-function setTableHeight(marginBottom = 10) {
+function setTableHeight() {
     //calculate the height from the top of the table to the bottom of the window
-    tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - marginBottom}px`;
+    tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`;
+    console.log({maxHeight: tableContainer.value.style.maxHeight, newHeight: `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`, innerHeight: window.innerHeight, top: tableContainer.value.getBoundingClientRect().top, marginBottom: tableStyling.value.marginBottom});
     //tableContainer.value.style.maxHeight = '75vh';
 }
 
 //--- Infinity scroll -------------------------------------------------------------------------------------------------
 
 function handleReachedBottom() {
-    tableData.value.rows.loadRows();
+    tableData.value.loadRows();
 }
 
 //--- --- Created -----------------------------------------------------------------------------------------------------
 eventBus.addEventHandler('update-table-style-event', handleTableStyleEvent);
 eventBus.addEventHandler('update-table-columns-event', handleTableColumnsEvent);
 eventBus.addEventHandler('toggle-search-event', handleToggleSearchEvent);
+window.addEventListener('resize', setTableHeight);
 
 //initialize the table data and trigger the sync-table-columns-event (to update the TableControls component)
 tableData.value = TableData.create(props.columns, props.rows);
@@ -152,8 +123,6 @@ eventBus.triggerEvent('sync-table-columns-event', tableData.value.columns);
 
 //--- --- Mounted -----------------------------------------------------------------------------------------------------
 onMounted(() => setTableHeight());
-
-//console.log(tableData.value.loadedRows);
 </script>
 
 <template>
@@ -163,7 +132,7 @@ onMounted(() => setTableHeight());
             <thead class="table-header">
                 <!-- --- Columns ------------------------------------------------------------------------------------->
                 <tr class="table-header-row">
-                    <th v-for="column in visibleColumns" @click="sortBy(column)">
+                    <th v-for="column in visibleColumns" @click="sortByColumn(column)">
                         <div class="header-row-item" :class="column.isNumeric ? 'numeric' : ''">
                             <span v-text="column.label"></span>
 
@@ -201,19 +170,10 @@ onMounted(() => setTableHeight());
             <tbody class="table-body">
                 <tr v-for="row in tableData.loadedRows" @click="handleRowClick(row)">
                     <TableCell v-for="column in visibleColumns" :column="column" :row="row" :styling="tableStyling" :key="column.key"/>
-<!--                    <td v-for="column in visibleColumns" :class="cellStyle(column, row[column.key])">-->
-<!--                        <slot-->
-<!--                            :name="`cell.${column.key}`"-->
-<!--                            :value="helpers.getValue(row, column.key)"-->
-<!--                            :column="column"-->
-<!--                            :row="row"-->
-<!--                            :helpers="helpers"-->
-<!--                        >{{ column.isNumeric ? helpers.formatNumericValue(helpers.getValue(row, column.key)) : helpers.getValue(row, column.key) }}</slot>-->
-<!--                    </td>-->
                 </tr>
 
                 <!-- --- Infinity scroll ----------------------------------------------------------------------------->
-<!--                <tr v-observe-visibility="handleReachedBottom"></tr>-->
+                <InfiniteScrollTrigger @trigger="handleReachedBottom"/>
             </tbody>
         </table>
     </div>

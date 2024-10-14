@@ -2,6 +2,7 @@
 import SmartTable from "./components/SmartTable.vue";
 import TableControls from "./components/TableControls.vue";
 import {Column} from "./ViewModels/Column.js";
+import {CellRenderContext} from "./ViewModels/CellRenderContext.js";
 import './styles/vue3-table-data.pcss';
 
 //--- --- Translate ---------------------------------------------------------------------------------------------------
@@ -25,4 +26,4 @@ window.__vue3TableDataConfig = {
     },
 };
 
-export { SmartTable, TableControls, Column };
+export { SmartTable, TableControls, Column, CellRenderContext };

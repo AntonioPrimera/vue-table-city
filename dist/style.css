@@ -16,6 +16,7 @@
 
     .table-container table {
         width: 100%;
+        position: relative;
     }
 
     .table-container table .numeric-column {

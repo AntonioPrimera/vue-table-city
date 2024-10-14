@@ -24,15 +24,15 @@ const cellStyle = computed(() => (column, value) => props.styling.cellStyling(co
 </script>
 
 <template>
-    <td :class="cellStyle(column, row.get(column.key))" v-html="row.rendered(column.key)"/>
-        <!--                        <slot-->
-        <!--                            :name="`cell.${column.key}`"-->
-        <!--                            :value="helpers.getValue(row, column.key)"-->
-        <!--                            :column="column"-->
-        <!--                            :row="row"-->
-        <!--                            :helpers="helpers"-->
-        <!--                        >{{ column.isNumeric ? helpers.formatNumericValue(helpers.getValue(row, column.key)) : helpers.getValue(row, column.key) }}</slot>-->
-<!--    </td>-->
+<!--    v-html="row.rendered(column.key)"-->
+    <td :class="cellStyle(column, row.get(column.key))">
+        <template v-if="column.isComponent">
+            <component :is="row.rendered(column.key)"/>
+        </template>
+        <template v-else>
+            {{ row.rendered(column.key) }}
+        </template>
+    </td>
 </template>
 
 <style scoped>

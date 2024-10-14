@@ -16,7 +16,7 @@ export class TableData {
 	/**
 	 * @param {Array.<Row>} visibleRows
 	 */
-	loadedRows = ref([]);
+	loadedRows = [];
 	initialRowCount;
 	loadCount;
 	
@@ -56,13 +56,13 @@ export class TableData {
 	}
 	
 	get loadedRowsCount() {
-		return this.loadedRows.value.length;
+		//console.log(this.loadedRows, this.loadedRows.value);
+		return this.loadedRows.length;
 	}
 	
 	//--- Column operations -------------------------------------------------------------------------------------------
 	
 	get visibleColumns() {
-		console.log(this.columns);
 		return this.columns.filter(column => column.isVisible);
 	}
 	
@@ -88,11 +88,17 @@ export class TableData {
 		
 		//load another batch of data (count rows) and add it to the loadedData array
 		let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
-		this.loadedRows.value = [...this.loadedRows.value, ...newRows];
+		this.loadedRows = [...this.loadedRows, ...newRows];
+		console.log(this.loadedRows);
 	}
 	
 	resetLoadedRows() {
-		this.loadedRows.value = [];
+		this.loadedRows = [];
 		this.loadRows(this.initialRowCount);
+	}
+	
+	sortByColumn(column) {
+		this.rows.sortByColumn(column);
+		this.resetLoadedRows();
 	}
 }

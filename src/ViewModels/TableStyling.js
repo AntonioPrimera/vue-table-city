@@ -7,6 +7,7 @@ export class TableStyling {
 		large:  'cell-large',
 	};
 	
+	marginBottom = 10; //10px from the bottom of the table to the bottom of the window
 	rowSize = 'small';
 	colorDigits = true;
 	
