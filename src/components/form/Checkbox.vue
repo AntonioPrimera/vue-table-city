@@ -50,11 +50,11 @@ const inputId = computed(() => {
 
 <template>
     <label :for="name" class="checkbox-container">
-        <div v-if="!inputValue" class="checkbox-input"></div>
+        <span v-if="!inputValue" class="checkbox-input"></span>
 
-        <div v-else class="checkbox-selected">
+        <span v-else class="checkbox-selected">
             <icon icon="check" class="checkbox-selected-icon"></icon>
-        </div>
+        </span>
 
         <span v-if="label" class="label" v-text="label"></span>
 

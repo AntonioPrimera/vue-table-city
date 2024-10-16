@@ -64,10 +64,6 @@ const hasNumericColumns = computed(() => {
  * @param {Column} column
  */
 function sortByColumn(column) {
-    //if (!column.isSortable)
-    //    return;
-    //
-    //column.toggleSortDirection();
     tableData.value.sortByColumn(column);
 }
 
@@ -83,8 +79,9 @@ function handleTableColumnsEvent(data) {
     tableData.value.columns = data;
 }
 
-function handleToggleSearchEvent() {
-    showSearch.value = !showSearch.value
+function handleToggleSearchEvent(active) {
+    //if a value is passed, set the search to that value, otherwise just toggle the current state
+    showSearch.value = active === undefined ? !showSearch.value : active;
 
     //reset the search terms when the search is closed
     if (!showSearch.value)
@@ -106,8 +103,6 @@ function columnSum(column) {
 function setTableHeight() {
     //calculate the height from the top of the table to the bottom of the window
     tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`;
-    console.log({maxHeight: tableContainer.value.style.maxHeight, newHeight: `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`, innerHeight: window.innerHeight, top: tableContainer.value.getBoundingClientRect().top, marginBottom: tableStyling.value.marginBottom});
-    //tableContainer.value.style.maxHeight = '75vh';
 }
 
 //--- Infinity scroll -------------------------------------------------------------------------------------------------
@@ -174,5 +169,9 @@ onMounted(() => setTableHeight());
                 <InfiniteScrollTrigger @trigger="handleReachedBottom"/>
             </tbody>
         </table>
+
+        <div id="smart-table-modals">
+            <!-- Teleport target for TableControls Modals -->
+        </div>
     </div>
 </template>

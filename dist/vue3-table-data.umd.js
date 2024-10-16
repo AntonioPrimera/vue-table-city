@@ -259,18 +259,24 @@ var __privateSet = (obj, member, value, setter) => {
           (vue.openBlock(), vue.createElementBlock("svg", _hoisted_26, _cache[12] || (_cache[12] = [
             vue.createElementVNode("path", {
               d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
-              fill: "currentColor"
+              fill: "currentColor",
+              stroke: "currentColor",
+              "stroke-width": "20"
             }, null, -1),
             vue.createElementVNode("path", {
               d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
-              fill: "currentColor"
+              fill: "currentColor",
+              stroke: "currentColor",
+              "stroke-width": "20"
             }, null, -1)
           ])))
         ])) : __props.icon === "sort-ascending" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_27, [
           (vue.openBlock(), vue.createElementBlock("svg", _hoisted_28, _cache[13] || (_cache[13] = [
             vue.createElementVNode("path", {
               d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
-              fill: "currentColor"
+              fill: "currentColor",
+              stroke: "currentColor",
+              "stroke-width": "20"
             }, null, -1),
             vue.createElementVNode("path", {
               d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
@@ -289,7 +295,9 @@ var __privateSet = (obj, member, value, setter) => {
             }, null, -1),
             vue.createElementVNode("path", {
               d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
-              fill: "currentColor"
+              fill: "currentColor",
+              stroke: "currentColor",
+              "stroke-width": "20"
             }, null, -1)
           ])))
         ])) : __props.icon === "sortable" ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_31, [
@@ -3793,6 +3801,10 @@ var __privateSet = (obj, member, value, setter) => {
       this.sortDirection = "desc";
       return this;
     }
+    clearSortDirection() {
+      this.sortDirection = null;
+      return this;
+    }
     //--- Data transformation -----------------------------------------------------------------------------------------
     filter(value) {
       return __privateGet(this, _filter) ? __privateGet(this, _filter).call(this, value) : true;
@@ -3879,7 +3891,10 @@ var __privateSet = (obj, member, value, setter) => {
   _searchTerm = new WeakMap();
   let Column = _Column;
   const _hoisted_1$5 = ["textContent"];
-  const _hoisted_2$5 = { key: 0 };
+  const _hoisted_2$5 = {
+    key: 0,
+    style: { "margin-left": "4px" }
+  };
   const _sfc_main$8 = {
     __name: "ColumnHeader",
     props: {
@@ -3887,14 +3902,6 @@ var __privateSet = (obj, member, value, setter) => {
         type: Column,
         required: true
       }
-      //sortKey: {
-      //    type: String,
-      //    required: true,
-      //},
-      //ascendingSort: {
-      //    type: Boolean,
-      //    required: true,
-      //},
     },
     emits: ["sort"],
     setup(__props, { emit: __emit }) {
@@ -4215,6 +4222,10 @@ var __privateSet = (obj, member, value, setter) => {
     sortByColumn(column) {
       this.rows.sortByColumn(column);
       this.resetLoadedRows();
+      this.columns.forEach((col) => {
+        if (col !== column)
+          col.clearSortDirection();
+      });
     }
   }
   const _hoisted_1$4 = { class: "table-header" };
@@ -4270,8 +4281,8 @@ var __privateSet = (obj, member, value, setter) => {
       function handleTableColumnsEvent(data) {
         tableData.value.columns = data;
       }
-      function handleToggleSearchEvent() {
-        showSearch.value = !showSearch.value;
+      function handleToggleSearchEvent(active) {
+        showSearch.value = active === void 0 ? !showSearch.value : active;
         if (!showSearch.value)
           tableData.value.clearSearch();
       }
@@ -4283,7 +4294,6 @@ var __privateSet = (obj, member, value, setter) => {
       }
       function setTableHeight() {
         tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`;
-        console.log({ maxHeight: tableContainer.value.style.maxHeight, newHeight: `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`, innerHeight: window.innerHeight, top: tableContainer.value.getBoundingClientRect().top, marginBottom: tableStyling.value.marginBottom });
       }
       function handleReachedBottom() {
         tableData.value.loadRows();
@@ -4352,7 +4362,8 @@ var __privateSet = (obj, member, value, setter) => {
               }), 256)),
               vue.createVNode(_sfc_main$6, { onTrigger: handleReachedBottom })
             ])
-          ])
+          ]),
+          _cache[0] || (_cache[0] = vue.createElementVNode("div", { id: "smart-table-modals" }, null, -1))
         ], 512);
       };
     }
@@ -4606,7 +4617,7 @@ var __privateSet = (obj, member, value, setter) => {
           for: __props.name,
           class: "checkbox-container"
         }, [
-          !inputValue.value ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_2$2)) : (vue.openBlock(), vue.createElementBlock("div", _hoisted_3$1, [
+          !inputValue.value ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_2$2)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$1, [
             vue.createVNode(_sfc_main$9, {
               icon: "check",
               class: "checkbox-selected-icon"
@@ -7445,7 +7456,7 @@ var __privateSet = (obj, member, value, setter) => {
       let eventBus = useEventBus();
       function handleSearchClick() {
         isActiveSearch.value = !isActiveSearch.value;
-        eventBus.triggerEvent("toggle-search-event");
+        eventBus.triggerEvent("toggle-search-event", isActiveSearch.value);
       }
       function saveStyleSettings(newRowSize, newDigitsColor) {
         rowSize.value = newRowSize;
@@ -7496,19 +7507,24 @@ var __privateSet = (obj, member, value, setter) => {
               ])
             ])
           ]),
-          vue.unref(showStyleSettingsModal) ? (vue.openBlock(), vue.createBlock(_sfc_main$3, {
-            key: 0,
-            "row-size-value": vue.unref(rowSize),
-            "digits-color-value": vue.unref(digitsColor),
-            onSave: saveStyleSettings,
-            onClose: _cache[2] || (_cache[2] = ($event) => vue.isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = false : showStyleSettingsModal = false)
-          }, null, 8, ["row-size-value", "digits-color-value"])) : vue.createCommentVNode("", true),
-          vue.unref(showColumnSettingsModal) ? (vue.openBlock(), vue.createBlock(_sfc_main$1, {
-            key: 1,
-            columns: vue.unref(tableColumns),
-            onClose: _cache[3] || (_cache[3] = ($event) => vue.isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = false : showColumnSettingsModal = false),
-            onSave: saveColumnSettings
-          }, null, 8, ["columns"])) : vue.createCommentVNode("", true)
+          (vue.openBlock(), vue.createBlock(vue.Teleport, {
+            defer: "",
+            to: "#smart-table-modals"
+          }, [
+            vue.unref(showStyleSettingsModal) ? (vue.openBlock(), vue.createBlock(_sfc_main$3, {
+              key: 0,
+              "row-size-value": vue.unref(rowSize),
+              "digits-color-value": vue.unref(digitsColor),
+              onSave: saveStyleSettings,
+              onClose: _cache[2] || (_cache[2] = ($event) => vue.isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = false : showStyleSettingsModal = false)
+            }, null, 8, ["row-size-value", "digits-color-value"])) : vue.createCommentVNode("", true),
+            vue.unref(showColumnSettingsModal) ? (vue.openBlock(), vue.createBlock(_sfc_main$1, {
+              key: 1,
+              columns: vue.unref(tableColumns),
+              onClose: _cache[3] || (_cache[3] = ($event) => vue.isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = false : showColumnSettingsModal = false),
+              onSave: saveColumnSettings
+            }, null, 8, ["columns"])) : vue.createCommentVNode("", true)
+          ]))
         ]);
       };
     }

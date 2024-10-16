@@ -28,8 +28,7 @@ let eventBus = useEventBus();
 //--- --- Methods -----------------------------------------------------------------------------------------------------
 function handleSearchClick() {
     isActiveSearch.value = !isActiveSearch.value;
-
-    eventBus.triggerEvent('toggle-search-event');
+    eventBus.triggerEvent('toggle-search-event', isActiveSearch.value);
 }
 
 function handleFilterClick() {
@@ -91,19 +90,22 @@ eventBus.addEventHandler('sync-table-columns-event', handleColumnsEvent);
             </div>
         </div>
 
-        <!-- --- Settings modal -------------------------------------------------------------------------------------->
-        <style-settings-modal v-if="showStyleSettingsModal"
-                              :row-size-value="rowSize"
-                              :digits-color-value="digitsColor"
-                              @save="saveStyleSettings"
-                              @close="showStyleSettingsModal = false"
-        ></style-settings-modal>
+        <Teleport defer to="#smart-table-modals">
+            <!-- --- Settings modal ---------------------------------------------------------------------------------->
+            <style-settings-modal v-if="showStyleSettingsModal"
+                                  :row-size-value="rowSize"
+                                  :digits-color-value="digitsColor"
+                                  @save="saveStyleSettings"
+                                  @close="showStyleSettingsModal = false"
+            ></style-settings-modal>
 
-        <!-- --- Column Settings modal ------------------------------------------------------------------------------->
-        <column-settings-modal v-if="showColumnSettingsModal"
-                               :columns="tableColumns"
-                               @close="showColumnSettingsModal = false"
-                               @save="saveColumnSettings"
-        ></column-settings-modal>
+
+            <!-- --- Column Settings modal --------------------------------------------------------------------------->
+            <column-settings-modal v-if="showColumnSettingsModal"
+                                   :columns="tableColumns"
+                                   @close="showColumnSettingsModal = false"
+                                   @save="saveColumnSettings"
+            ></column-settings-modal>
+        </Teleport>
     </div>
 </template>

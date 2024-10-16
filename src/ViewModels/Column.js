@@ -193,6 +193,11 @@ export class Column {
 		return this;
 	}
 	
+	clearSortDirection() {
+		this.sortDirection = null;
+		return this;
+	}
+	
 	//--- Data transformation -----------------------------------------------------------------------------------------
 	
 	filter(value) {

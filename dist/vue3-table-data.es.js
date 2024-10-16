@@ -23,7 +23,7 @@ var __privateSet = (obj, member, value, setter) => {
   return value;
 };
 var _filter, _mutator, _renderer, _searchTerm;
-import { openBlock, createElementBlock, createElementVNode, createCommentVNode, h, normalizeClass, toDisplayString, createBlock, computed, resolveDynamicComponent, Fragment, createTextVNode, ref, onMounted, onUnmounted, renderSlot, renderList, unref, createVNode, withModifiers, withCtx, isRef, withDirectives, vModelCheckbox, resolveComponent, TransitionGroup, defineComponent, nextTick } from "vue";
+import { openBlock, createElementBlock, createElementVNode, createCommentVNode, h, normalizeClass, toDisplayString, createBlock, computed, resolveDynamicComponent, Fragment, createTextVNode, ref, onMounted, onUnmounted, renderSlot, renderList, unref, createVNode, withModifiers, withCtx, isRef, withDirectives, vModelCheckbox, resolveComponent, TransitionGroup, defineComponent, nextTick, Teleport } from "vue";
 const _hoisted_1$6 = { key: 0 };
 const _hoisted_2$6 = {
   style: { "width": "100%", "height": "100%" },
@@ -256,18 +256,24 @@ const _sfc_main$9 = {
         (openBlock(), createElementBlock("svg", _hoisted_26, _cache[12] || (_cache[12] = [
           createElementVNode("path", {
             d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
-            fill: "currentColor"
+            fill: "currentColor",
+            stroke: "currentColor",
+            "stroke-width": "20"
           }, null, -1),
           createElementVNode("path", {
             d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
-            fill: "currentColor"
+            fill: "currentColor",
+            stroke: "currentColor",
+            "stroke-width": "20"
           }, null, -1)
         ])))
       ])) : __props.icon === "sort-ascending" ? (openBlock(), createElementBlock("div", _hoisted_27, [
         (openBlock(), createElementBlock("svg", _hoisted_28, _cache[13] || (_cache[13] = [
           createElementVNode("path", {
             d: "M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z",
-            fill: "currentColor"
+            fill: "currentColor",
+            stroke: "currentColor",
+            "stroke-width": "20"
           }, null, -1),
           createElementVNode("path", {
             d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
@@ -286,7 +292,9 @@ const _sfc_main$9 = {
           }, null, -1),
           createElementVNode("path", {
             d: "M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z",
-            fill: "currentColor"
+            fill: "currentColor",
+            stroke: "currentColor",
+            "stroke-width": "20"
           }, null, -1)
         ])))
       ])) : __props.icon === "sortable" ? (openBlock(), createElementBlock("div", _hoisted_31, [
@@ -3790,6 +3798,10 @@ const _Column = class _Column {
     this.sortDirection = "desc";
     return this;
   }
+  clearSortDirection() {
+    this.sortDirection = null;
+    return this;
+  }
   //--- Data transformation -----------------------------------------------------------------------------------------
   filter(value) {
     return __privateGet(this, _filter) ? __privateGet(this, _filter).call(this, value) : true;
@@ -3876,7 +3888,10 @@ _renderer = new WeakMap();
 _searchTerm = new WeakMap();
 let Column = _Column;
 const _hoisted_1$5 = ["textContent"];
-const _hoisted_2$5 = { key: 0 };
+const _hoisted_2$5 = {
+  key: 0,
+  style: { "margin-left": "4px" }
+};
 const _sfc_main$8 = {
   __name: "ColumnHeader",
   props: {
@@ -3884,14 +3899,6 @@ const _sfc_main$8 = {
       type: Column,
       required: true
     }
-    //sortKey: {
-    //    type: String,
-    //    required: true,
-    //},
-    //ascendingSort: {
-    //    type: Boolean,
-    //    required: true,
-    //},
   },
   emits: ["sort"],
   setup(__props, { emit: __emit }) {
@@ -4212,6 +4219,10 @@ class TableData {
   sortByColumn(column) {
     this.rows.sortByColumn(column);
     this.resetLoadedRows();
+    this.columns.forEach((col) => {
+      if (col !== column)
+        col.clearSortDirection();
+    });
   }
 }
 const _hoisted_1$4 = { class: "table-header" };
@@ -4267,8 +4278,8 @@ const _sfc_main$5 = {
     function handleTableColumnsEvent(data) {
       tableData.value.columns = data;
     }
-    function handleToggleSearchEvent() {
-      showSearch.value = !showSearch.value;
+    function handleToggleSearchEvent(active) {
+      showSearch.value = active === void 0 ? !showSearch.value : active;
       if (!showSearch.value)
         tableData.value.clearSearch();
     }
@@ -4280,7 +4291,6 @@ const _sfc_main$5 = {
     }
     function setTableHeight() {
       tableContainer.value.style.maxHeight = `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`;
-      console.log({ maxHeight: tableContainer.value.style.maxHeight, newHeight: `${window.innerHeight - tableContainer.value.getBoundingClientRect().top - tableStyling.value.marginBottom}px`, innerHeight: window.innerHeight, top: tableContainer.value.getBoundingClientRect().top, marginBottom: tableStyling.value.marginBottom });
     }
     function handleReachedBottom() {
       tableData.value.loadRows();
@@ -4349,7 +4359,8 @@ const _sfc_main$5 = {
             }), 256)),
             createVNode(_sfc_main$6, { onTrigger: handleReachedBottom })
           ])
-        ])
+        ]),
+        _cache[0] || (_cache[0] = createElementVNode("div", { id: "smart-table-modals" }, null, -1))
       ], 512);
     };
   }
@@ -4603,7 +4614,7 @@ const _sfc_main$2 = {
         for: __props.name,
         class: "checkbox-container"
       }, [
-        !inputValue.value ? (openBlock(), createElementBlock("div", _hoisted_2$2)) : (openBlock(), createElementBlock("div", _hoisted_3$1, [
+        !inputValue.value ? (openBlock(), createElementBlock("span", _hoisted_2$2)) : (openBlock(), createElementBlock("span", _hoisted_3$1, [
           createVNode(_sfc_main$9, {
             icon: "check",
             class: "checkbox-selected-icon"
@@ -7442,7 +7453,7 @@ const _sfc_main = {
     let eventBus = useEventBus();
     function handleSearchClick() {
       isActiveSearch.value = !isActiveSearch.value;
-      eventBus.triggerEvent("toggle-search-event");
+      eventBus.triggerEvent("toggle-search-event", isActiveSearch.value);
     }
     function saveStyleSettings(newRowSize, newDigitsColor) {
       rowSize.value = newRowSize;
@@ -7493,19 +7504,24 @@ const _sfc_main = {
             ])
           ])
         ]),
-        unref(showStyleSettingsModal) ? (openBlock(), createBlock(_sfc_main$3, {
-          key: 0,
-          "row-size-value": unref(rowSize),
-          "digits-color-value": unref(digitsColor),
-          onSave: saveStyleSettings,
-          onClose: _cache[2] || (_cache[2] = ($event) => isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = false : showStyleSettingsModal = false)
-        }, null, 8, ["row-size-value", "digits-color-value"])) : createCommentVNode("", true),
-        unref(showColumnSettingsModal) ? (openBlock(), createBlock(_sfc_main$1, {
-          key: 1,
-          columns: unref(tableColumns),
-          onClose: _cache[3] || (_cache[3] = ($event) => isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = false : showColumnSettingsModal = false),
-          onSave: saveColumnSettings
-        }, null, 8, ["columns"])) : createCommentVNode("", true)
+        (openBlock(), createBlock(Teleport, {
+          defer: "",
+          to: "#smart-table-modals"
+        }, [
+          unref(showStyleSettingsModal) ? (openBlock(), createBlock(_sfc_main$3, {
+            key: 0,
+            "row-size-value": unref(rowSize),
+            "digits-color-value": unref(digitsColor),
+            onSave: saveStyleSettings,
+            onClose: _cache[2] || (_cache[2] = ($event) => isRef(showStyleSettingsModal) ? showStyleSettingsModal.value = false : showStyleSettingsModal = false)
+          }, null, 8, ["row-size-value", "digits-color-value"])) : createCommentVNode("", true),
+          unref(showColumnSettingsModal) ? (openBlock(), createBlock(_sfc_main$1, {
+            key: 1,
+            columns: unref(tableColumns),
+            onClose: _cache[3] || (_cache[3] = ($event) => isRef(showColumnSettingsModal) ? showColumnSettingsModal.value = false : showColumnSettingsModal = false),
+            onSave: saveColumnSettings
+          }, null, 8, ["columns"])) : createCommentVNode("", true)
+        ]))
       ]);
     };
   }

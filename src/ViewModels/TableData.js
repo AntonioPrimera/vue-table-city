@@ -99,5 +99,10 @@ export class TableData {
 	sortByColumn(column) {
 		this.rows.sortByColumn(column);
 		this.resetLoadedRows();
+		
+		//remove the sort direction from all other columns
+		this.columns.forEach(col => {
+			if (col !== column) col.clearSortDirection();
+		})
 	}
 }

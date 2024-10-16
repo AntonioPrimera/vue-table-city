@@ -89,16 +89,16 @@ defineProps({
     <div v-else-if="icon === 'sort'">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 100%; height: 100%">
             <!-- Top triangle full -->
-            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="currentColor"/>
+            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="currentColor" stroke="currentColor" stroke-width="20"/>
             <!-- Bottom triangle full -->
-            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="currentColor"/>
+            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="currentColor" stroke="currentColor" stroke-width="20"/>
         </svg>
     </div>
 
     <div v-else-if="icon === 'sort-ascending'">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 100%; height: 100%">
             <!-- Top triangle full -->
-            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="currentColor"/>
+            <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="currentColor" stroke="currentColor" stroke-width="20"/>
             <!-- Bottom triangle outline -->
             <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="none" stroke="currentColor" stroke-width="20"/>
         </svg>
@@ -110,7 +110,7 @@ defineProps({
             <path d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z" fill="none" stroke="currentColor" stroke-width="20"/>
 
             <!-- Bottom triangle full -->
-            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="currentColor"/>
+            <path d="M296 183L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z" fill="currentColor" stroke="currentColor" stroke-width="20"/>
         </svg>
     </div>
 

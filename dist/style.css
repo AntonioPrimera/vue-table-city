@@ -57,6 +57,7 @@
                         display: flex;
                         align-items: center;
                         cursor: pointer;
+                        column-gap: 6px;
                     }
 
     .table-container table .table-header .table-header-row th .header-row-item.numeric {
@@ -385,11 +386,19 @@
                     margin-left: 1rem;
                 }
 
+.st-checkbox {
+    display: none;
+}
+
 .checkbox-container {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
+
+.checkbox-container input[type="checkbox"] {
+        display: none;
+    }
 
 .checkbox-container .checkbox-input {
         background: white;
