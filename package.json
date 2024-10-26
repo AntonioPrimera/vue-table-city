@@ -1,14 +1,19 @@
 {
     "name": "vue3-table-data",
     "description": "An easy to use, clean and powerful data table for VueJS3 with essential features like sorting, column searching, infinity scroll and much more.",
-    "version": "1.0.94",
+    "version": "2.0.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/AntonioPrimera/vue-table-city"
     },
     "type": "module",
-    "main": "dist/vue3-table-data.umd.js",
-    "module": "dist/vue3-table-data.es.js",
+    "exports": {
+        ".": {
+            "import": "./dist/vue3-table-data.es.js",
+            "require": "./dist/vue3-table-data.umd.js"
+        },
+        "./styles": "./dist/style.css"
+    },
     "keywords": [
         "vue",
         "vuejs",
@@ -27,7 +32,7 @@
         "build-watch": "vite build --watch",
         "preview": "vite preview"
     },
-    "devDependencies": {
+    "dependencies": {
         "@vitejs/plugin-vue": "^4.2.3",
         "date-fns": "^4.1.0",
         "mitt": "^2.1.0",

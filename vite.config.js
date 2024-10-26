@@ -26,10 +26,11 @@ export default defineConfig({
         },
         
         rollupOptions: {
-            external: ["vue"],
+            external: ["vue", "date-fns"],
             output: {
                 globals: {
                     vue: "Vue",
+                    'date-fns': "dateFns",
                 },
             },
         },

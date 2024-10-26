@@ -41,8 +41,6 @@ const props = defineProps({
 
 let tableData = ref(null);
 let tableContainer = ref(null);
-//let sortKey = ref(null);
-//let ascendingSort = ref(false);
 let tableStyling = ref(null);
 tableStyling.value = new TableStyling();
 
@@ -88,8 +86,8 @@ function handleToggleSearchEvent(active) {
         tableData.value.clearSearch();
 }
 
-function handleRowClick(row) {
-    emits('row-click', row);
+function handleRowClick(row, event) {
+    emits('row-click', row, event);
 }
 
 //--- Table complications (sum, sorting, searching etc.) --------------------------------------------------------------
@@ -115,7 +113,7 @@ function handleReachedBottom() {
 eventBus.addEventHandler('update-table-style-event', handleTableStyleEvent);
 eventBus.addEventHandler('update-table-columns-event', handleTableColumnsEvent);
 eventBus.addEventHandler('toggle-search-event', handleToggleSearchEvent);
-window.addEventListener('resize', setTableHeight);      //todo: throttle this (500ms)
+window.addEventListener('resize', () => setTableHeight());      //todo: throttle this (500ms)
 
 //initialize the table data and trigger the sync-table-columns-event (to update the TableControls component)
 tableData.value = TableData.create(props.columns, props.rows);
@@ -161,7 +159,7 @@ onMounted(() => setTableHeight());
 
             <!-- --- Body -------------------------------------------------------------------------------------------->
             <tbody class="table-body">
-                <tr v-for="row in tableData.loadedRows" @click="handleRowClick(row)">
+                <tr v-for="row in tableData.loadedRows" @click="handleRowClick(row, $event)">
                     <TableCell v-for="column in visibleColumns" :column="column" :row="row" :styling="tableStyling" :key="column.key"/>
                 </tr>
 

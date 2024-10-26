@@ -246,7 +246,7 @@ export class Column {
 	}
 	
 	money(
-		currencyColumnKey = null,
+		currencyColumnKey = 'currency',
 		fractionDigits = 2,
 		decimalSeparator = ',',
 		thousandsSeparator = ' ',
@@ -258,15 +258,53 @@ export class Column {
 		
 		//format the number as a currency string
 		this.withRenderer(
-			(value, context) =>
-				helpers.formatNumber(
+			(value, context) => {
+				let currency = typeof currencyColumnKey === 'function'
+					? currencyColumnKey(context.rawRowData)
+					: context.rawRowData[currencyColumnKey];
+				
+				return helpers.formatNumber(
 					value,
 					fractionDigits,
 					decimalSeparator,
 					thousandsSeparator,
-					currencyColumnKey ? (prefixCurrency ? `${context.rowData[currencyColumnKey] || '-?-'} ` : '') : '',
-					currencyColumnKey ? (prefixCurrency ? '' : ` ${context.rowData[currencyColumnKey] || '-?-'}`) : ''
-				)
+					currency && prefixCurrency ? `${currency} ` : '',
+					currency && prefixCurrency ? '' : ` ${currency}`
+				);
+			}
+		);
+		
+		return this;
+	}
+	
+	quantity(
+		uomColumnKey = 'uom',	//string column key or function receiving the rawRowData as argument
+		fractionDigits = 2,
+		decimalSeparator = ',',
+		thousandsSeparator = ' ',
+		prefixUom = false,
+		//showUomOnEmpty = false
+	) {
+		//mark the column as numeric
+		this.numeric();
+		this.isComponent = false;
+		
+		//format the number as a quantity string
+		this.withRenderer(
+			(value, context) => {
+				let uom = typeof uomColumnKey === 'function'
+					? uomColumnKey(context.rawRowData)
+					: context.rawRowData[uomColumnKey];
+				
+				return helpers.formatNumber(
+					value,
+					fractionDigits,
+					decimalSeparator,
+					thousandsSeparator,
+					uom && prefixUom ? `${uom} ` : '',
+					uom && !prefixUom ? ` ${uom}` : ''
+				);
+			}
 		);
 		
 		return this;
