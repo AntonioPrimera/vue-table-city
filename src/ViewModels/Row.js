@@ -1,5 +1,5 @@
 import helpers from "../helpers/helpers.js";
-import {CellRenderContext} from "./CellRenderContext.js";
+import CellRenderContext from "./CellRenderContext.js";
 
 export class Row {
 	/**

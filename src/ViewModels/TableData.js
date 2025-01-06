@@ -1,6 +1,4 @@
-import {Column} from "./Column.js";
 import {Rows} from "./Rows.js";
-import {ref} from "vue";
 
 export class TableData {
 	/**

@@ -15,7 +15,7 @@ import translateHelpers from "../helpers/translateHelpers.js";
 import helpers from "../helpers/helpers.js";
 
 //--- --- ViewModels --------------------------------------------------------------------------------------------------
-import {Column} from "../ViewModels/Column.js";
+import Column from "../ViewModels/Column.js";
 import {TableData} from "../ViewModels/TableData.js";
 import {TableStyling} from "../ViewModels/TableStyling.js";
 

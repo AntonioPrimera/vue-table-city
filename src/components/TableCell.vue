@@ -1,7 +1,7 @@
 <script setup>
 
 import {computed} from "vue";
-import {Column} from "../ViewModels/Column.js";
+import Column from "../ViewModels/Column.js";
 import {Row} from "../ViewModels/Row.js";
 import {TableStyling} from "../ViewModels/TableStyling.js";
 

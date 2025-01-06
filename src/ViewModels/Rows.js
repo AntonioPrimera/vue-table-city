@@ -1,5 +1,4 @@
 import {Row} from "./Row.js";
-import {Column} from "./Column.js";
 
 export class Rows {
 	rows;

@@ -1,5 +1,3 @@
-import {Column} from "./Column.js";
-
 export class TableStyling {
 	rowSizeClasses = {
 		small:  'cell-small',

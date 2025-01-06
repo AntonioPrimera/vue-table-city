@@ -1,27 +1,13 @@
 var __defProp = Object.defineProperty;
+var __typeError = (msg) => {
+  throw TypeError(msg);
+};
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => {
-  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-  return value;
-};
-var __accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var __privateGet = (obj, member, getter) => {
-  __accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var __privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var __privateSet = (obj, member, value, setter) => {
-  __accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _filter, _mutator, _renderer, _searchTerm;
 import { openBlock, createElementBlock, createElementVNode, createCommentVNode, h, normalizeClass, toDisplayString, createBlock, computed, resolveDynamicComponent, Fragment, createTextVNode, ref, onMounted, onUnmounted, renderSlot, renderList, unref, createVNode, withModifiers, withCtx, isRef, withDirectives, vModelCheckbox, resolveComponent, TransitionGroup, defineComponent, nextTick, Teleport } from "vue";
 import { format, parse } from "date-fns";
@@ -320,18 +306,15 @@ const _sfc_main$9 = {
 const helpers = {
   //todo: remove this function - replace it with formatNumber(...)
   formatNumericValue(value) {
-    if (!this.isNumericValue(value))
-      return value;
+    if (!this.isNumericValue(value)) return value;
     return this.formatNumber(value, 2);
   },
   isNumericValue(value) {
     return value !== null && typeof value === "number";
   },
   isDate(value) {
-    if (!value)
-      return false;
-    if (typeof value === "string" && value.length !== 10)
-      return false;
+    if (!value) return false;
+    if (typeof value === "string" && value.length !== 10) return false;
     let date = this.parseDate(value);
     return date instanceof Date;
   },
@@ -345,8 +328,7 @@ const helpers = {
     return void 0;
   },
   formatNumber(value, decimals = 2, decimalSeparator = ",", thousandsSeparator = ".", prefix = "", suffix = "") {
-    if (value === null || isNaN(value))
-      return value;
+    if (value === null || isNaN(value)) return value;
     let negative = value < 0 ? "-" : "";
     let absValue = Math.abs(value);
     let integerPart = Math.floor(absValue);
@@ -368,8 +350,7 @@ const helpers = {
   //    return (value * 1).toLocaleString(document.documentElement.lang, standardOptions);
   //},
   cleanTerm(term) {
-    if (!(term && typeof term === "string"))
-      return "";
+    if (!(term && typeof term === "string")) return "";
     term = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return term.replace(/[^0-9a-z]/gi, "").toLowerCase();
   },
@@ -454,8 +435,7 @@ class Row {
     let renderedData = {};
     for (let column of columns) {
       let value = column.mutate(helpers.getValue(rawRow, column.key));
-      if (!column.filter(value))
-        return null;
+      if (!column.filter(value)) return null;
       if (column.isNumeric !== false)
         column.isNumeric = helpers.isNumericValue(value);
       mutatedRowData[column.key] = value;
@@ -517,8 +497,7 @@ class Rows {
     let rows = this.rows;
     for (let column of columns) {
       let searchTerm = column.searchTerm;
-      if (!searchTerm)
-        continue;
+      if (!searchTerm) continue;
       rows = rows.filter((row) => row.cleanValue(column.key).includes(searchTerm));
     }
     this.filteredRows = rows;
@@ -530,8 +509,7 @@ class Rows {
     this.filteredRows = this.filteredRows.sort((rowA, rowB) => {
       let valueA = rowA.data[column.key];
       let valueB = rowB.data[column.key];
-      if (valueA === valueB)
-        return 0;
+      if (valueA === valueB) return 0;
       let result = valueA < valueB ? -1 : 1;
       return column.sortDirection === "asc" ? result : -result;
     });
@@ -550,11 +528,11 @@ const _Column = class _Column {
     __publicField(this, "isFilterable");
     __publicField(this, "isVisible");
     __publicField(this, "isRowKey");
-    __privateAdd(this, _filter, void 0);
-    __privateAdd(this, _mutator, void 0);
-    __privateAdd(this, _renderer, void 0);
+    __privateAdd(this, _filter);
+    __privateAdd(this, _mutator);
+    __privateAdd(this, _renderer);
     // The search term is used to filter the data in the column
-    __privateAdd(this, _searchTerm, void 0);
+    __privateAdd(this, _searchTerm);
     __publicField(this, "isComponent", false);
     __publicField(this, "sortDirection", null);
     this.key = key;
@@ -690,7 +668,7 @@ const _Column = class _Column {
     this.isComponent = false;
     this.withRenderer(
       (value, context) => {
-        let currency = typeof currencyColumnKey === "function" ? currencyColumnKey(context.rawRowData) : context.rawRowData[currencyColumnKey];
+        let currency = typeof currencyColumnKey === "function" ? currencyColumnKey(context.rawRowData) : helpers.getValue(context.rawRowData, currencyColumnKey);
         return helpers.formatNumber(
           value,
           fractionDigits,
@@ -708,7 +686,7 @@ const _Column = class _Column {
     this.isComponent = false;
     this.withRenderer(
       (value, context) => {
-        let uom = typeof uomColumnKey === "function" ? uomColumnKey(context.rawRowData) : context.rawRowData[uomColumnKey];
+        let uom = typeof uomColumnKey === "function" ? uomColumnKey(context.rawRowData) : helpers.getValue(context.rawRowData, uomColumnKey);
         return helpers.formatNumber(
           value,
           fractionDigits,
@@ -966,8 +944,7 @@ const translateHelpers = {
    *
    */
   setTranslateFile(jsonFile) {
-    if (!this.hasValidContent(jsonFile))
-      return;
+    if (!this.hasValidContent(jsonFile)) return;
     window.__vue3TableDataConfig.translation.file = jsonFile;
   },
   /**
@@ -1077,8 +1054,7 @@ class TableData {
   loadRows(count) {
     let loadCount = count || this.loadCount;
     let lastIndex = this.loadedRowsCount;
-    if (lastIndex >= this.rowsCount)
-      return;
+    if (lastIndex >= this.rowsCount) return;
     let newRows = this.rows.rows.slice(lastIndex, lastIndex + loadCount);
     this.loadedRows = [...this.loadedRows, ...newRows];
   }
@@ -1090,8 +1066,7 @@ class TableData {
     this.rows.sortByColumn(column);
     this.resetLoadedRows();
     this.columns.forEach((col) => {
-      if (col !== column)
-        col.clearSortDirection();
+      if (col !== column) col.clearSortDirection();
     });
   }
 }
@@ -1586,32 +1561,27 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null)
-    return {};
+  if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
   var key, i;
   for (i = 0; i < sourceKeys.length; i++) {
     key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0)
-      continue;
+    if (excluded.indexOf(key) >= 0) continue;
     target[key] = source[key];
   }
   return target;
 }
 function _objectWithoutProperties(source, excluded) {
-  if (source == null)
-    return {};
+  if (source == null) return {};
   var target = _objectWithoutPropertiesLoose(source, excluded);
   var key, i;
   if (Object.getOwnPropertySymbols) {
     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
     for (i = 0; i < sourceSymbolKeys.length; i++) {
       key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0)
-        continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key))
-        continue;
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
       target[key] = source[key];
     }
   }
@@ -1640,8 +1610,7 @@ function off(el, event, fn) {
   el.removeEventListener(event, fn, !IE11OrLess && captureMode);
 }
 function matches(el, selector) {
-  if (!selector)
-    return;
+  if (!selector) return;
   selector[0] === ">" && (selector = selector.substring(1));
   if (el) {
     try {
@@ -1668,8 +1637,7 @@ function closest(el, selector, ctx, includeCTX) {
       if (selector != null && (selector[0] === ">" ? el.parentNode === ctx && matches(el, selector) : matches(el, selector)) || includeCTX && el === ctx) {
         return el;
       }
-      if (el === ctx)
-        break;
+      if (el === ctx) break;
     } while (el = getParentOrHost(el));
   }
   return null;
@@ -1739,8 +1707,7 @@ function getWindowScrollingElement() {
   }
 }
 function getRect(el, relativeToContainingBlock, relativeToNonStaticParent, undoScale, container) {
-  if (!el.getBoundingClientRect && el !== window)
-    return;
+  if (!el.getBoundingClientRect && el !== window) return;
   var elRect, top, left, bottom, right, height, width;
   if (el !== window && el.parentNode && el !== getWindowScrollingElement()) {
     elRect = el.getBoundingClientRect();
@@ -1797,15 +1764,11 @@ function isScrolledPast(el, elSide, parentSide) {
   var parent = getParentAutoScrollElement(el, true), elSideVal = getRect(el)[elSide];
   while (parent) {
     var parentSideVal = getRect(parent)[parentSide], visible = void 0;
-    if (parentSide === "top" || parentSide === "left") {
+    {
       visible = elSideVal >= parentSideVal;
-    } else {
-      visible = elSideVal <= parentSideVal;
     }
-    if (!visible)
-      return parent;
-    if (parent === getWindowScrollingElement())
-      break;
+    if (!visible) return parent;
+    if (parent === getWindowScrollingElement()) break;
     parent = getParentAutoScrollElement(parent, false);
   }
   return false;
@@ -1855,28 +1818,23 @@ function getRelativeScrollOffset(el) {
 }
 function indexOfObject(arr, obj) {
   for (var i in arr) {
-    if (!arr.hasOwnProperty(i))
-      continue;
+    if (!arr.hasOwnProperty(i)) continue;
     for (var key in obj) {
-      if (obj.hasOwnProperty(key) && obj[key] === arr[i][key])
-        return Number(i);
+      if (obj.hasOwnProperty(key) && obj[key] === arr[i][key]) return Number(i);
     }
   }
   return -1;
 }
 function getParentAutoScrollElement(el, includeSelf) {
-  if (!el || !el.getBoundingClientRect)
-    return getWindowScrollingElement();
+  if (!el || !el.getBoundingClientRect) return getWindowScrollingElement();
   var elem = el;
   var gotSelf = false;
   do {
     if (elem.clientWidth < elem.scrollWidth || elem.clientHeight < elem.scrollHeight) {
       var elemCSS = css(elem);
       if (elem.clientWidth < elem.scrollWidth && (elemCSS.overflowX == "auto" || elemCSS.overflowX == "scroll") || elem.clientHeight < elem.scrollHeight && (elemCSS.overflowY == "auto" || elemCSS.overflowY == "scroll")) {
-        if (!elem.getBoundingClientRect || elem === document.body)
-          return getWindowScrollingElement();
-        if (gotSelf || includeSelf)
-          return elem;
+        if (!elem.getBoundingClientRect || elem === document.body) return getWindowScrollingElement();
+        if (gotSelf || includeSelf) return elem;
         gotSelf = true;
       }
     }
@@ -1937,12 +1895,10 @@ function AnimationStateManager() {
   return {
     captureAnimationState: function captureAnimationState() {
       animationStates = [];
-      if (!this.options.animation)
-        return;
+      if (!this.options.animation) return;
       var children = [].slice.call(this.el.children);
       children.forEach(function(child) {
-        if (css(child, "display") === "none" || child === Sortable.ghost)
-          return;
+        if (css(child, "display") === "none" || child === Sortable.ghost) return;
         animationStates.push({
           target: child,
           rect: getRect(child)
@@ -1970,8 +1926,7 @@ function AnimationStateManager() {
       var _this = this;
       if (!this.options.animation) {
         clearTimeout(animationCallbackId);
-        if (typeof callback === "function")
-          callback();
+        if (typeof callback === "function") callback();
         return;
       }
       var animating = false, animationTime = 0;
@@ -2012,12 +1967,10 @@ function AnimationStateManager() {
       });
       clearTimeout(animationCallbackId);
       if (!animating) {
-        if (typeof callback === "function")
-          callback();
+        if (typeof callback === "function") callback();
       } else {
         animationCallbackId = setTimeout(function() {
-          if (typeof callback === "function")
-            callback();
+          if (typeof callback === "function") callback();
         }, animationTime);
       }
       animationStates = [];
@@ -2077,8 +2030,7 @@ var PluginManager = {
     };
     var eventNameGlobal = eventName + "Global";
     plugins.forEach(function(plugin) {
-      if (!sortable[plugin.pluginName])
-        return;
+      if (!sortable[plugin.pluginName]) return;
       if (sortable[plugin.pluginName][eventNameGlobal]) {
         sortable[plugin.pluginName][eventNameGlobal](_objectSpread2({
           sortable
@@ -2094,8 +2046,7 @@ var PluginManager = {
   initializePlugins: function initializePlugins(sortable, el, defaults2, options) {
     plugins.forEach(function(plugin) {
       var pluginName = plugin.pluginName;
-      if (!sortable.options[pluginName] && !plugin.initializeByDefault)
-        return;
+      if (!sortable.options[pluginName] && !plugin.initializeByDefault) return;
       var initialized = new plugin(sortable, el, sortable.options);
       initialized.sortable = sortable;
       initialized.options = sortable.options;
@@ -2103,8 +2054,7 @@ var PluginManager = {
       _extends(defaults2, initialized.defaults);
     });
     for (var option2 in sortable.options) {
-      if (!sortable.options.hasOwnProperty(option2))
-        continue;
+      if (!sortable.options.hasOwnProperty(option2)) continue;
       var modified = this.modifyOption(sortable, option2, sortable.options[option2]);
       if (typeof modified !== "undefined") {
         sortable.options[option2] = modified;
@@ -2114,8 +2064,7 @@ var PluginManager = {
   getEventProperties: function getEventProperties(name, sortable) {
     var eventProperties = {};
     plugins.forEach(function(plugin) {
-      if (typeof plugin.eventProperties !== "function")
-        return;
+      if (typeof plugin.eventProperties !== "function") return;
       _extends(eventProperties, plugin.eventProperties.call(sortable[plugin.pluginName], name));
     });
     return eventProperties;
@@ -2123,8 +2072,7 @@ var PluginManager = {
   modifyOption: function modifyOption(sortable, name, value) {
     var modifiedValue;
     plugins.forEach(function(plugin) {
-      if (!sortable[plugin.pluginName])
-        return;
+      if (!sortable[plugin.pluginName]) return;
       if (plugin.optionListeners && typeof plugin.optionListeners[name] === "function") {
         modifiedValue = plugin.optionListeners[name].call(sortable[plugin.pluginName], value);
       }
@@ -2135,8 +2083,7 @@ var PluginManager = {
 function dispatchEvent(_ref) {
   var sortable = _ref.sortable, rootEl2 = _ref.rootEl, name = _ref.name, targetEl = _ref.targetEl, cloneEl2 = _ref.cloneEl, toEl = _ref.toEl, fromEl = _ref.fromEl, oldIndex2 = _ref.oldIndex, newIndex2 = _ref.newIndex, oldDraggableIndex2 = _ref.oldDraggableIndex, newDraggableIndex2 = _ref.newDraggableIndex, originalEvent = _ref.originalEvent, putSortable2 = _ref.putSortable, extraEventProperties = _ref.extraEventProperties;
   sortable = sortable || rootEl2 && rootEl2[expando];
-  if (!sortable)
-    return;
+  if (!sortable) return;
   var evt, options = sortable.options, onName = "on" + name.charAt(0).toUpperCase() + name.substr(1);
   if (window.CustomEvent && !IE11OrLess && !Edge) {
     evt = new CustomEvent(name, {
@@ -2219,8 +2166,7 @@ function _dispatchEvent(info) {
 }
 var dragEl, parentEl, ghostEl, rootEl, nextEl, lastDownEl, cloneEl, cloneHidden, oldIndex, newIndex, oldDraggableIndex, newDraggableIndex, activeGroup, putSortable, awaitingDragStarted = false, ignoreNextClick = false, sortables = [], tapEvt, touchEvt, lastDx, lastDy, tapDistanceLeft, tapDistanceTop, moved, lastTarget, lastDirection, pastFirstInvertThresh = false, isCircumstantialInvert = false, targetMoveDistance, ghostRelativeParent, ghostRelativeParentInitialScroll = [], _silent = false, savedInputChecked = [];
 var documentExists = typeof document !== "undefined", PositionGhostAbsolutely = IOS, CSSFloatProperty = Edge || IE11OrLess ? "cssFloat" : "float", supportDraggable = documentExists && !ChromeForAndroid && !IOS && "draggable" in document.createElement("div"), supportCssPointerEvents = function() {
-  if (!documentExists)
-    return;
+  if (!documentExists) return;
   if (IE11OrLess) {
     return false;
   }
@@ -2247,8 +2193,7 @@ var documentExists = typeof document !== "undefined", PositionGhostAbsolutely = 
   var ret;
   sortables.some(function(sortable) {
     var threshold = sortable[expando].options.emptyInsertThreshold;
-    if (!threshold || lastChild(sortable))
-      return;
+    if (!threshold || lastChild(sortable)) return;
     var rect = getRect(sortable), insideHorizontally = x >= rect.left - threshold && x <= rect.right + threshold, insideVertically = y >= rect.top - threshold && y <= rect.bottom + threshold;
     if (insideHorizontally && insideVertically) {
       return ret = sortable;
@@ -2420,8 +2365,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
     return typeof this.options.direction === "function" ? this.options.direction.call(this, evt, target, dragEl) : this.options.direction;
   },
   _onTapStart: function _onTapStart(evt) {
-    if (!evt.cancelable)
-      return;
+    if (!evt.cancelable) return;
     var _this = this, el = this.el, options = this.options, preventOnFilter = options.preventOnFilter, type = evt.type, touch = evt.touches && evt.touches[0] || evt.pointerType && evt.pointerType === "touch" && evt, target = (touch || evt).target, originalTarget = evt.target.shadowRoot && (evt.path && evt.path[0] || evt.composedPath && evt.composedPath()[0]) || target, filter = options.filter;
     _saveInputCheckedState(el);
     if (dragEl) {
@@ -2640,8 +2584,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
       var parent = target;
       while (target && target.shadowRoot) {
         target = target.shadowRoot.elementFromPoint(touchEvt.clientX, touchEvt.clientY);
-        if (target === parent)
-          break;
+        if (target === parent) break;
         parent = target;
       }
       dragEl.parentNode[expando]._isOutsideThisEl(target);
@@ -2709,8 +2652,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
           ghostRelativeParent = ghostRelativeParent.parentNode;
         }
         if (ghostRelativeParent !== document.body && ghostRelativeParent !== document.documentElement) {
-          if (ghostRelativeParent === document)
-            ghostRelativeParent = getWindowScrollingElement();
+          if (ghostRelativeParent === document) ghostRelativeParent = getWindowScrollingElement();
           rect.top += ghostRelativeParent.scrollTop;
           rect.left += ghostRelativeParent.scrollLeft;
         } else {
@@ -2761,8 +2703,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
     }
     _this.cloneId = _nextTick(function() {
       pluginEvent2("clone", _this);
-      if (Sortable.eventCanceled)
-        return;
+      if (Sortable.eventCanceled) return;
       if (!_this.options.removeCloneOnHide) {
         rootEl.insertBefore(cloneEl, dragEl);
       }
@@ -2798,8 +2739,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
   // Returns true - if no further action is needed (either inserted or another condition)
   _onDragOver: function _onDragOver(evt) {
     var el = this.el, target = evt.target, dragRect, targetRect, revert, options = this.options, group = options.group, activeSortable = Sortable.active, isOwner = activeGroup === group, canSort = options.sort, fromSortable = putSortable || activeSortable, vertical, _this = this, completedFired = false;
-    if (_silent)
-      return;
+    if (_silent) return;
     function dragOverEvent(name, extra) {
       pluginEvent2(name, _this, _objectSpread2({
         evt,
@@ -2883,8 +2823,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
     }
     target = closest(target, options.draggable, el, true);
     dragOverEvent("dragOver");
-    if (Sortable.eventCanceled)
-      return completedFired;
+    if (Sortable.eventCanceled) return completedFired;
     if (dragEl.contains(evt.target) || target.animated && target.animatingX && target.animatingY || _this._ignoreWhileAnimating === target) {
       return completed(false);
     }
@@ -2893,8 +2832,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
       vertical = this._getDirection(evt, target) === "vertical";
       dragRect = getRect(dragEl);
       dragOverEvent("dragOverValid");
-      if (Sortable.eventCanceled)
-        return completedFired;
+      if (Sortable.eventCanceled) return completedFired;
       if (revert) {
         parentEl = rootEl;
         capture();
@@ -3259,8 +3197,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
   _hideClone: function _hideClone() {
     if (!cloneHidden) {
       pluginEvent2("hideClone", this);
-      if (Sortable.eventCanceled)
-        return;
+      if (Sortable.eventCanceled) return;
       css(cloneEl, "display", "none");
       if (this.options.removeCloneOnHide && cloneEl.parentNode) {
         cloneEl.parentNode.removeChild(cloneEl);
@@ -3275,8 +3212,7 @@ Sortable.prototype = /** @lends Sortable.prototype */
     }
     if (cloneHidden) {
       pluginEvent2("showClone", this);
-      if (Sortable.eventCanceled)
-        return;
+      if (Sortable.eventCanceled) return;
       if (dragEl.parentNode == rootEl && !this.options.group.revertClone) {
         rootEl.insertBefore(cloneEl, dragEl);
       } else if (nextEl) {
@@ -3429,14 +3365,12 @@ Sortable.mount = function() {
   for (var _len = arguments.length, plugins2 = new Array(_len), _key = 0; _key < _len; _key++) {
     plugins2[_key] = arguments[_key];
   }
-  if (plugins2[0].constructor === Array)
-    plugins2 = plugins2[0];
+  if (plugins2[0].constructor === Array) plugins2 = plugins2[0];
   plugins2.forEach(function(plugin) {
     if (!plugin.prototype || !plugin.prototype.constructor) {
       throw "Sortable: Mounted plugin must be a constructor function, not ".concat({}.toString.call(plugin));
     }
-    if (plugin.utils)
-      Sortable.utils = _objectSpread2(_objectSpread2({}, Sortable.utils), plugin.utils);
+    if (plugin.utils) Sortable.utils = _objectSpread2(_objectSpread2({}, Sortable.utils), plugin.utils);
     PluginManager.mount(plugin);
   });
 };
@@ -3544,8 +3478,7 @@ function clearPointerElemChangedInterval() {
   clearInterval(pointerElemChangedInterval);
 }
 var autoScroll = throttle(function(evt, options, rootEl2, isFallback) {
-  if (!options.scroll)
-    return;
+  if (!options.scroll) return;
   var x = (evt.touches ? evt.touches[0] : evt).clientX, y = (evt.touches ? evt.touches[0] : evt).clientY, sens = options.scrollSensitivity, speed = options.scrollSpeed, winScroller = getWindowScrollingElement();
   var scrollThisInstance = false, scrollCustomFn;
   if (scrollRootEl !== rootEl2) {
@@ -3607,8 +3540,7 @@ var autoScroll = throttle(function(evt, options, rootEl2, isFallback) {
 }, 30);
 var drop = function drop2(_ref) {
   var originalEvent = _ref.originalEvent, putSortable2 = _ref.putSortable, dragEl2 = _ref.dragEl, activeSortable = _ref.activeSortable, dispatchSortableEvent = _ref.dispatchSortableEvent, hideGhostForTarget = _ref.hideGhostForTarget, unhideGhostForTarget = _ref.unhideGhostForTarget;
-  if (!originalEvent)
-    return;
+  if (!originalEvent) return;
   var toSortable = putSortable2 || activeSortable;
   hideGhostForTarget();
   var touch = originalEvent.changedTouches && originalEvent.changedTouches.length ? originalEvent.changedTouches[0] : originalEvent;
@@ -4082,8 +4014,7 @@ const draggableComponent = defineComponent({
     this.componentStructure.updated();
   },
   beforeUnmount() {
-    if (this._sortable !== void 0)
-      this._sortable.destroy();
+    if (this._sortable !== void 0) this._sortable.destroy();
   },
   computed: {
     realList() {
@@ -4102,8 +4033,7 @@ const draggableComponent = defineComponent({
     $attrs: {
       handler(newOptionValue) {
         const { _sortable } = this;
-        if (!_sortable)
-          return;
+        if (!_sortable) return;
         getValidSortableEntries(newOptionValue).forEach(([key, value]) => {
           _sortable.option(key, value);
         });
@@ -4396,41 +4326,9 @@ const _sfc_main = {
     };
   }
 };
-const vue3TableData = "";
 const search = "Search...";
-const column_settings_modal = {
-  title: "Column order and visibility",
-  description: "Changes the order and visibility of columns in the following settings:",
-  actions: {
-    save: "Save",
-    cancel: "Cancel"
-  }
-};
-const style_settings_modal = {
-  title: "Table style",
-  description: "Changes the appearance of the table from the following settings:",
-  sections: {
-    row_size: {
-      title: "Row size",
-      options: {
-        small: "Small",
-        medium: "Medium",
-        large: "Large"
-      }
-    },
-    numbers_color: {
-      title: "Numbers color",
-      options: {
-        black: "Black digits",
-        color: "Positive numbers colored in green, negative numbers in red"
-      }
-    }
-  },
-  actions: {
-    save: "Save",
-    cancel: "Cancel"
-  }
-};
+const column_settings_modal = { "title": "Column order and visibility", "description": "Changes the order and visibility of columns in the following settings:", "actions": { "save": "Save", "cancel": "Cancel" } };
+const style_settings_modal = { "title": "Table style", "description": "Changes the appearance of the table from the following settings:", "sections": { "row_size": { "title": "Row size", "options": { "small": "Small", "medium": "Medium", "large": "Large" } }, "numbers_color": { "title": "Numbers color", "options": { "black": "Black digits", "color": "Positive numbers colored in green, negative numbers in red" } } }, "actions": { "save": "Save", "cancel": "Cancel" } };
 const translate = {
   search,
   column_settings_modal,

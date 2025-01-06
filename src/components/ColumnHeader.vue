@@ -1,6 +1,6 @@
 <script setup>
 import Icon from "./base/Icon.vue";
-import {Column} from "../ViewModels/Column.js";
+import Column from "../ViewModels/Column.js";
 
 const props = defineProps({
     column: {

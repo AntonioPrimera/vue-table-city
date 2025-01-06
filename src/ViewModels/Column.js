@@ -15,7 +15,7 @@ import {format, parse} from "date-fns";
 import {Rows} from "./Rows.js";
 import {h} from "vue";
 
-export class Column {
+class Column {
 	//--- Properties --------------------------------------------------------------------------------------------------
 	key;
 	label;
@@ -261,7 +261,7 @@ export class Column {
 			(value, context) => {
 				let currency = typeof currencyColumnKey === 'function'
 					? currencyColumnKey(context.rawRowData)
-					: context.rawRowData[currencyColumnKey];
+					: helpers.getValue(context.rawRowData, currencyColumnKey);
 				
 				return helpers.formatNumber(
 					value,
@@ -294,7 +294,7 @@ export class Column {
 			(value, context) => {
 				let uom = typeof uomColumnKey === 'function'
 					? uomColumnKey(context.rawRowData)
-					: context.rawRowData[uomColumnKey];
+					: helpers.getValue(context.rawRowData, uomColumnKey);
 				
 				return helpers.formatNumber(
 					value,
@@ -352,3 +352,5 @@ export class Column {
 		this.#searchTerm = null;
 	}
 }
+
+export default Column;

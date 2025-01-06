@@ -1,4 +1,4 @@
-export class CellRenderContext {
+export default class CellRenderContext {
 	rowData;		//mutated row data
 	rawRowData;		//raw (original) row data
 	column;			//column instance
